@@ -91,10 +91,10 @@
       --nm-surface: var(--md-surface-container);
 
       /* 兼容降级：用于不支持 color-mix() 的浏览器 */
-      --bg-glow-1: rgba(204, 232, 228, 0.60);  /* ≈ secondary-container 60% */
-      --bg-glow-2: rgba(211, 228, 255, 0.55);  /* ≈ tertiary-container 55%  */
-      --bg-glow-3: rgba(156, 242, 232, 0.50);  /* ≈ primary-container 50%   */
-      --bg-glow-4: rgba(204, 232, 228, 0.45);  /* ≈ secondary-container 45% */
+      --bg-glow-1: rgba(204, 232, 228, 0.60);
+      --bg-glow-2: rgba(211, 228, 255, 0.55);
+      --bg-glow-3: rgba(156, 242, 232, 0.50);
+      --bg-glow-4: rgba(204, 232, 228, 0.45);
 
       /* ---------- 1.9 M3 动效曲线 ---------- */
       --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
@@ -132,7 +132,7 @@
         inset -6px -6px 12px var(--nm-light);
       --nm-in-sm:
         inset 3px 3px 7px var(--nm-dark),
-        inset -3px -3px 7px var(--nm-light);
+        -3px -3px 7px var(--nm-light);
     }
 
     /* ============================================================
@@ -174,7 +174,6 @@
       --nm-light: #222928;
       --nm-dark: #0A100F;
 
-      /* 暗色下光晕 */
       --bg-glow-1: rgba(50, 75, 72, 0.45);
       --bg-glow-2: rgba(51, 72, 99, 0.40);
       --bg-glow-3: rgba(0, 80, 74, 0.40);
@@ -203,7 +202,6 @@
                   color var(--dur-long) var(--ease-emphasized);
     }
 
-    /* 全局背景光晕（带 color-mix 降级） */
     body::before {
       content: "";
       position: fixed;
@@ -284,7 +282,7 @@
       outline-offset: 3px;
     }
 
-    /* 5.2 悬浮工具类（统一交互模式） */
+    /* 5.2 悬浮工具类 */
     .hover-in {
       transition: box-shadow var(--dur-medium) var(--ease-emphasized),
                   transform var(--dur-medium) var(--ease-emphasized);
@@ -715,7 +713,6 @@
     .version-badge:hover { color: var(--md-primary); }
     .version-badge:active { box-shadow: var(--nm-out-sm); }
 
-    /* 病娇彩蛋（默认隐藏） */
     .secret-yandere { display: none; }
     .secret-yandere.revealed {
       opacity: 1;
@@ -762,7 +759,7 @@
     }
 
     /* ============================================================
-       10. 时间线
+       10. 折腾历程（时间线样式）
        ============================================================ */
     .timeline {
       position: relative;
@@ -791,9 +788,10 @@
       transition: box-shadow var(--dur-medium) var(--ease-emphasized),
                   transform var(--dur-medium) var(--ease-emphasized);
     }
+    /* hover 上浮，不凹陷 */
     .timeline-item:hover {
-      box-shadow: var(--nm-in);
-      transform: translateY(2px);
+      transform: translateY(-6px);
+      box-shadow: var(--nm-out-lg);
     }
     .timeline-item::before {
       content: "";
@@ -808,7 +806,7 @@
       border: 3px solid var(--md-primary);
       z-index: 2;
     }
-    /* 进行中状态：脉冲圆点 */
+    /* 进行中状态 */
     .timeline-item.is-active::before {
       border-color: var(--md-primary);
       background: var(--md-primary);
@@ -842,7 +840,102 @@
     }
 
     /* ============================================================
-       11. 联系
+       11. 友情链接
+       ============================================================ */
+    .friends-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+    .friend-card {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 28px 32px;
+      background: var(--nm-surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--nm-out);
+      transition: transform var(--dur-medium) var(--ease-emphasized),
+                  box-shadow var(--dur-medium) var(--ease-emphasized);
+      position: relative;
+      overflow: hidden;
+    }
+    .friend-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--nm-out-lg);
+    }
+    /* 顶部渐变条（悬浮时展开） */
+    .friend-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg,
+        var(--md-primary), var(--md-tertiary), var(--md-secondary));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--dur-long) var(--ease-emphasized);
+    }
+    .friend-card:hover::before {
+      transform: scaleX(1);
+    }
+    .friend-icon {
+      flex-shrink: 0;
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--md-primary);
+      background: var(--nm-surface);
+      box-shadow: var(--nm-in);
+      position: relative;
+    }
+    .friend-icon::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(135deg,
+        var(--md-primary), var(--md-tertiary), var(--md-secondary));
+      opacity: .12;
+      pointer-events: none;
+    }
+    .friend-info {
+      min-width: 0;
+      flex: 1;
+    }
+    .friend-info h3 {
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .friend-info p {
+      font-size: .82rem;
+      color: var(--md-on-surface-variant);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .friend-arrow {
+      flex-shrink: 0;
+      font-size: 1.1rem;
+      color: var(--md-on-surface-variant);
+      transition: transform var(--dur-medium) var(--ease-emphasized),
+                  color var(--dur-short) var(--ease-standard);
+    }
+    .friend-card:hover .friend-arrow {
+      transform: translateX(4px);
+      color: var(--md-primary);
+    }
+
+    /* ============================================================
+       12. 联系
        ============================================================ */
     #contact { text-align: center; }
 
@@ -878,7 +971,7 @@
     }
 
     /* ============================================================
-       12. 页脚
+       13. 页脚
        ============================================================ */
     footer {
       padding: 60px 0 40px;
@@ -889,7 +982,7 @@
     footer .heart { color: var(--md-tertiary); }
 
     /* ============================================================
-       13. 滚动动画
+       14. 滚动动画
        ============================================================ */
     .reveal {
       opacity: 0;
@@ -904,7 +997,7 @@
     .no-js .reveal { opacity: 1; transform: none; }
 
     /* ============================================================
-       14. 滚动条
+       15. 滚动条
        ============================================================ */
     ::-webkit-scrollbar { width: 12px; }
     ::-webkit-scrollbar-track {
@@ -917,7 +1010,7 @@
     }
 
     /* ============================================================
-       15. 响应式 — 手机端
+       16. 响应式 — 手机端
        ============================================================ */
     @media (max-width: 768px) {
       .container { padding: 0 20px; }
@@ -972,7 +1065,7 @@
       /* 英雄区 */
       #hero {
         min-height: auto;
-        padding-top: 140px;
+        padding-top: 150px;
         padding-bottom: 40px;
       }
       .hero-inner {
@@ -1058,7 +1151,7 @@
       }
       .skill-card p { font-size: .82rem; }
 
-      /* 时间线 */
+      /* 折腾历程 */
       .timeline { padding-left: 28px; }
       .timeline::before {
         left: 8px;
@@ -1086,6 +1179,23 @@
         margin-bottom: 6px;
       }
       .timeline-item p { font-size: .86rem; }
+
+      /* 友情链接 */
+      .friends-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .friend-card {
+        padding: 20px 22px;
+      }
+      .friend-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 1.2rem;
+        border-radius: 14px;
+      }
+      .friend-info h3 { font-size: .98rem; }
+      .friend-info p { font-size: .78rem; }
 
       /* 联系 */
       .contact-links {
@@ -1165,6 +1275,7 @@
         <li><a href="#about" class="focus-ring">关于</a></li>
         <li><a href="#skills" class="focus-ring">技能</a></li>
         <li><a href="#timeline" class="focus-ring">历程</a></li>
+        <li><a href="#friends" class="focus-ring">友链</a></li>
         <li><a href="#contact" class="focus-ring">联系</a></li>
       </ul>
       <button class="theme-toggle focus-ring" id="themeToggle" title="切换主题">🌙</button>
@@ -1229,7 +1340,6 @@
             <span class="tag secret-yandere" id="secretTag">病娇</span>
           </div>
 
-          <!-- 数据卡：语义修正（主值在上，说明在下） -->
           <div class="stats">
             <div class="stat">
               <div class="stat-num">10后</div>
@@ -1289,40 +1399,112 @@
     </div>
   </section>
 
-  <!-- ==================== 时间线 ==================== -->
-  <section id="timeline">
-    <div class="container">
-      <h2 class="section-title reveal">折腾历程</h2>
-      <p class="section-sub reveal">我与 Android</p>
+<!-- ==================== 折腾历程（时间线样式） ==================== -->
+<section id="timeline">
+  <div class="container">
+    <h2 class="section-title reveal">折腾历程</h2>
+    <p class="section-sub reveal">我与 Android</p>
 
-      <div class="timeline">
-        <article class="timeline-item reveal">
-          <span class="timeline-date">2022</span>
-          <h3>破解小天才 Z6_DFB</h3>
-          <p>从破解小天才 Z6_DFB 开始，第一次接触刷机，从此走上折腾之路。</p>
-        </article>
+    <div class="timeline">
+      <article class="timeline-item reveal">
+        <span class="timeline-date">2022</span>
+        <h3>破解小天才 Z6_DFB</h3>
+        <p>从破解小天才 Z6_DFB 开始，第一次接触刷机，从此走上折腾之路。</p>
+      </article>
 
-        <article class="timeline-item reveal">
-          <span class="timeline-date">2023 上半年</span>
-          <h3>成功破解倾听者 K3</h3>
-          <p>成功破解倾听者 K3，把封闭单一的播放器变成可自由折腾的设备。</p>
-        </article>
+      <article class="timeline-item reveal">
+        <span class="timeline-date">2023 上半年</span>
+        <h3>成功破解倾听者 K3</h3>
+        <p>成功破解倾听者 K3，把封闭单一的播放器变成可自由折腾的设备。</p>
+      </article>
 
-        <article class="timeline-item reveal">
-          <span class="timeline-date">2024 年 5 月</span>
-          <h3>获取倾听者 K5 的 Root 权限</h3>
-          <p>经过持续探索，成功获取倾听者 K5 的 Root 权限，进一步深入系统底层。</p>
-        </article>
+      <article class="timeline-item reveal">
+        <span class="timeline-date">2023</span>
+        <h3>在 iOS 设备上安装 TrollStore</h3>
+        <p>在 iOS 设备上成功安装 TrollStore，实现了免签名安装第三方应用。</p>
+      </article>
 
-        <!-- 进行中：脉冲圆点 -->
-        <article class="timeline-item reveal is-active">
-          <span class="timeline-date">仍在折腾中</span>
-          <h3>持续探索开放系统</h3>
-          <p>折腾没有终点——继续折腾新设备、新系统、新玩法，也把这些过程分享在 B 站。</p>
-        </article>
-      </div>
+      <article class="timeline-item reveal">
+        <span class="timeline-date">2023</span>
+        <h3>利用 winra1n 首次越狱苹果设备</h3>
+        <p>借助 winra1n 工具，第一次成功越狱 iOS 设备，打开了 iOS 生态的另一扇门。</p>
+      </article>
+
+      <article class="timeline-item reveal">
+        <span class="timeline-date">2024 年 5 月</span>
+        <h3>获取倾听者 K5 的 Root 权限</h3>
+        <p>经过持续探索，成功获取倾听者 K5 的 Root 权限，进一步深入系统底层。</p>
+      </article>
+
+      <article class="timeline-item reveal">
+        <span class="timeline-date">2025 上半年</span>
+        <h3>在德州仪器计算器上安装 Ndless</h3>
+        <p>在德州仪器计算器上成功安装 Ndless，让计算器也能运行原生C程序。</p>
+      </article>
+
+      <article class="timeline-item reveal">
+        <span class="timeline-date">2025</span>
+        <h3>在 Arch Linux 上试用 Hyprland</h3>
+        <p>在 Arch Linux 上尝试了 Hyprland 平铺窗口管理器，体验了一番 Wayland 下的炫酷桌面，不过现在已经停止使用。</p>
+      </article>
+
+      <article class="timeline-item reveal">
+        <span class="timeline-date">2026 年 10 月</span>
+        <h3>本地部署文生图小模型</h3>
+        <p>在本地部署了文生图小模型，探索 AI 生成图像的玩法。</p>
+      </article>
+
+      <article class="timeline-item reveal is-active">
+        <span class="timeline-date">仍在折腾中</span>
+        <h3>持续探索开放系统</h3>
+        <p>折腾没有终点——继续折腾新设备、新系统、新玩法，也把这些过程分享在 B 站。</p>
+      </article>
     </div>
-  </section>
+  </div>
+</section>
+
+<!-- ==================== 友情链接 ==================== -->
+<section id="friends">
+  <div class="container">
+    <h2 class="section-title reveal">友情链接</h2>
+    <p class="section-sub reveal">一些好朋友或是有帮助的站点</p>
+
+    <div class="friends-grid">
+      <a class="friend-card reveal focus-ring"
+         href="https://houlangs.cn"
+         target="_blank" rel="noopener noreferrer">
+        <div class="friend-icon">方</div>
+        <div class="friend-info">
+          <h3>方方的主页</h3>
+          <p>houlangs.cn</p>
+        </div>
+        <span class="friend-arrow">→</span>
+      </a>
+
+      <a class="friend-card reveal focus-ring"
+         href="https://deepseek.com"
+         target="_blank" rel="noopener noreferrer">
+        <div class="friend-icon">鱼</div>
+        <div class="friend-info">
+          <h3>吃白饭的蓝色大肥鱼</h3>
+          <p>deepseek.com</p>
+        </div>
+        <span class="friend-arrow">→</span>
+      </a>
+
+      <a class="friend-card reveal focus-ring"
+         href="https://moon9.top"
+         target="_blank" rel="noopener noreferrer">
+        <div class="friend-icon">月</div>
+        <div class="friend-info">
+          <h3>Moon公式</h3>
+          <p>moon9.top</p>
+        </div>
+        <span class="friend-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
 
   <!-- ==================== 联系 ==================== -->
   <section id="contact" class="section-center">
@@ -1367,9 +1549,6 @@
   (function () {
     'use strict';
 
-    /* ----------------------------------------------------------
-       工具函数
-       ---------------------------------------------------------- */
     const $  = (sel, ctx = document) => ctx.querySelector(sel);
     const $$ = (sel, ctx = document) => ctx.querySelectorAll(sel);
 
@@ -1385,7 +1564,6 @@
         root.setAttribute('data-theme', theme);
         btn.textContent = theme === 'dark' ? '☀️' : '🌙';
         localStorage.setItem(KEY, theme);
-        // 同步浏览器 UI 主题色
         const themeColor = theme === 'dark' ? '#0E1514' : '#39C5BB';
         let meta = document.querySelector('meta[name="theme-color"]');
         if (meta) meta.setAttribute('content', themeColor);
@@ -1435,7 +1613,6 @@
        ---------------------------------------------------------- */
     const Reveal = (() => {
       const SEL = '.reveal';
-
       const show = (el) => el.classList.add('active');
 
       const init = () => {
@@ -1484,7 +1661,6 @@
 
     /* ----------------------------------------------------------
        模块 4：版本号彩蛋
-       - 连点 7 下：显示病娇内容 + 切换头像 + 跳转 GitHub
        ---------------------------------------------------------- */
     const EasterEgg = (() => {
       const CLICK_TARGET   = 7;
@@ -1506,21 +1682,17 @@
       const reset = () => { count = 0; };
 
       const trigger = () => {
-        // 1. 显示隐藏内容
         secretText.classList.add('revealed');
         secretTag.classList.add('revealed');
 
-        // 2. 切换头像（带 onerror 回退）
         avatar.onerror = () => {
           avatar.onerror = null;
           avatar.src = FALLBACK_AVATAR;
         };
         avatar.src = EGG_AVATAR;
 
-        // 3. 滚动到"关于"板块
         $('#about').scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-        // 4. 延迟跳转
         setTimeout(() => {
           window.open(REDIRECT_URL, '_blank', 'noopener,noreferrer');
         }, REDIRECT_DELAY);
@@ -1548,13 +1720,10 @@
     const PWA = (() => {
       const init = () => {
         if (!('serviceWorker' in navigator)) return;
-        // 仅在通过 http(s) 访问时注册
         if (location.protocol !== 'http:' && location.protocol !== 'https:') return;
 
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('sw.js').catch(() => {
-            /* 静默失败：不影响页面 */
-          });
+          navigator.serviceWorker.register('sw.js').catch(() => {});
         });
       };
       return { init };
