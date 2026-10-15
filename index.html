@@ -5,39 +5,69 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>鸢见夜樱 | 个人网站</title>
 
+  <!-- ============================================================
+       SEO / 社交分享
+       ============================================================ -->
+  <meta name="description" content="鸢见夜樱的个人网站 —— 一位热爱折腾 Android 系统的 B站 UP主，记录刷机、Magisk、ROM、内核调优与破解的故事。">
+  <meta name="keywords" content="鸢见夜樱,Android,刷机,Magisk,ROM,Root,B站UP主,玩机">
+  <meta name="author" content="鸢见夜樱">
+  <meta name="theme-color" content="#39C5BB" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0E1514" media="(prefers-color-scheme: dark)">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="鸢见夜樱 | 个人网站">
+  <meta property="og:description" content="一位热爱折腾 Android 系统的 B站 UP主，记录刷机、Magisk、ROM、内核调优与破解的故事。">
+  <meta property="og:image" content="websrc/avatar.jpeg">
+  <meta property="og:locale" content="zh_CN">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="鸢见夜樱 | 个人网站">
+  <meta name="twitter:description" content="一位热爱折腾 Android 系统的 B站 UP主。">
+  <meta name="twitter:image" content="websrc/avatar.jpeg">
+
   <!-- 图标 -->
   <link rel="icon" href="/websrc/icon.jpg" sizes="any">
   <link rel="icon" href="/websrc/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/websrc/icon.jpg">
 
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+
   <style>
     /* ============================================================
        1. 设计令牌（Design Tokens）
+       ------------------------------------------------------------
+       命名约定：
+         --md-*  → Material You (M3) 色彩与动效角色
+         --nm-*  → Neumorphism 新拟物派生值
+         部分 --nm-* 是 --md-* 的别名，见下方注释
        ============================================================ */
     :root {
-      /* 1.1 色彩 — Primary */
+      /* ---------- 1.1 色彩：Primary ---------- */
       --md-primary: #006A63;
       --md-on-primary: #FFFFFF;
       --md-primary-container: #9CF2E8;
       --md-on-primary-container: #00201D;
 
-      /* 1.2 色彩 — Secondary */
+      /* ---------- 1.2 色彩：Secondary ---------- */
       --md-secondary: #4A6360;
       --md-on-secondary: #FFFFFF;
       --md-secondary-container: #CCE8E4;
       --md-on-secondary-container: #051F1D;
 
-      /* 1.3 色彩 — Tertiary */
+      /* ---------- 1.3 色彩：Tertiary ---------- */
       --md-tertiary: #4B607C;
       --md-on-tertiary: #FFFFFF;
       --md-tertiary-container: #D3E4FF;
       --md-on-tertiary-container: #041C35;
 
-      /* 1.4 色彩 — Error */
+      /* ---------- 1.4 色彩：Error ---------- */
       --md-error: #BA1A1A;
       --md-on-error: #FFFFFF;
 
-      /* 1.5 色彩 — Surface */
+      /* ---------- 1.5 色彩：Surface ---------- */
       --md-surface: #F5FBF9;
       --md-surface-dim: #D5DBD9;
       --md-surface-container-lowest: #FFFFFF;
@@ -46,33 +76,40 @@
       --md-surface-container-high: #E4EAE8;
       --md-surface-container-highest: #DEE4E2;
 
-      /* 1.6 色彩 — On Surface */
+      /* ---------- 1.6 色彩：On Surface ---------- */
       --md-on-surface: #171D1C;
       --md-on-surface-variant: #3F4947;
 
-      /* 1.7 色彩 — Outline */
+      /* ---------- 1.7 色彩：Outline ---------- */
       --md-outline: #6F7977;
       --md-outline-variant: #BEC9C6;
 
-      /* 1.8 新拟物阴影派生色 */
+      /* ---------- 1.8 新拟物阴影派生色 ---------- */
       --nm-light: #FFFFFF;
       --nm-dark: #C2CCCA;
+      /* 别名：新拟物表面 = M3 surface-container */
       --nm-surface: var(--md-surface-container);
 
-      /* 1.9 动效曲线（M3 Emphasized） */
+      /* 兼容降级：用于不支持 color-mix() 的浏览器 */
+      --bg-glow-1: rgba(204, 232, 228, 0.60);  /* ≈ secondary-container 60% */
+      --bg-glow-2: rgba(211, 228, 255, 0.55);  /* ≈ tertiary-container 55%  */
+      --bg-glow-3: rgba(156, 242, 232, 0.50);  /* ≈ primary-container 50%   */
+      --bg-glow-4: rgba(204, 232, 228, 0.45);  /* ≈ secondary-container 45% */
+
+      /* ---------- 1.9 M3 动效曲线 ---------- */
       --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
       --ease-emphasized-decel: cubic-bezier(0.05, 0.7, 0.1, 1);
       --ease-emphasized-accel: cubic-bezier(0.3, 0, 0.8, 0.15);
       --ease-standard: cubic-bezier(0.2, 0, 0, 1);
       --ease-standard-decel: cubic-bezier(0, 0, 0, 1);
 
-      /* 1.10 时长 */
+      /* ---------- 1.10 时长 ---------- */
       --dur-short: 200ms;
       --dur-medium: 350ms;
       --dur-long: 500ms;
       --dur-extra: 700ms;
 
-      /* 1.11 圆角 */
+      /* ---------- 1.11 圆角 ---------- */
       --radius-xs: 8px;
       --radius-sm: 12px;
       --radius-md: 16px;
@@ -80,7 +117,7 @@
       --radius-xl: 28px;
       --radius-full: 999px;
 
-      /* 1.12 新拟物阴影组合 */
+      /* ---------- 1.12 新拟物阴影组合 ---------- */
       --nm-out:
         8px 8px 18px var(--nm-dark),
         -8px -8px 18px var(--nm-light);
@@ -99,7 +136,7 @@
     }
 
     /* ============================================================
-       2. 暗色主题（通过 data-theme="dark" 覆盖令牌）
+       2. 暗色主题
        ============================================================ */
     [data-theme="dark"] {
       --md-primary: #80D5CC;
@@ -136,6 +173,12 @@
 
       --nm-light: #222928;
       --nm-dark: #0A100F;
+
+      /* 暗色下光晕 */
+      --bg-glow-1: rgba(50, 75, 72, 0.45);
+      --bg-glow-2: rgba(51, 72, 99, 0.40);
+      --bg-glow-3: rgba(0, 80, 74, 0.40);
+      --bg-glow-4: rgba(50, 75, 72, 0.35);
     }
 
     /* ============================================================
@@ -160,7 +203,7 @@
                   color var(--dur-long) var(--ease-emphasized);
     }
 
-    /* 全局背景光晕 */
+    /* 全局背景光晕（带 color-mix 降级） */
     body::before {
       content: "";
       position: fixed;
@@ -168,11 +211,21 @@
       z-index: -1;
       pointer-events: none;
       background:
-        radial-gradient(700px 500px at 12% 8%,  color-mix(in srgb, var(--md-secondary-container) 60%, transparent), transparent 65%),
-        radial-gradient(600px 500px at 88% 18%, color-mix(in srgb, var(--md-tertiary-container) 55%, transparent), transparent 65%),
-        radial-gradient(700px 600px at 78% 78%, color-mix(in srgb, var(--md-primary-container) 50%, transparent), transparent 65%),
-        radial-gradient(600px 500px at 18% 88%, color-mix(in srgb, var(--md-secondary-container) 45%, transparent), transparent 65%);
+        radial-gradient(700px 500px at 12% 8%,  var(--bg-glow-1), transparent 65%),
+        radial-gradient(600px 500px at 88% 18%, var(--bg-glow-2), transparent 65%),
+        radial-gradient(700px 600px at 78% 78%, var(--bg-glow-3), transparent 65%),
+        radial-gradient(600px 500px at 18% 88%, var(--bg-glow-4), transparent 65%);
       transition: opacity var(--dur-long) var(--ease-emphasized);
+    }
+
+    @supports (background: color-mix(in srgb, red 50%, blue)) {
+      body::before {
+        background:
+          radial-gradient(700px 500px at 12% 8%,  color-mix(in srgb, var(--md-secondary-container) 60%, transparent), transparent 65%),
+          radial-gradient(600px 500px at 88% 18%, color-mix(in srgb, var(--md-tertiary-container) 55%, transparent), transparent 65%),
+          radial-gradient(700px 600px at 78% 78%, color-mix(in srgb, var(--md-primary-container) 50%, transparent), transparent 65%),
+          radial-gradient(600px 500px at 18% 88%, color-mix(in srgb, var(--md-secondary-container) 45%, transparent), transparent 65%);
+      }
     }
 
     a { color: inherit; text-decoration: none; }
@@ -216,23 +269,40 @@
       font-size: 1.05rem;
     }
 
-    /* 居中的区块标题 */
     .section-center .section-title::after {
       margin-left: auto;
       margin-right: auto;
     }
 
     /* ============================================================
-       5. 可复用组件
+       5. 可复用工具类与组件
        ============================================================ */
 
-    /* 5.1 焦点环（无障碍） */
+    /* 5.1 焦点环 */
     .focus-ring:focus-visible {
       outline: 3px solid var(--md-primary);
       outline-offset: 3px;
     }
 
-    /* 5.2 新拟物按钮（基础） */
+    /* 5.2 悬浮工具类（统一交互模式） */
+    .hover-in {
+      transition: box-shadow var(--dur-medium) var(--ease-emphasized),
+                  transform var(--dur-medium) var(--ease-emphasized);
+    }
+    .hover-in:hover {
+      transform: translateY(2px);
+      box-shadow: var(--nm-in);
+    }
+    .hover-out {
+      transition: box-shadow var(--dur-medium) var(--ease-emphasized),
+                  transform var(--dur-medium) var(--ease-emphasized);
+    }
+    .hover-out:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--nm-out-lg);
+    }
+
+    /* 5.3 新拟物按钮 */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -262,7 +332,7 @@
     }
     .btn-primary { color: var(--md-primary); }
 
-    /* 5.3 标签 */
+    /* 5.4 标签 */
     .tag {
       padding: 6px 14px;
       font-size: .78rem;
@@ -271,23 +341,6 @@
       color: var(--md-primary);
       background: var(--nm-surface);
       box-shadow: var(--nm-out-sm);
-    }
-
-    /* 5.4 卡片（新拟物凸起，悬浮时轻微凹陷） */
-    .card {
-      background: var(--nm-surface);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--nm-out);
-      transition: box-shadow var(--dur-medium) var(--ease-emphasized),
-                  transform var(--dur-medium) var(--ease-emphasized);
-    }
-    .card-hover-out:hover {
-      transform: translateY(-6px);
-      box-shadow: var(--nm-out-lg);
-    }
-    .card-hover-in:hover {
-      transform: translateY(2px);
-      box-shadow: var(--nm-in);
     }
 
     /* 5.5 新拟物图标块 */
@@ -312,6 +365,46 @@
         var(--md-primary), var(--md-tertiary), var(--md-secondary));
       opacity: .12;
       pointer-events: none;
+    }
+
+    /* 5.6 回到顶部按钮 */
+    .back-to-top {
+      position: fixed;
+      right: 28px;
+      bottom: 28px;
+      z-index: 90;
+      width: 52px;
+      height: 52px;
+      border: none;
+      border-radius: 50%;
+      background: var(--nm-surface);
+      color: var(--md-primary);
+      font-size: 1.3rem;
+      cursor: pointer;
+      box-shadow: var(--nm-out);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      transition: opacity var(--dur-medium) var(--ease-emphasized),
+                  visibility var(--dur-medium) var(--ease-emphasized),
+                  transform var(--dur-medium) var(--ease-emphasized),
+                  box-shadow var(--dur-short) var(--ease-standard),
+                  color var(--dur-short) var(--ease-standard);
+    }
+    .back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .back-to-top:hover {
+      box-shadow: var(--nm-in);
+      transform: translateY(2px);
+    }
+    .back-to-top:active {
+      transform: translateY(4px) scale(0.94);
     }
 
     /* ============================================================
@@ -385,7 +478,6 @@
       gap: 14px;
     }
 
-    /* 主题切换按钮 */
     .theme-toggle {
       width: 48px;
       height: 48px;
@@ -493,11 +585,7 @@
       flex-wrap: wrap;
     }
 
-    /* 头像 */
-    .avatar-wrap {
-      display: flex;
-      justify-content: center;
-    }
+    .avatar-wrap { display: flex; justify-content: center; }
     .avatar-disc {
       width: 360px;
       height: 360px;
@@ -559,12 +647,12 @@
       margin-bottom: 8px;
     }
 
-    /* 数据卡 */
     .stats {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 24px;
       margin-top: 40px;
+      max-width: 420px;
     }
     .stat {
       text-align: center;
@@ -580,8 +668,9 @@
       transform: translateY(2px);
     }
     .stat-num {
-      font-size: 2rem;
+      font-size: 1.8rem;
       font-weight: 800;
+      line-height: 1.2;
       background: linear-gradient(135deg, var(--md-primary), var(--md-tertiary));
       -webkit-background-clip: text;
               background-clip: text;
@@ -590,10 +679,9 @@
     .stat-label {
       font-size: .85rem;
       color: var(--md-on-surface-variant);
-      margin-top: 4px;
+      margin-top: 6px;
     }
 
-    /* 关于页图片相框 */
     .about-img-frame {
       padding: 16px;
       border-radius: var(--radius-xl);
@@ -608,7 +696,6 @@
       transition: opacity var(--dur-medium) var(--ease-emphasized);
     }
 
-    /* 版本号 */
     .version-badge {
       display: inline-block;
       margin-top: 28px;
@@ -659,9 +746,9 @@
       background: var(--nm-surface);
       border-radius: var(--radius-lg);
       box-shadow: var(--nm-out);
+      position: relative;
       transition: transform var(--dur-medium) var(--ease-emphasized),
                   box-shadow var(--dur-medium) var(--ease-emphasized);
-      position: relative;
     }
     .skill-card:hover {
       transform: translateY(-6px);
@@ -721,6 +808,22 @@
       border: 3px solid var(--md-primary);
       z-index: 2;
     }
+    /* 进行中状态：脉冲圆点 */
+    .timeline-item.is-active::before {
+      border-color: var(--md-primary);
+      background: var(--md-primary);
+      box-shadow: 0 0 0 4px var(--md-primary-container);
+      animation: activePulse 2s var(--ease-emphasized) infinite;
+    }
+    @keyframes activePulse {
+      0%, 100% { box-shadow: 0 0 0 4px var(--md-primary-container); }
+      50%      { box-shadow: 0 0 0 12px transparent; }
+    }
+    .timeline-item.is-active .timeline-date {
+      background: var(--md-primary);
+      color: var(--md-on-primary);
+    }
+
     .timeline-date {
       display: inline-block;
       padding: 4px 14px;
@@ -927,7 +1030,7 @@
         margin-top: 28px;
       }
       .stat { padding: 20px 12px; }
-      .stat-num { font-size: 1.6rem; }
+      .stat-num { font-size: 1.4rem; }
       .stat-label { font-size: .75rem; }
       .about-img-frame { padding: 12px; }
       .version-badge {
@@ -999,6 +1102,15 @@
         font-size: .9rem;
       }
 
+      /* 回到顶部 */
+      .back-to-top {
+        right: 18px;
+        bottom: 18px;
+        width: 44px;
+        height: 44px;
+        font-size: 1.1rem;
+      }
+
       /* 页脚 */
       footer {
         padding: 40px 0 30px;
@@ -1023,6 +1135,16 @@
       .btn {
         padding: 12px 20px;
         font-size: .82rem;
+      }
+    }
+
+    /* 减少动效偏好 */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
       }
     }
   </style>
@@ -1068,13 +1190,14 @@
         <div class="btn-group">
           <a href="#timeline" class="btn btn-primary focus-ring">我的历程 →</a>
           <a href="https://space.bilibili.com/2091587008"
-             target="_blank" rel="noopener"
+             target="_blank" rel="noopener noreferrer"
              class="btn focus-ring">B站主页</a>
         </div>
       </div>
       <div class="avatar-wrap">
         <div class="avatar-disc">
-          <img class="avatar" src="websrc/avatar.jpeg" alt="鸢见夜樱的头像">
+          <img class="avatar" src="websrc/avatar.jpeg"
+               alt="鸢见夜樱的头像" width="360" height="360">
         </div>
       </div>
     </div>
@@ -1106,26 +1229,26 @@
             <span class="tag secret-yandere" id="secretTag">病娇</span>
           </div>
 
+          <!-- 数据卡：语义修正（主值在上，说明在下） -->
           <div class="stats">
             <div class="stat">
-              <div>普通</div>
-              <div class="stat-num">10</div>
-              <div class="stat-label">后</div>
+              <div class="stat-num">10后</div>
+              <div class="stat-label">普通</div>
             </div>
             <div class="stat">
-              <div>安卓</div>
-              <div class="stat-num">13</div>
+              <div class="stat-num">安卓13</div>
               <div class="stat-label">开始玩机</div>
             </div>
           </div>
 
-          <div class="version-badge focus-ring" id="versionBadge">v2.3.0</div>
+          <div class="version-badge focus-ring" id="versionBadge">v2.4.1</div>
         </div>
 
         <div class="reveal">
           <div class="about-img-frame">
             <img class="about-img" id="aboutAvatar"
-                 src="websrc/avatar1.jpeg" alt="鸢见夜樱">
+                 src="websrc/avatar1.jpeg" alt="鸢见夜樱"
+                 loading="lazy" width="600" height="600">
           </div>
         </div>
       </div>
@@ -1190,6 +1313,13 @@
           <h3>获取倾听者 K5 的 Root 权限</h3>
           <p>经过持续探索，成功获取倾听者 K5 的 Root 权限，进一步深入系统底层。</p>
         </article>
+
+        <!-- 进行中：脉冲圆点 -->
+        <article class="timeline-item reveal is-active">
+          <span class="timeline-date">仍在折腾中</span>
+          <h3>持续探索开放系统</h3>
+          <p>折腾没有终点——继续折腾新设备、新系统、新玩法，也把这些过程分享在 B 站。</p>
+        </article>
       </div>
     </div>
   </section>
@@ -1206,12 +1336,12 @@
         </a>
         <a class="contact-link focus-ring"
            href="https://space.bilibili.com/2091587008"
-           target="_blank" rel="noopener">
+           target="_blank" rel="noopener noreferrer">
           📺 B站主页
         </a>
         <a class="contact-link focus-ring"
            href="https://space.bilibili.com/2091587008"
-           target="_blank" rel="noopener">
+           target="_blank" rel="noopener noreferrer">
           💬 私信我
         </a>
       </div>
@@ -1227,6 +1357,9 @@
   </div>
 </footer>
 
+<!-- ==================== 回到顶部 ==================== -->
+<button class="back-to-top focus-ring" id="backToTop" title="回到顶部" aria-label="回到顶部">↑</button>
+
 <script>
   /* ============================================================
      应用主逻辑（IIFE 隔离作用域）
@@ -1237,8 +1370,8 @@
     /* ----------------------------------------------------------
        工具函数
        ---------------------------------------------------------- */
-    const $  = (sel) => document.querySelector(sel);
-    const $$ = (sel) => document.querySelectorAll(sel);
+    const $  = (sel, ctx = document) => ctx.querySelector(sel);
+    const $$ = (sel, ctx = document) => ctx.querySelectorAll(sel);
 
     /* ----------------------------------------------------------
        模块 1：主题切换
@@ -1252,6 +1385,10 @@
         root.setAttribute('data-theme', theme);
         btn.textContent = theme === 'dark' ? '☀️' : '🌙';
         localStorage.setItem(KEY, theme);
+        // 同步浏览器 UI 主题色
+        const themeColor = theme === 'dark' ? '#0E1514' : '#39C5BB';
+        let meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', themeColor);
       };
 
       const init = () => {
@@ -1261,7 +1398,6 @@
         btn.addEventListener('click', () => {
           const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
           apply(next);
-          // 旋转动画
           btn.style.transform = 'scale(0.85) rotate(180deg)';
           setTimeout(() => { btn.style.transform = ''; }, 300);
         });
@@ -1271,17 +1407,24 @@
     })();
 
     /* ----------------------------------------------------------
-       模块 2：导航栏滚动效果
+       模块 2：导航栏滚动 + 回到顶部
        ---------------------------------------------------------- */
     const Navbar = (() => {
       const header = $('#header');
+      const backToTop = $('#backToTop');
 
       const init = () => {
         const onScroll = () => {
-          header.classList.toggle('scrolled', window.scrollY > 20);
+          const y = window.scrollY;
+          header.classList.toggle('scrolled', y > 20);
+          backToTop.classList.toggle('show', y > 300);
         };
         window.addEventListener('scroll', onScroll, { passive: true });
         onScroll();
+
+        backToTop.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
       };
 
       return { init };
@@ -1298,13 +1441,11 @@
       const init = () => {
         const els = $$(SEL);
 
-        // 兜底 1：不支持 IntersectionObserver → 全部显示
         if (!('IntersectionObserver' in window)) {
           els.forEach(show);
           return;
         }
 
-        // 主逻辑
         const observer = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
@@ -1319,7 +1460,6 @@
 
         els.forEach((el) => observer.observe(el));
 
-        // 兜底 2：3 秒后强制显示视口内的元素
         setTimeout(() => {
           els.forEach((el) => {
             if (!el.classList.contains('active')
@@ -1329,7 +1469,6 @@
           });
         }, 3000);
 
-        // 兜底 3：滚动时补检查
         window.addEventListener('scroll', () => {
           els.forEach((el) => {
             if (!el.classList.contains('active')
@@ -1353,10 +1492,13 @@
       const REDIRECT_DELAY = 1500;
       const REDIRECT_URL   = 'https://github.com/hushenghao/AndroidEasterEggs';
 
-      const badge = $('#versionBadge');
-      const avatar = $('#aboutAvatar');
+      const badge      = $('#versionBadge');
+      const avatar     = $('#aboutAvatar');
       const secretText = $('#secretText');
-      const secretTag = $('#secretTag');
+      const secretTag  = $('#secretTag');
+
+      const FALLBACK_AVATAR = 'websrc/avatar1.jpeg';
+      const EGG_AVATAR      = 'websrc/avatar2.jpeg';
 
       let count = 0;
       let timer = null;
@@ -1368,13 +1510,17 @@
         secretText.classList.add('revealed');
         secretTag.classList.add('revealed');
 
-        // 2. 切换头像
-        avatar.src = 'websrc/avatar2.jpeg';
+        // 2. 切换头像（带 onerror 回退）
+        avatar.onerror = () => {
+          avatar.onerror = null;
+          avatar.src = FALLBACK_AVATAR;
+        };
+        avatar.src = EGG_AVATAR;
 
         // 3. 滚动到"关于"板块
         $('#about').scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-        // 4. 延迟后跳转
+        // 4. 延迟跳转
         setTimeout(() => {
           window.open(REDIRECT_URL, '_blank', 'noopener,noreferrer');
         }, REDIRECT_DELAY);
@@ -1397,6 +1543,24 @@
     })();
 
     /* ----------------------------------------------------------
+       模块 5：PWA Service Worker 注册
+       ---------------------------------------------------------- */
+    const PWA = (() => {
+      const init = () => {
+        if (!('serviceWorker' in navigator)) return;
+        // 仅在通过 http(s) 访问时注册
+        if (location.protocol !== 'http:' && location.protocol !== 'https:') return;
+
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('sw.js').catch(() => {
+            /* 静默失败：不影响页面 */
+          });
+        });
+      };
+      return { init };
+    })();
+
+    /* ----------------------------------------------------------
        启动
        ---------------------------------------------------------- */
     const boot = () => {
@@ -1405,6 +1569,7 @@
       Navbar.init();
       Reveal.init();
       EasterEgg.init();
+      PWA.init();
     };
 
     if (document.readyState === 'loading') {

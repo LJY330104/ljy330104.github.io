@@ -1,0 +1,24 @@
+{
+  "name": "鸢见夜樱 | 个人网站",
+  "short_name": "鸢见夜樱",
+  "description": "一位热爱折腾 Android 系统的 B站 UP主",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#F5FBF9",
+  "theme_color": "#39C5BB",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "websrc/icon.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "websrc/icon.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}
