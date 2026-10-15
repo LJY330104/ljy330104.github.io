@@ -1,78 +1,78 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- 浏览器标签页 -->
-  <link rel="icon" href="/websrc/icon.jpg" sizes="any">
-  <link rel="icon" href="/websrc/icon.svg" type="image/svg+xml">
-
-  <!-- iOS 添加到主屏幕 -->
-  <link rel="apple-touch-icon" href="/websrc/icon.jpg">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>鸢见夜樱 | 个人网站</title>
+
+  <!-- 图标 -->
+  <link rel="icon" href="/websrc/icon.jpg" sizes="any">
+  <link rel="icon" href="/websrc/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/websrc/icon.jpg">
+
   <style>
-    /* ===================================================
-       Material You (M3) 色彩系统
-       Seed: #39C5BB（莫奈睡莲青）
-       =================================================== */
+    /* ============================================================
+       1. 设计令牌（Design Tokens）
+       ============================================================ */
     :root {
-      /* --- Primary 主色系 --- */
+      /* 1.1 色彩 — Primary */
       --md-primary: #006A63;
       --md-on-primary: #FFFFFF;
       --md-primary-container: #9CF2E8;
       --md-on-primary-container: #00201D;
 
-      /* --- Secondary 次色系 --- */
+      /* 1.2 色彩 — Secondary */
       --md-secondary: #4A6360;
       --md-on-secondary: #FFFFFF;
       --md-secondary-container: #CCE8E4;
       --md-on-secondary-container: #051F1D;
 
-      /* --- Tertiary 第三色系 --- */
+      /* 1.3 色彩 — Tertiary */
       --md-tertiary: #4B607C;
       --md-on-tertiary: #FFFFFF;
       --md-tertiary-container: #D3E4FF;
       --md-on-tertiary-container: #041C35;
 
-      /* --- Error --- */
+      /* 1.4 色彩 — Error */
       --md-error: #BA1A1A;
       --md-on-error: #FFFFFF;
 
-      /* --- Surface 表面系 --- */
+      /* 1.5 色彩 — Surface */
       --md-surface: #F5FBF9;
       --md-surface-dim: #D5DBD9;
-      --md-on-surface: #171D1C;
-      --md-on-surface-variant: #3F4947;
-      --md-surface-variant: #DAE5E2;
       --md-surface-container-lowest: #FFFFFF;
       --md-surface-container-low: #EFF5F3;
       --md-surface-container: #E9EFED;
       --md-surface-container-high: #E4EAE8;
       --md-surface-container-highest: #DEE4E2;
 
+      /* 1.6 色彩 — On Surface */
+      --md-on-surface: #171D1C;
+      --md-on-surface-variant: #3F4947;
+
+      /* 1.7 色彩 — Outline */
       --md-outline: #6F7977;
       --md-outline-variant: #BEC9C6;
 
-      /* --- 新拟物阴影派生色 --- */
+      /* 1.8 新拟物阴影派生色 */
       --nm-light: #FFFFFF;
       --nm-dark: #C2CCCA;
-      --nm-surface: #E9EFED;
+      --nm-surface: var(--md-surface-container);
 
-      /* --- M3 动效曲线 --- */
+      /* 1.9 动效曲线（M3 Emphasized） */
       --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
       --ease-emphasized-decel: cubic-bezier(0.05, 0.7, 0.1, 1);
       --ease-emphasized-accel: cubic-bezier(0.3, 0, 0.8, 0.15);
       --ease-standard: cubic-bezier(0.2, 0, 0, 1);
       --ease-standard-decel: cubic-bezier(0, 0, 0, 1);
-      --ease-standard-accel: cubic-bezier(0.3, 0, 1, 1);
 
-      /* --- M3 时长 --- */
+      /* 1.10 时长 */
       --dur-short: 200ms;
       --dur-medium: 350ms;
       --dur-long: 500ms;
       --dur-extra: 700ms;
 
-      /* --- 圆角 --- */
+      /* 1.11 圆角 */
       --radius-xs: 8px;
       --radius-sm: 12px;
       --radius-md: 16px;
@@ -80,7 +80,7 @@
       --radius-xl: 28px;
       --radius-full: 999px;
 
-      /* --- 新拟物阴影 --- */
+      /* 1.12 新拟物阴影组合 */
       --nm-out:
         8px 8px 18px var(--nm-dark),
         -8px -8px 18px var(--nm-light);
@@ -98,6 +98,9 @@
         inset -3px -3px 7px var(--nm-light);
     }
 
+    /* ============================================================
+       2. 暗色主题（通过 data-theme="dark" 覆盖令牌）
+       ============================================================ */
     [data-theme="dark"] {
       --md-primary: #80D5CC;
       --md-on-primary: #003733;
@@ -119,41 +122,50 @@
 
       --md-surface: #0E1514;
       --md-surface-dim: #0E1514;
-      --md-on-surface: #DEE4E2;
-      --md-on-surface-variant: #BEC9C6;
-      --md-surface-variant: #3F4947;
       --md-surface-container-lowest: #090F0F;
       --md-surface-container-low: #171D1C;
       --md-surface-container: #1B2120;
       --md-surface-container-high: #252B2A;
       --md-surface-container-highest: #303634;
 
+      --md-on-surface: #DEE4E2;
+      --md-on-surface-variant: #BEC9C6;
+
       --md-outline: #899390;
       --md-outline-variant: #3F4947;
 
       --nm-light: #222928;
       --nm-dark: #0A100F;
-      --nm-surface: #1B2120;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* ============================================================
+       3. 基础重置
+       ============================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   "PingFang SC", "Microsoft YaHei", sans-serif;
       color: var(--md-on-surface);
       background: var(--md-surface);
       line-height: 1.7;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
       transition: background var(--dur-long) var(--ease-emphasized),
                   color var(--dur-long) var(--ease-emphasized);
-      min-width: 0; /* 移除桌面最小宽度，适配手机 */
-      overflow-x: hidden;
     }
 
+    /* 全局背景光晕 */
     body::before {
       content: "";
-      position: fixed; inset: 0; z-index: -1;
+      position: fixed;
+      inset: 0;
+      z-index: -1;
       pointer-events: none;
       background:
         radial-gradient(700px 500px at 12% 8%,  color-mix(in srgb, var(--md-secondary-container) 60%, transparent), transparent 65%),
@@ -166,66 +178,230 @@
     a { color: inherit; text-decoration: none; }
     img { max-width: 100%; display: block; }
 
-    /* ===== 导航栏 ===== */
+    /* ============================================================
+       4. 布局容器 & 通用区块
+       ============================================================ */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    section {
+      padding: 110px 0;
+      position: relative;
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -.5px;
+      margin-bottom: 16px;
+    }
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 56px;
+      height: 6px;
+      border-radius: 6px;
+      background: linear-gradient(90deg,
+        var(--md-primary), var(--md-tertiary), var(--md-secondary));
+      margin-top: 16px;
+      box-shadow: var(--nm-out-sm);
+    }
+
+    .section-sub {
+      color: var(--md-on-surface-variant);
+      margin-bottom: 56px;
+      font-size: 1.05rem;
+    }
+
+    /* 居中的区块标题 */
+    .section-center .section-title::after {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ============================================================
+       5. 可复用组件
+       ============================================================ */
+
+    /* 5.1 焦点环（无障碍） */
+    .focus-ring:focus-visible {
+      outline: 3px solid var(--md-primary);
+      outline-offset: 3px;
+    }
+
+    /* 5.2 新拟物按钮（基础） */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 34px;
+      border: none;
+      border-radius: var(--radius-full);
+      font-weight: 600;
+      font-size: .95rem;
+      cursor: pointer;
+      background: var(--nm-surface);
+      color: var(--md-on-surface);
+      box-shadow: var(--nm-out);
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow var(--dur-medium) var(--ease-emphasized),
+                  transform var(--dur-medium) var(--ease-emphasized),
+                  color var(--dur-short) var(--ease-standard);
+    }
+    .btn:hover {
+      box-shadow: var(--nm-in);
+      transform: translateY(2px);
+    }
+    .btn:active {
+      transform: translateY(4px) scale(0.98);
+      box-shadow: var(--nm-in);
+    }
+    .btn-primary { color: var(--md-primary); }
+
+    /* 5.3 标签 */
+    .tag {
+      padding: 6px 14px;
+      font-size: .78rem;
+      font-weight: 600;
+      border-radius: var(--radius-full);
+      color: var(--md-primary);
+      background: var(--nm-surface);
+      box-shadow: var(--nm-out-sm);
+    }
+
+    /* 5.4 卡片（新拟物凸起，悬浮时轻微凹陷） */
+    .card {
+      background: var(--nm-surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--nm-out);
+      transition: box-shadow var(--dur-medium) var(--ease-emphasized),
+                  transform var(--dur-medium) var(--ease-emphasized);
+    }
+    .card-hover-out:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--nm-out-lg);
+    }
+    .card-hover-in:hover {
+      transform: translateY(2px);
+      box-shadow: var(--nm-in);
+    }
+
+    /* 5.5 新拟物图标块 */
+    .icon-block {
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.7rem;
+      background: var(--nm-surface);
+      box-shadow: var(--nm-in);
+      position: relative;
+    }
+    .icon-block::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(135deg,
+        var(--md-primary), var(--md-tertiary), var(--md-secondary));
+      opacity: .12;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       6. 导航栏
+       ============================================================ */
     header {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
       padding: 20px 0;
       transition: padding var(--dur-medium) var(--ease-emphasized);
     }
     header.scrolled { padding: 14px 0; }
+
     nav {
-      max-width: 1200px; margin: 0 auto;
+      max-width: 1200px;
+      margin: 0 auto;
       padding: 12px 28px;
-      display: flex; align-items: center; justify-content: space-between;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       background: var(--nm-surface);
       border-radius: var(--radius-full);
       box-shadow: var(--nm-out);
-      transition: box-shadow var(--dur-medium) var(--ease-emphasized),
-                  background var(--dur-long) var(--ease-emphasized);
+      transition: box-shadow var(--dur-medium) var(--ease-emphasized);
     }
     header.scrolled nav { box-shadow: var(--nm-out-lg); }
 
     .logo {
-      font-weight: 800; font-size: 1.25rem; letter-spacing: -.5px;
-      display: flex; align-items: center; gap: 10px;
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
       padding-left: 8px;
     }
     .logo-dot {
-      width: 12px; height: 12px; border-radius: 50%;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
       background: linear-gradient(135deg, var(--md-primary), var(--md-tertiary));
       box-shadow: var(--nm-out-sm);
     }
     .logo span { color: var(--md-primary); }
 
-    .nav-links { display: flex; gap: 2px; list-style: none; }
+    .nav-links {
+      display: flex;
+      gap: 2px;
+      list-style: none;
+    }
     .nav-links a {
       display: block;
       padding: 10px 16px;
-      font-size: .88rem; color: var(--md-on-surface-variant);
+      font-size: .88rem;
       font-weight: 500;
+      color: var(--md-on-surface-variant);
       border-radius: var(--radius-full);
+      white-space: nowrap;
       transition: color var(--dur-short) var(--ease-standard),
                   box-shadow var(--dur-short) var(--ease-standard);
-      white-space: nowrap;
     }
     .nav-links a:hover {
       color: var(--md-primary);
       box-shadow: var(--nm-in-sm);
     }
 
-    .nav-right { display: flex; align-items: center; gap: 14px; }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
 
+    /* 主题切换按钮 */
     .theme-toggle {
-      width: 48px; height: 48px; border-radius: 50%;
+      width: 48px;
+      height: 48px;
       border: none;
+      border-radius: 50%;
       background: var(--nm-surface);
       color: var(--md-on-surface);
-      cursor: pointer; font-size: 1.15rem;
-      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--nm-out-sm);
       transition: color var(--dur-short) var(--ease-standard),
                   box-shadow var(--dur-short) var(--ease-standard),
                   transform var(--dur-medium) var(--ease-emphasized);
-      box-shadow: var(--nm-out-sm);
     }
     .theme-toggle:hover {
       color: var(--md-primary);
@@ -236,60 +412,55 @@
       box-shadow: var(--nm-in-sm);
     }
 
-    /* ===== 通用 ===== */
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
-    section { padding: 110px 0; position: relative; }
-
-    .section-title {
-      font-size: 2.2rem; font-weight: 800; letter-spacing: -.5px;
-      margin-bottom: 16px;
-    }
-    .section-title::after {
-      content: ""; display: block;
-      width: 56px; height: 6px; border-radius: 6px;
-      background: linear-gradient(90deg, var(--md-primary), var(--md-tertiary), var(--md-secondary));
-      margin-top: 16px;
-      box-shadow: var(--nm-out-sm);
-    }
-    .section-sub {
-      color: var(--md-on-surface-variant); margin-bottom: 56px; font-size: 1.05rem;
-    }
-
-    /* ===== 英雄区 ===== */
+    /* ============================================================
+       7. 英雄区
+       ============================================================ */
     #hero {
       min-height: 100vh;
-      display: flex; align-items: center;
+      display: flex;
+      align-items: center;
       padding-top: 120px;
     }
+
     .hero-inner {
-      display: grid; grid-template-columns: 1.35fr 1fr;
-      gap: 80px; align-items: center;
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 80px;
+      align-items: center;
     }
 
     .hero-badge {
-      display: inline-flex; align-items: center; gap: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
       padding: 10px 22px;
-      background: var(--md-secondary-container);
-      color: var(--md-on-secondary-container);
-      border-radius: var(--radius-full);
-      font-size: .85rem; font-weight: 600;
       margin-bottom: 28px;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--md-on-secondary-container);
+      background: var(--md-secondary-container);
+      border-radius: var(--radius-full);
       box-shadow: var(--nm-out-sm);
     }
     .hero-badge::before {
-      content: ""; width: 8px; height: 8px; border-radius: 50%;
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
       background: var(--md-primary);
       box-shadow: 0 0 10px var(--md-primary);
       animation: pulse 2s var(--ease-emphasized) infinite;
     }
     @keyframes pulse {
-      0%,100% { opacity: 1; transform: scale(1); }
-      50% { opacity: .5; transform: scale(1.4); }
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: .5; transform: scale(1.4); }
     }
 
     .hero-title {
       font-size: clamp(2.5rem, 4.5vw, 3.8rem);
-      font-weight: 800; line-height: 1.15; letter-spacing: -2px;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -2px;
       margin-bottom: 20px;
     }
     .hero-title .gradient {
@@ -298,107 +469,108 @@
         var(--md-tertiary),
         var(--md-secondary),
         var(--md-primary));
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent;
       background-size: 300% 300%;
+      -webkit-background-clip: text;
+              background-clip: text;
+      -webkit-text-fill-color: transparent;
       animation: gradientFlow 12s var(--ease-emphasized) infinite;
     }
     @keyframes gradientFlow {
-      0%,100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
+      0%, 100% { background-position: 0% 50%; }
+      50%      { background-position: 100% 50%; }
     }
+
     .hero-desc {
-      color: var(--md-on-surface-variant); font-size: 1.15rem;
-      margin-bottom: 40px; max-width: 540px;
-    }
-    .btn-group { display: flex; gap: 20px; flex-wrap: wrap; }
-
-    /* M3 按钮 + 新拟物 */
-    .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 16px 34px; border-radius: var(--radius-full);
-      font-weight: 600; font-size: .95rem;
-      transition: box-shadow var(--dur-medium) var(--ease-emphasized),
-                  transform var(--dur-medium) var(--ease-emphasized),
-                  color var(--dur-short) var(--ease-standard),
-                  background var(--dur-medium) var(--ease-emphasized);
-      cursor: pointer; border: none;
-      background: var(--nm-surface);
-      color: var(--md-on-surface);
-      box-shadow: var(--nm-out);
-      position: relative;
-      overflow: hidden;
-    }
-    .btn:hover {
-      box-shadow: var(--nm-in);
-      transform: translateY(2px);
-    }
-    .btn:active {
-      transform: translateY(4px) scale(0.98);
-      box-shadow: var(--nm-in);
-    }
-    .btn-primary {
-      color: var(--md-primary);
+      max-width: 540px;
+      margin-bottom: 40px;
+      font-size: 1.15rem;
+      color: var(--md-on-surface-variant);
     }
 
-    /* 焦点环 */
-    .btn:focus-visible,
-    .theme-toggle:focus-visible,
-    .nav-links a:focus-visible,
-    .contact-link:focus-visible {
-      outline: 3px solid var(--md-primary);
-      outline-offset: 3px;
+    .btn-group {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
     }
 
-    .avatar-wrap { display: flex; justify-content: center; }
+    /* 头像 */
+    .avatar-wrap {
+      display: flex;
+      justify-content: center;
+    }
     .avatar-disc {
-      width: 360px; height: 360px; border-radius: 50%;
+      width: 360px;
+      height: 360px;
+      padding: 18px;
+      border-radius: 50%;
       background: var(--nm-surface);
       box-shadow: var(--nm-out-lg);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       position: relative;
-      padding: 18px;
       transition: background var(--dur-long) var(--ease-emphasized);
     }
     .avatar-disc::after {
       content: "";
-      position: absolute; inset: 28px;
+      position: absolute;
+      inset: 28px;
       border-radius: 50%;
       box-shadow: var(--nm-in);
       pointer-events: none;
       z-index: 2;
     }
     .avatar {
-      width: 100%; height: 100%; border-radius: 50%;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
       object-fit: cover;
+      position: relative;
+      z-index: 1;
       animation: float 6s var(--ease-emphasized) infinite;
-      position: relative; z-index: 1;
     }
     @keyframes float {
-      0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-12px); }
     }
 
-    /* ===== 关于 ===== */
+    /* ============================================================
+       8. 关于我
+       ============================================================ */
     .about-grid {
-      display: grid; grid-template-columns: 1.1fr 1fr; gap: 80px;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 80px;
       align-items: center;
     }
-    .about-text p { color: var(--md-on-surface-variant); margin-bottom: 18px; font-size: 1.02rem; }
+
+    .about-text p {
+      margin-bottom: 18px;
+      font-size: 1.02rem;
+      color: var(--md-on-surface-variant);
+    }
     .about-text strong { color: var(--md-primary); }
 
     .about-tags {
-      display: flex; gap: 12px; flex-wrap: wrap;
-      margin-top: 24px; margin-bottom: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+      margin-bottom: 8px;
     }
 
+    /* 数据卡 */
     .stats {
-      display: grid; grid-template-columns: repeat(3,1fr);
-      gap: 24px; margin-top: 40px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 40px;
     }
     .stat {
-      text-align: center; padding: 28px 16px;
-      background: var(--nm-surface); border-radius: var(--radius-lg);
+      text-align: center;
+      padding: 28px 16px;
+      background: var(--nm-surface);
+      border-radius: var(--radius-lg);
       box-shadow: var(--nm-out);
       transition: box-shadow var(--dur-medium) var(--ease-emphasized),
                   transform var(--dur-medium) var(--ease-emphasized);
@@ -408,13 +580,20 @@
       transform: translateY(2px);
     }
     .stat-num {
-      font-size: 2rem; font-weight: 800;
+      font-size: 2rem;
+      font-weight: 800;
       background: linear-gradient(135deg, var(--md-primary), var(--md-tertiary));
-      -webkit-background-clip: text; background-clip: text;
+      -webkit-background-clip: text;
+              background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .stat-label { font-size: .85rem; color: var(--md-on-surface-variant); margin-top: 4px; }
+    .stat-label {
+      font-size: .85rem;
+      color: var(--md-on-surface-variant);
+      margin-top: 4px;
+    }
 
+    /* 关于页图片相框 */
     .about-img-frame {
       padding: 16px;
       border-radius: var(--radius-xl);
@@ -422,68 +601,63 @@
       box-shadow: var(--nm-in);
     }
     .about-img {
-      border-radius: var(--radius-lg);
       width: 100%;
       height: auto;
+      border-radius: var(--radius-lg);
       box-shadow: var(--nm-out-sm);
       transition: opacity var(--dur-medium) var(--ease-emphasized);
     }
 
-    /* ===== 标签通用样式 ===== */
-    .tag {
-      padding: 6px 14px; font-size: .78rem; border-radius: var(--radius-full);
-      color: var(--md-primary); font-weight: 600;
+    /* 版本号 */
+    .version-badge {
+      display: inline-block;
+      margin-top: 28px;
+      padding: 8px 18px;
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .5px;
+      color: var(--md-on-surface-variant);
       background: var(--nm-surface);
-      box-shadow: var(--nm-out-sm);
+      border-radius: var(--radius-full);
+      box-shadow: var(--nm-in-sm);
+      cursor: pointer;
+      user-select: none;
+      transition: color var(--dur-short) var(--ease-standard),
+                  box-shadow var(--dur-medium) var(--ease-emphasized);
     }
+    .version-badge:hover { color: var(--md-primary); }
+    .version-badge:active { box-shadow: var(--nm-out-sm); }
 
-    /* ===== 病娇彩蛋内容（默认隐藏） ===== */
-    .secret-yandere {
-      display: none;
-    }
-
+    /* 病娇彩蛋（默认隐藏） */
+    .secret-yandere { display: none; }
     .secret-yandere.revealed {
       opacity: 1;
-      animation: yandereIn .7s cubic-bezier(0.05, 0.7, 0.1, 1);
+      animation: yandereIn .7s var(--ease-emphasized-decel);
     }
-
-    /* 文字类型 */
-    span.secret-yandere.revealed {
-      display: inline;
-    }
-
-    /* 标签类型 */
+    span.secret-yandere.revealed { display: inline; }
     .tag.secret-yandere.revealed {
       display: inline-flex;
       align-items: center;
     }
-
     @keyframes yandereIn {
-      0% {
-        opacity: 0;
-        transform: scale(.5) rotate(-12deg);
-      }
-      55% {
-        opacity: 1;
-        transform: scale(1.15) rotate(4deg);
-      }
-      75% {
-        transform: scale(.95) rotate(-1deg);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1) rotate(0);
-      }
+      0%   { opacity: 0; transform: scale(.5) rotate(-12deg); }
+      55%  { opacity: 1; transform: scale(1.15) rotate(4deg); }
+      75%  { transform: scale(.95) rotate(-1deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0); }
     }
 
-    /* ===== 技能 ===== */
+    /* ============================================================
+       9. 技能
+       ============================================================ */
     .skills-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
     }
     .skill-card {
+      padding: 36px 28px;
       background: var(--nm-surface);
       border-radius: var(--radius-lg);
-      padding: 36px 28px;
       box-shadow: var(--nm-out);
       transition: transform var(--dur-medium) var(--ease-emphasized),
                   box-shadow var(--dur-medium) var(--ease-emphasized);
@@ -493,38 +667,31 @@
       transform: translateY(-6px);
       box-shadow: var(--nm-out-lg);
     }
-    .skill-icon {
-      font-size: 1.7rem;
-      width: 64px; height: 64px; border-radius: 20px;
-      display: flex; align-items: center; justify-content: center;
-      background: var(--nm-surface);
-      box-shadow: var(--nm-in);
-      margin-bottom: 20px;
-      position: relative;
-    }
-    .skill-icon::after {
-      content: "";
-      position: absolute; inset: 0;
-      border-radius: 20px;
-      background: linear-gradient(135deg, var(--md-primary), var(--md-tertiary), var(--md-secondary));
-      opacity: .12;
-      pointer-events: none;
-    }
+    .skill-card .icon-block { margin-bottom: 20px; }
     .skill-card h3 { font-size: 1.1rem; margin-bottom: 8px; }
-    .skill-card p { color: var(--md-on-surface-variant); font-size: .9rem; }
+    .skill-card p {
+      font-size: .9rem;
+      color: var(--md-on-surface-variant);
+    }
 
-    /* ===== 时间线 ===== */
+    /* ============================================================
+       10. 时间线
+       ============================================================ */
     .timeline {
       position: relative;
-      padding-left: 40px;
       max-width: 800px;
       margin: 0 auto;
+      padding-left: 40px;
     }
     .timeline::before {
       content: "";
-      position: absolute; left: 12px; top: 0; bottom: 0;
-      width: 6px; border-radius: 6px;
-      background: linear-gradient(180deg, var(--md-primary), var(--md-tertiary), var(--md-secondary));
+      position: absolute;
+      left: 12px;
+      top: 0; bottom: 0;
+      width: 6px;
+      border-radius: 6px;
+      background: linear-gradient(180deg,
+        var(--md-primary), var(--md-tertiary), var(--md-secondary));
       box-shadow: var(--nm-out-sm);
     }
     .timeline-item {
@@ -543,8 +710,12 @@
     }
     .timeline-item::before {
       content: "";
-      position: absolute; left: -40px; top: 36px;
-      width: 18px; height: 18px; border-radius: 50%;
+      position: absolute;
+      left: -40px;
+      top: 36px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
       background: var(--nm-surface);
       box-shadow: var(--nm-out-sm);
       border: 3px solid var(--md-primary);
@@ -553,32 +724,42 @@
     .timeline-date {
       display: inline-block;
       padding: 4px 14px;
-      background: var(--md-secondary-container);
-      color: var(--md-on-secondary-container);
-      border-radius: var(--radius-full);
+      margin-bottom: 12px;
       font-size: .78rem;
       font-weight: 600;
-      margin-bottom: 12px;
+      color: var(--md-on-secondary-container);
+      background: var(--md-secondary-container);
+      border-radius: var(--radius-full);
       box-shadow: var(--nm-out-sm);
     }
     .timeline-item h3 { font-size: 1.15rem; margin-bottom: 8px; }
-    .timeline-item p { color: var(--md-on-surface-variant); font-size: .92rem; }
-
-    /* ===== 联系 ===== */
-    #contact { text-align: center; }
-    #contact .section-title::after {
-      margin-left: auto; margin-right: auto;
+    .timeline-item p {
+      font-size: .92rem;
+      color: var(--md-on-surface-variant);
     }
+
+    /* ============================================================
+       11. 联系
+       ============================================================ */
+    #contact { text-align: center; }
+
     .contact-links {
-      display: flex; justify-content: center; gap: 24px;
-      flex-wrap: wrap; margin-top: 48px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-top: 48px;
     }
     .contact-link {
-      display: flex; align-items: center; gap: 12px;
-      padding: 20px 34px; border-radius: var(--radius-full);
-      background: var(--nm-surface);
-      font-weight: 600; font-size: .95rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 20px 34px;
+      font-weight: 600;
+      font-size: .95rem;
       color: var(--md-on-surface);
+      background: var(--nm-surface);
+      border-radius: var(--radius-full);
       box-shadow: var(--nm-out);
       transition: color var(--dur-short) var(--ease-standard),
                   box-shadow var(--dur-medium) var(--ease-emphasized),
@@ -593,39 +774,20 @@
       transform: translateY(4px) scale(0.98);
     }
 
-    /* ===== 版本号 ===== */
-    .version-badge {
-      display: inline-block;
-      margin-top: 28px;
-      padding: 8px 18px;
-      font-size: .78rem;
-      font-weight: 600;
-      color: var(--md-on-surface-variant);
-      background: var(--nm-surface);
-      border-radius: var(--radius-full);
-      box-shadow: var(--nm-in-sm);
-      cursor: pointer;
-      user-select: none;
-      transition: color var(--dur-short) var(--ease-standard),
-                  box-shadow var(--dur-medium) var(--ease-emphasized);
-      letter-spacing: .5px;
-    }
-    .version-badge:hover {
-      color: var(--md-primary);
-    }
-    .version-badge:active {
-      box-shadow: var(--nm-out-sm);
-    }
-
-    /* ===== 页脚 ===== */
+    /* ============================================================
+       12. 页脚
+       ============================================================ */
     footer {
       padding: 60px 0 40px;
       text-align: center;
-      color: var(--md-on-surface-variant); font-size: .9rem;
+      font-size: .9rem;
+      color: var(--md-on-surface-variant);
     }
     footer .heart { color: var(--md-tertiary); }
 
-    /* ===== 滚动动画（非线性曲线） ===== */
+    /* ============================================================
+       13. 滚动动画
+       ============================================================ */
     .reveal {
       opacity: 0;
       transform: translateY(36px);
@@ -638,32 +800,27 @@
     }
     .no-js .reveal { opacity: 1; transform: none; }
 
-    /* ===== 滚动条 ===== */
+    /* ============================================================
+       14. 滚动条
+       ============================================================ */
     ::-webkit-scrollbar { width: 12px; }
-    ::-webkit-scrollbar-track { background: var(--md-surface-container-low); }
+    ::-webkit-scrollbar-track {
+      background: var(--md-surface-container-low);
+    }
     ::-webkit-scrollbar-thumb {
       background: linear-gradient(180deg, var(--md-primary), var(--md-tertiary));
       border-radius: 6px;
       border: 3px solid var(--md-surface-container-low);
     }
 
-    /* ===================================================
-       手机端适配 ( max-width: 768px )
-       =================================================== */
+    /* ============================================================
+       15. 响应式 — 手机端
+       ============================================================ */
     @media (max-width: 768px) {
-      /* 全局调整 */
-      body {
-        line-height: 1.65;
-      }
-      .container {
-        padding: 0 20px;
-      }
-      section {
-        padding: 70px 0;
-      }
-      .section-title {
-        font-size: 1.9rem;
-      }
+      .container { padding: 0 20px; }
+      section { padding: 70px 0; }
+
+      .section-title { font-size: 1.9rem; }
       .section-title::after {
         width: 44px;
         height: 5px;
@@ -674,37 +831,30 @@
         font-size: .98rem;
       }
 
-      /* 导航栏 - 转为两行/可换行 */
-      header {
-        padding: 12px 0;
-      }
-      header.scrolled {
-        padding: 8px 0;
-      }
+      /* 导航 */
+      header { padding: 12px 0; }
+      header.scrolled { padding: 8px 0; }
       nav {
         flex-wrap: wrap;
         justify-content: center;
+        gap: 6px;
         padding: 10px 16px;
         border-radius: 28px;
-        gap: 6px;
       }
       .logo {
-        font-size: 1.1rem;
         padding-left: 0;
+        font-size: 1.1rem;
       }
-      .logo-dot {
-        width: 10px;
-        height: 10px;
-      }
+      .logo-dot { width: 10px; height: 10px; }
       .nav-right {
         flex-wrap: wrap;
         justify-content: center;
         gap: 8px;
       }
       .nav-links {
-        gap: 0;
         flex-wrap: wrap;
         justify-content: center;
+        gap: 0;
       }
       .nav-links a {
         padding: 6px 12px;
@@ -716,7 +866,7 @@
         font-size: 1rem;
       }
 
-      /* 英雄区 - 单列居中 */
+      /* 英雄区 */
       #hero {
         min-height: auto;
         padding-top: 140px;
@@ -728,109 +878,85 @@
         text-align: center;
       }
       .hero-badge {
-        font-size: .78rem;
-        padding: 8px 18px;
         margin-bottom: 20px;
+        padding: 8px 18px;
+        font-size: .78rem;
       }
       .hero-title {
         font-size: clamp(2.2rem, 8vw, 3rem);
         letter-spacing: -1px;
       }
       .hero-desc {
-        font-size: 1rem;
-        margin-bottom: 30px;
         max-width: 100%;
+        margin-bottom: 30px;
+        font-size: 1rem;
       }
-      .btn-group {
-        justify-content: center;
-        gap: 14px;
-      }
+      .btn-group { justify-content: center; gap: 14px; }
       .btn {
         padding: 14px 26px;
         font-size: .88rem;
       }
-      .avatar-wrap {
-        order: -1; /* 头像在手机上优先显示 */
-      }
+      .avatar-wrap { order: -1; }
       .avatar-disc {
         width: 220px;
         height: 220px;
         padding: 14px;
       }
-      .avatar-disc::after {
-        inset: 18px;
-      }
+      .avatar-disc::after { inset: 18px; }
 
-      /* 关于 - 单列 */
+      /* 关于 */
       .about-grid {
         grid-template-columns: 1fr;
         gap: 40px;
       }
       .about-text p {
-        font-size: .96rem;
         margin-bottom: 14px;
+        font-size: .96rem;
       }
       .about-tags {
         gap: 8px;
         margin-top: 18px;
       }
       .tag {
-        font-size: .72rem;
         padding: 5px 12px;
+        font-size: .72rem;
       }
       .stats {
         grid-template-columns: 1fr 1fr;
         gap: 16px;
         margin-top: 28px;
       }
-      .stat {
-        padding: 20px 12px;
-      }
-      .stat-num {
-        font-size: 1.6rem;
-      }
-      .stat-label {
-        font-size: .75rem;
-      }
-      .about-img-frame {
-        padding: 12px;
-      }
+      .stat { padding: 20px 12px; }
+      .stat-num { font-size: 1.6rem; }
+      .stat-label { font-size: .75rem; }
+      .about-img-frame { padding: 12px; }
       .version-badge {
         margin-top: 20px;
-        font-size: .72rem;
         padding: 6px 14px;
+        font-size: .72rem;
       }
 
-      /* 技能 - 两列 */
+      /* 技能 */
       .skills-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 18px;
       }
-      .skill-card {
-        padding: 22px 16px;
-      }
-      .skill-icon {
+      .skill-card { padding: 22px 16px; }
+      .icon-block {
         width: 48px;
         height: 48px;
         font-size: 1.3rem;
         border-radius: 14px;
         margin-bottom: 14px;
       }
-      .skill-icon::after {
-        border-radius: 14px;
-      }
       .skill-card h3 {
         font-size: .98rem;
         margin-bottom: 6px;
       }
-      .skill-card p {
-        font-size: .82rem;
-      }
+      .skill-card p { font-size: .82rem; }
 
       /* 时间线 */
-      .timeline {
-        padding-left: 28px;
-      }
+      .timeline { padding-left: 28px; }
       .timeline::before {
         left: 8px;
         width: 5px;
@@ -848,17 +974,15 @@
         border-width: 3px;
       }
       .timeline-date {
-        font-size: .72rem;
-        padding: 3px 12px;
         margin-bottom: 8px;
+        padding: 3px 12px;
+        font-size: .72rem;
       }
       .timeline-item h3 {
         font-size: 1.02rem;
         margin-bottom: 6px;
       }
-      .timeline-item p {
-        font-size: .86rem;
-      }
+      .timeline-item p { font-size: .86rem; }
 
       /* 联系 */
       .contact-links {
@@ -882,24 +1006,16 @@
       }
     }
 
-    /* 超小屏 ( < 400px ) 微调 */
+    /* 超小屏 */
     @media (max-width: 400px) {
-      .container {
-        padding: 0 14px;
-      }
-      .hero-title {
-        font-size: 2rem;
-      }
+      .container { padding: 0 14px; }
+      .hero-title { font-size: 2rem; }
       .avatar-disc {
         width: 180px;
         height: 180px;
       }
-      .skills-grid {
-        grid-template-columns: 1fr;
-      }
-      .stats {
-        grid-template-columns: 1fr;
-      }
+      .skills-grid { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr; }
       .nav-links a {
         padding: 5px 8px;
         font-size: .72rem;
@@ -911,9 +1027,10 @@
     }
   </style>
 </head>
+
 <body class="no-js">
 
-<!-- ===== 导航栏 ===== -->
+<!-- ==================== 导航栏 ==================== -->
 <header id="header">
   <nav>
     <div class="logo">
@@ -922,253 +1039,380 @@
     </div>
     <div class="nav-right">
       <ul class="nav-links">
-        <li><a href="#hero">首页</a></li>
-        <li><a href="#about">关于</a></li>
-        <li><a href="#skills">技能</a></li>
-        <li><a href="#timeline">历程</a></li>
-        <li><a href="#contact">联系</a></li>
+        <li><a href="#hero" class="focus-ring">首页</a></li>
+        <li><a href="#about" class="focus-ring">关于</a></li>
+        <li><a href="#skills" class="focus-ring">技能</a></li>
+        <li><a href="#timeline" class="focus-ring">历程</a></li>
+        <li><a href="#contact" class="focus-ring">联系</a></li>
       </ul>
-      <button class="theme-toggle" id="themeToggle" title="切换主题">🌙</button>
+      <button class="theme-toggle focus-ring" id="themeToggle" title="切换主题">🌙</button>
     </div>
   </nav>
 </header>
 
-<!-- ===== 英雄区 ===== -->
-<section id="hero">
-  <div class="container hero-inner">
-    <div>
-      <span class="hero-badge">B站 UP主 · Android 折腾党</span>
-      <h1 class="hero-title">
-        我是 <span class="gradient">鸢见夜樱</span><br>
-        一位「安卓」UP主
-      </h1>
-      <p class="hero-desc">
-        最大的喜好是折腾开放的系统。刷机、Magisk、ROM、内核……
-        在这里记录我与 Android 的故事。
-      </p>
-      <div class="btn-group">
-        <a href="#timeline" class="btn btn-primary">我的历程 →</a>
-        <a href="https://space.bilibili.com/2091587008" target="_blank" class="btn">B站主页</a>
-      </div>
-    </div>
-    <div class="avatar-wrap">
-      <div class="avatar-disc">
-        <img class="avatar"
-          src="websrc/avatar.jpeg"
-          alt="鸢见夜樱的头像">
-      </div>
-    </div>
-  </div>
-</section>
+<main>
 
-<!-- ===== 关于我 ===== -->
-<section id="about">
-  <div class="container">
-    <h2 class="section-title reveal">关于我</h2>
-    <p class="section-sub reveal">简单介绍一下自己</p>
-    <div class="about-grid">
-      <div class="about-text reveal">
-        <p>你好，我是 <strong>鸢见夜樱</strong>，一名热爱折腾 Android 系统的 UP 主。目前 B 站等级 <strong>Lv6</strong>，已经发布了 <strong>19</strong> 个投稿视频。</p>
-        <p>我最大的喜好是折腾开放的系统——从刷机、Magisk 模块、自定义 ROM 到内核调优，只要是能"折腾"的地方，我都想试试。</p>
-        <p>除了折腾手机，我还是个 <strong>10 后</strong>，喜欢玩 <strong>FPS 游戏</strong> 和 <strong>音游</strong>，听 <strong>速核音乐</strong>，偶尔也会以 <strong>猫娘</strong> 的身份出没。<span class="secret-yandere" id="secretText">同时还是个病娇猫娘…</span>希望我的内容能帮到同样喜欢 Android 的你。</p>
-        <div class="about-tags">
-          <span class="tag">10后</span>
-          <span class="tag">FPS玩家</span>
-          <span class="tag">音游</span>
-          <span class="tag">速核音乐</span>
-          <span class="tag">猫娘</span>
-          <span class="tag secret-yandere" id="secretTag">病娇</span>
+  <!-- ==================== 英雄区 ==================== -->
+  <section id="hero">
+    <div class="container hero-inner">
+      <div>
+        <span class="hero-badge">B站 UP主 · Android 折腾党</span>
+        <h1 class="hero-title">
+          我是 <span class="gradient">鸢见夜樱</span><br>
+          一位「安卓」UP主
+        </h1>
+        <p class="hero-desc">
+          最大的喜好是折腾开放的系统。刷机、Magisk、ROM、内核……
+          在这里记录我与 Android 的故事。
+        </p>
+        <div class="btn-group">
+          <a href="#timeline" class="btn btn-primary focus-ring">我的历程 →</a>
+          <a href="https://space.bilibili.com/2091587008"
+             target="_blank" rel="noopener"
+             class="btn focus-ring">B站主页</a>
         </div>
-        <div class="stats">
-          <div class="stat"><div>普通</div><div class="stat-num">10</div><div class="stat-label">后</div></div>
-          <div class="stat"><div>安卓</div><div class="stat-num">13</div><div class="stat-label">开始玩机</div></div>
-        </div>
-        <div class="version-badge" id="versionBadge">v2.3.0</div>
       </div>
-      <div class="reveal">
-        <div class="about-img-frame">
-          <img class="about-img"
-               id="aboutAvatar"
-               src="websrc/avatar1.jpeg"
-               alt="鸢见夜樱">
+      <div class="avatar-wrap">
+        <div class="avatar-disc">
+          <img class="avatar" src="websrc/avatar.jpeg" alt="鸢见夜樱的头像">
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ===== 技能 ===== -->
-<section id="skills">
-  <div class="container">
-    <h2 class="section-title reveal">我的技能</h2>
-    <p class="section-sub reveal">折腾 Android 的时间</p>
-    <div class="skills-grid">
-      <div class="skill-card reveal">
-        <div class="skill-icon">📱</div>
-        <h3>刷机</h3>
-        <p>解锁 BL、刷入自定义 ROM以及TWRP与橙狐rec。</p>
-      </div>
-      <div class="skill-card reveal">
-        <div class="skill-icon">🧩</div>
-        <h3>root模块</h3>
-        <p>Root权限管理、Magisk/KernelSU模块更改与调试、Xposed。</p>
-      </div>
-      <div class="skill-card reveal">
-        <div class="skill-icon">⚙️</div>
-        <h3>系统更改</h3>
-        <p>系统应用冻结、build.prop修改。</p>
-      </div>
-      <div class="skill-card reveal">
-        <div class="skill-icon">🔓</div>
-        <h3>破解</h3>
-        <p>儿童手表、MP3播放器等设备的破解与Root探索。</p>
+  <!-- ==================== 关于我 ==================== -->
+  <section id="about">
+    <div class="container">
+      <h2 class="section-title reveal">关于我</h2>
+      <p class="section-sub reveal">简单介绍一下自己</p>
+
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>你好，我是 <strong>鸢见夜樱</strong>，一名热爱折腾 Android 系统的 UP 主。目前 B 站等级 <strong>Lv6</strong>，已经发布了 <strong>19</strong> 个投稿视频。</p>
+          <p>我最大的喜好是折腾开放的系统——从刷机、Magisk 模块、自定义 ROM 到内核调优，只要是能"折腾"的地方，我都想试试。</p>
+          <p>
+            除了折腾手机，我还是个 <strong>10 后</strong>，喜欢玩 <strong>FPS 游戏</strong> 和 <strong>音游</strong>，
+            听 <strong>速核音乐</strong>，偶尔也会以 <strong>猫娘</strong> 的身份出没。
+            <span class="secret-yandere" id="secretText">同时还是个病娇猫娘…</span>
+            希望我的内容能帮到同样喜欢 Android 的你。
+          </p>
+
+          <div class="about-tags">
+            <span class="tag">10后</span>
+            <span class="tag">FPS玩家</span>
+            <span class="tag">音游</span>
+            <span class="tag">速核音乐</span>
+            <span class="tag">猫娘</span>
+            <span class="tag secret-yandere" id="secretTag">病娇</span>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <div>普通</div>
+              <div class="stat-num">10</div>
+              <div class="stat-label">后</div>
+            </div>
+            <div class="stat">
+              <div>安卓</div>
+              <div class="stat-num">13</div>
+              <div class="stat-label">开始玩机</div>
+            </div>
+          </div>
+
+          <div class="version-badge focus-ring" id="versionBadge">v2.3.0</div>
+        </div>
+
+        <div class="reveal">
+          <div class="about-img-frame">
+            <img class="about-img" id="aboutAvatar"
+                 src="websrc/avatar1.jpeg" alt="鸢见夜樱">
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ===== 时间线 ===== -->
-<section id="timeline">
-  <div class="container">
-    <h2 class="section-title reveal">折腾历程</h2>
-    <p class="section-sub reveal">我与 Android </p>
-    <div class="timeline">
-      <div class="timeline-item reveal">
-        <span class="timeline-date">2022</span>
-        <h3>破解小天才 Z6_DFB </h3>
-        <p>从破解小天才 Z6_DFB 开始，第一次接触刷机，从此走上折腾之路。</p>
-      </div>
-      <div class="timeline-item reveal">
-        <span class="timeline-date">2023 上半年</span>
-        <h3>成功破解倾听者 K3</h3>
-        <p>成功破解倾听者 K3，把封闭单一的播放器变成可自由折腾的设备。</p>
-      </div>
-      <div class="timeline-item reveal">
-        <span class="timeline-date">2024 年 5 月</span>
-        <h3>获取倾听者 K5 的 Root 权限</h3>
-        <p>经过持续探索，成功获取倾听者 K5 的 Root 权限，进一步深入系统底层。</p>
+  <!-- ==================== 技能 ==================== -->
+  <section id="skills">
+    <div class="container">
+      <h2 class="section-title reveal">我的技能</h2>
+      <p class="section-sub reveal">折腾 Android 的时间</p>
+
+      <div class="skills-grid">
+        <article class="skill-card reveal">
+          <div class="icon-block">📱</div>
+          <h3>刷机</h3>
+          <p>解锁 BL、刷入自定义 ROM 以及 TWRP 与橙狐 rec。</p>
+        </article>
+
+        <article class="skill-card reveal">
+          <div class="icon-block">🧩</div>
+          <h3>Root 模块</h3>
+          <p>Root 权限管理、Magisk / KernelSU 模块更改与调试、Xposed。</p>
+        </article>
+
+        <article class="skill-card reveal">
+          <div class="icon-block">⚙️</div>
+          <h3>系统更改</h3>
+          <p>系统应用冻结、build.prop 修改。</p>
+        </article>
+
+        <article class="skill-card reveal">
+          <div class="icon-block">🔓</div>
+          <h3>破解</h3>
+          <p>儿童手表、MP3 播放器等设备的破解与 Root 探索。</p>
+        </article>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ===== 联系 ===== -->
-<section id="contact">
-  <div class="container">
-    <h2 class="section-title reveal">联系我</h2>
-    <p class="section-sub reveal">想聊聊 Android 或合作？欢迎联系</p>
-    <div class="contact-links reveal">
-      <a class="contact-link" href="mailto:ljy330104@126.com">📧 我的邮箱</a>
-      <a class="contact-link" href="https://space.bilibili.com/2091587008" target="_blank">📺 B站主页</a>
-      <a class="contact-link" href="https://space.bilibili.com/2091587008" target="_blank">💬 私信我</a>
+  <!-- ==================== 时间线 ==================== -->
+  <section id="timeline">
+    <div class="container">
+      <h2 class="section-title reveal">折腾历程</h2>
+      <p class="section-sub reveal">我与 Android</p>
+
+      <div class="timeline">
+        <article class="timeline-item reveal">
+          <span class="timeline-date">2022</span>
+          <h3>破解小天才 Z6_DFB</h3>
+          <p>从破解小天才 Z6_DFB 开始，第一次接触刷机，从此走上折腾之路。</p>
+        </article>
+
+        <article class="timeline-item reveal">
+          <span class="timeline-date">2023 上半年</span>
+          <h3>成功破解倾听者 K3</h3>
+          <p>成功破解倾听者 K3，把封闭单一的播放器变成可自由折腾的设备。</p>
+        </article>
+
+        <article class="timeline-item reveal">
+          <span class="timeline-date">2024 年 5 月</span>
+          <h3>获取倾听者 K5 的 Root 权限</h3>
+          <p>经过持续探索，成功获取倾听者 K5 的 Root 权限，进一步深入系统底层。</p>
+        </article>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ===== 页脚 ===== -->
+  <!-- ==================== 联系 ==================== -->
+  <section id="contact" class="section-center">
+    <div class="container">
+      <h2 class="section-title reveal">联系我</h2>
+      <p class="section-sub reveal">想聊聊 Android 或合作？欢迎联系</p>
+
+      <div class="contact-links reveal">
+        <a class="contact-link focus-ring" href="mailto:ljy330104@126.com">
+          📧 我的邮箱
+        </a>
+        <a class="contact-link focus-ring"
+           href="https://space.bilibili.com/2091587008"
+           target="_blank" rel="noopener">
+          📺 B站主页
+        </a>
+        <a class="contact-link focus-ring"
+           href="https://space.bilibili.com/2091587008"
+           target="_blank" rel="noopener">
+          💬 私信我
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ==================== 页脚 ==================== -->
 <footer>
   <div class="container">
-    © 2026 鸢见夜樱 · 用 <span class="heart">♥</span> 、代码和大肥鱼的辅助搭建
+    © 2026 鸢见夜樱 · 用 <span class="heart">♥</span>、代码和大肥鱼的辅助搭建
   </div>
 </footer>
 
 <script>
-  // 移除 no-js 类
-  document.body.classList.remove('no-js');
-
-  // ===== 导航栏滚动 =====
-  const header = document.getElementById('header');
-  window.addEventListener('scroll', () => {
-    header.classList.toggle('scrolled', window.scrollY > 20);
-  });
-
-  // ===== 主题切换 =====
-  const themeToggle = document.getElementById('themeToggle');
-  const root = document.documentElement;
-
-  const savedTheme = localStorage.getItem('theme') || 'light';
-  root.setAttribute('data-theme', savedTheme);
-  themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-
-  themeToggle.addEventListener('click', () => {
-    const current = root.getAttribute('data-theme');
-    const next = current === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
-    themeToggle.textContent = next === 'dark' ? '☀️' : '🌙';
-    themeToggle.style.transform = 'scale(0.85) rotate(180deg)';
-    setTimeout(() => { themeToggle.style.transform = ''; }, 300);
-  });
-
-  // ===== 滚动动画（带兜底） =====
+  /* ============================================================
+     应用主逻辑（IIFE 隔离作用域）
+     ============================================================ */
   (function () {
-    const els = document.querySelectorAll('.reveal');
-    if (!('IntersectionObserver' in window)) {
-      els.forEach(el => el.classList.add('active'));
-      return;
+    'use strict';
+
+    /* ----------------------------------------------------------
+       工具函数
+       ---------------------------------------------------------- */
+    const $  = (sel) => document.querySelector(sel);
+    const $$ = (sel) => document.querySelectorAll(sel);
+
+    /* ----------------------------------------------------------
+       模块 1：主题切换
+       ---------------------------------------------------------- */
+    const Theme = (() => {
+      const KEY = 'theme';
+      const root = document.documentElement;
+      const btn = $('#themeToggle');
+
+      const apply = (theme) => {
+        root.setAttribute('data-theme', theme);
+        btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+        localStorage.setItem(KEY, theme);
+      };
+
+      const init = () => {
+        const saved = localStorage.getItem(KEY) || 'light';
+        apply(saved);
+
+        btn.addEventListener('click', () => {
+          const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+          apply(next);
+          // 旋转动画
+          btn.style.transform = 'scale(0.85) rotate(180deg)';
+          setTimeout(() => { btn.style.transform = ''; }, 300);
+        });
+      };
+
+      return { init };
+    })();
+
+    /* ----------------------------------------------------------
+       模块 2：导航栏滚动效果
+       ---------------------------------------------------------- */
+    const Navbar = (() => {
+      const header = $('#header');
+
+      const init = () => {
+        const onScroll = () => {
+          header.classList.toggle('scrolled', window.scrollY > 20);
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+      };
+
+      return { init };
+    })();
+
+    /* ----------------------------------------------------------
+       模块 3：滚动入场动画（带兜底）
+       ---------------------------------------------------------- */
+    const Reveal = (() => {
+      const SEL = '.reveal';
+
+      const show = (el) => el.classList.add('active');
+
+      const init = () => {
+        const els = $$(SEL);
+
+        // 兜底 1：不支持 IntersectionObserver → 全部显示
+        if (!('IntersectionObserver' in window)) {
+          els.forEach(show);
+          return;
+        }
+
+        // 主逻辑
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              show(entry.target);
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.01,
+          rootMargin: '0px 0px -60px 0px'
+        });
+
+        els.forEach((el) => observer.observe(el));
+
+        // 兜底 2：3 秒后强制显示视口内的元素
+        setTimeout(() => {
+          els.forEach((el) => {
+            if (!el.classList.contains('active')
+                && el.getBoundingClientRect().top < window.innerHeight) {
+              show(el);
+            }
+          });
+        }, 3000);
+
+        // 兜底 3：滚动时补检查
+        window.addEventListener('scroll', () => {
+          els.forEach((el) => {
+            if (!el.classList.contains('active')
+                && el.getBoundingClientRect().top < window.innerHeight - 40) {
+              show(el);
+            }
+          });
+        }, { passive: true });
+      };
+
+      return { init };
+    })();
+
+    /* ----------------------------------------------------------
+       模块 4：版本号彩蛋
+       - 连点 7 下：显示病娇内容 + 切换头像 + 跳转 GitHub
+       ---------------------------------------------------------- */
+    const EasterEgg = (() => {
+      const CLICK_TARGET   = 7;
+      const RESET_MS       = 1500;
+      const REDIRECT_DELAY = 1500;
+      const REDIRECT_URL   = 'https://github.com/hushenghao/AndroidEasterEggs';
+
+      const badge = $('#versionBadge');
+      const avatar = $('#aboutAvatar');
+      const secretText = $('#secretText');
+      const secretTag = $('#secretTag');
+
+      let count = 0;
+      let timer = null;
+
+      const reset = () => { count = 0; };
+
+      const trigger = () => {
+        // 1. 显示隐藏内容
+        secretText.classList.add('revealed');
+        secretTag.classList.add('revealed');
+
+        // 2. 切换头像
+        avatar.src = 'websrc/avatar2.jpeg';
+
+        // 3. 滚动到"关于"板块
+        $('#about').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        // 4. 延迟后跳转
+        setTimeout(() => {
+          window.open(REDIRECT_URL, '_blank', 'noopener,noreferrer');
+        }, REDIRECT_DELAY);
+      };
+
+      const init = () => {
+        badge.addEventListener('click', () => {
+          count++;
+          clearTimeout(timer);
+          timer = setTimeout(reset, RESET_MS);
+
+          if (count >= CLICK_TARGET) {
+            reset();
+            trigger();
+          }
+        });
+      };
+
+      return { init };
+    })();
+
+    /* ----------------------------------------------------------
+       启动
+       ---------------------------------------------------------- */
+    const boot = () => {
+      document.body.classList.remove('no-js');
+      Theme.init();
+      Navbar.init();
+      Reveal.init();
+      EasterEgg.init();
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', boot);
+    } else {
+      boot();
     }
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('active');
-          observer.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.01, rootMargin: '0px 0px -60px 0px' });
-    els.forEach(el => observer.observe(el));
-    setTimeout(() => {
-      els.forEach(el => {
-        if (!el.classList.contains('active')) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top < window.innerHeight) el.classList.add('active');
-        }
-      });
-    }, 3000);
-    window.addEventListener('scroll', () => {
-      els.forEach(el => {
-        if (!el.classList.contains('active')) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top < window.innerHeight - 40) el.classList.add('active');
-        }
-      });
-    }, { passive: true });
   })();
-
-  // ===== 版本号连点 7 下 → 显示病娇彩蛋 + 切换头像 + 跳转 GitHub =====
-  const versionBadge = document.getElementById('versionBadge');
-  const aboutAvatar = document.getElementById('aboutAvatar');
-  const EASTER_EGG_URL = 'https://github.com/hushenghao/AndroidEasterEggs';
-  let clickCount = 0;
-  let clickTimer = null;
-
-  versionBadge.addEventListener('click', () => {
-    clickCount++;
-    clearTimeout(clickTimer);
-    // 静默计数，不显示进度
-    clickTimer = setTimeout(() => { clickCount = 0; }, 1500);
-
-    if (clickCount >= 7) {
-      clickCount = 0;
-
-      // 1. 显示隐藏内容
-      document.getElementById('secretText').classList.add('revealed');
-      document.getElementById('secretTag').classList.add('revealed');
-
-      // 2. 切换“关于”页头像为 avatar2.jpeg
-      aboutAvatar.src = 'websrc/avatar2.jpeg';
-
-      // 3. 滚动到"关于"板块中心，让用户看到
-      document.getElementById('about').scrollIntoView({
-        behavior: 'smooth',
-        block: 'center'
-      });
-
-      // 4. 延迟 1.5 秒后跳转 GitHub（留时间看彩蛋）
-      setTimeout(() => {
-        window.open(EASTER_EGG_URL, '_blank', 'noopener,noreferrer');
-      }, 1500);
-    }
-  });
 </script>
 
 </body>
