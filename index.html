@@ -487,23 +487,23 @@
   }
 
   /* ============================================================
-     7. 英雄区
+     7. 角色区
      ============================================================ */
-  #hero {
+  #char {
     min-height: 100vh;
     display: flex;
     align-items: center;
     padding-top: 120px;
   }
 
-  .hero-inner {
+  .char-inner {
     display: grid;
     grid-template-columns: 1.35fr 1fr;
     gap: 80px;
     align-items: center;
   }
 
-  .hero-badge {
+  .char-badge {
     display: inline-flex;
     align-items: center;
     gap: 10px;
@@ -516,7 +516,7 @@
     border-radius: var(--radius-full);
     box-shadow: var(--nm-in-sm);
   }
-  .hero-badge::before {
+  .char-badge::before {
     content: "";
     width: 7px;
     height: 7px;
@@ -529,14 +529,14 @@
     50%      { opacity: .5; transform: scale(1.3); }
   }
 
-  .hero-title {
+  .char-title {
     font-size: clamp(2.5rem, 4.5vw, 3.8rem);
     font-weight: 800;
     line-height: 1.15;
     letter-spacing: -2px;
     margin-bottom: 20px;
   }
-  .hero-title .gradient {
+  .char-title .gradient {
     background: linear-gradient(120deg,
       var(--md-primary),
       var(--md-tertiary),
@@ -553,7 +553,7 @@
     50%      { background-position: 100% 50%; }
   }
 
-  .hero-desc {
+  .char-desc {
     max-width: 540px;
     margin-bottom: 40px;
     font-size: 1.12rem;
@@ -589,7 +589,7 @@
   }
   @keyframes float {
     0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(-10px); }
+    50%      { transform: translateY(0); }
   }
 
   /* ============================================================
@@ -732,7 +732,7 @@
     position: relative;
     max-width: 800px;
     margin: 0 auto;
-    padding-left: 36px;
+    padding-left: 41px;
   }
   .timeline::before {
     content: "";
@@ -1056,27 +1056,27 @@
       font-size: .95rem;
     }
 
-    /* 英雄区 */
-    #hero {
+    /* 角色区 */
+    #char {
       min-height: auto;
       padding-top: 140px;
       padding-bottom: 40px;
     }
-    .hero-inner {
+    .char-inner {
       grid-template-columns: 1fr;
       gap: 36px;
       text-align: center;
     }
-    .hero-badge {
+    .char-badge {
       margin-bottom: 20px;
       padding: 7px 16px;
       font-size: .75rem;
     }
-    .hero-title {
+    .char-title {
       font-size: clamp(2.1rem, 8vw, 2.8rem);
       letter-spacing: -1px;
     }
-    .hero-desc {
+    .char-desc {
       max-width: 100%;
       margin-bottom: 28px;
       font-size: .96rem;
@@ -1240,7 +1240,7 @@
   /* 超小屏 */
   @media (max-width: 400px) {
     .container { padding: 0 14px; }
-    .hero-title { font-size: 1.95rem; }
+    .char-title { font-size: 1.95rem; }
     .avatar-disc {
       width: 170px;
       height: 170px;
@@ -1281,7 +1281,7 @@
     </div>
     <div class="nav-right">
       <ul class="nav-links">
-        <li><a href="#hero" class="focus-ring">首页</a></li>
+        <li><a href="#char" class="focus-ring">首页</a></li>
         <li><a href="#about" class="focus-ring">关于</a></li>
         <li><a href="#skills" class="focus-ring">技能</a></li>
         <li><a href="#timeline" class="focus-ring">历程</a></li>
@@ -1296,16 +1296,16 @@
 
 <main>
 
-  <!-- ==================== 英雄区 ==================== -->
-  <section id="hero">
-    <div class="container hero-inner">
+  <!-- ==================== 角色区 ==================== -->
+  <section id="char">
+    <div class="container char-inner">
       <div>
-        <span class="hero-badge">Hello, World!</span>
-        <h1 class="hero-title">
+        <span class="char-badge">Hello, World!</span>
+        <h1 class="char-title">
           我是 <span class="gradient">鸢见夜樱</span>，<br>
           喜欢折腾电子设备
         </h1>
-        <p class="hero-desc">
+        <p class="char-desc">
           对折腾电子设备有浓厚的兴趣。刷机、Magisk、ROM、内核……
           在这里记录我与 Android 以及各种设备的故事。
         </p>
@@ -1419,67 +1419,67 @@
         <article class="timeline-item reveal">
           <span class="timeline-date">2022</span>
           <h3>破解小天才 Z6_DFB</h3>
-          <p>从破解小天才 Z6_DFB 开始，一步步学习ADB、root、9008……从此走上折腾之路。</p>
+          <p>从破解小天才 Z6_DFB 开始，一步步学习ADB、root、9008……从此走上折腾之路</p>
         </article>
 
         <article class="timeline-item reveal">
           <span class="timeline-date">2023 上半年</span>
           <h3>成功破解倾听者 K3</h3>
-          <p>成功破解倾听者 K3，把封闭单一的播放器变成可自由折腾的设备。</p>
+          <p>成功破解倾听者 K3，把封闭单一的播放器变成可自由折腾的设备</p>
         </article>
 
         <article class="timeline-item reveal">
           <span class="timeline-date">2023</span>
           <h3>在 iOS 设备上安装 TrollStore</h3>
-          <p>在 iOS 设备上成功安装 TrollStore，实现了免签名安装第三方应用。</p>
+          <p>在 iOS 设备上成功安装 TrollStore，实现了免签名安装第三方应用</p>
         </article>
 
         <article class="timeline-item reveal">
           <span class="timeline-date">2023</span>
           <h3>利用 winra1n 首次越狱苹果设备</h3>
-          <p>借助 winra1n 工具，第一次成功越狱 iOS 设备，打开了 iOS 生态的另一扇门。</p>
+          <p>借助 winra1n 工具，第一次成功越狱 iOS 设备，打开了 iOS 生态的另一扇门</p>
         </article>
 
         <article class="timeline-item reveal">
           <span class="timeline-date">2024 年 5 月</span>
           <h3>获取倾听者 K5 的 Root 权限</h3>
-          <p>经过持续探索，成功获取倾听者 K5 的 Root 权限，进一步深入系统底层。</p>
+          <p>经过持续探索，成功获取倾听者 K5 的 Root 权限，进一步深入系统底层</p>
         </article>
 
         <article class="timeline-item reveal">
           <span class="timeline-date">2024 年末</span>
           <h3>入手第一套 VR 设备</h3>
-          <p>不算大厂的设备，但是功能齐全。《半衰期：Alyx》是真好玩。</p>
+          <p>不算大厂的设备，但是功能齐全。《半衰期：Alyx》是真好玩</p>
         </article>
 
         <article class="timeline-item reveal">
           <span class="timeline-date">2025 上半年</span>
           <h3>在德州仪器计算器上安装 Ndless</h3>
-          <p>在德州仪器计算器上成功安装 Ndless，让计算器也能运行原生 C 程序和 3D 程序。</p>
+          <p>在德州仪器计算器上成功安装 Ndless，让计算器也能运行原生 C 程序和 3D 程序</p>
         </article>
 
         <article class="timeline-item reveal">
           <span class="timeline-date">2025</span>
           <h3>在 Arch Linux 上试用 Hyprland</h3>
-          <p>在 Arch Linux 上尝试了 Hyprland 平铺窗口管理器，体验了一番 Wayland 下的炫酷桌面，不过现在已经停止使用。</p>
+          <p>在 Arch Linux 上尝试了 Hyprland 桌面环境，体验了 Wayland 下的炫酷平铺式桌面，但是现已停止使用</p>
         </article>
 
         <article class="timeline-item reveal">
           <span class="timeline-date">2026 年 10 月初</span>
           <h3>本地部署文生图小模型</h3>
-          <p>在本地部署了文生图小模型"Vivid Orange Mix"，探索 AI 生成图像的玩法。</p>
+          <p>在本地部署了文生图小模型"Vivid Orange Mix"，探索 AI 生成图像的玩法</p>
         </article>
 
         <article class="timeline-item reveal">
           <span class="timeline-date">2026 年 10 月中</span>
           <h3>回退主力机安卓版本</h3>
-          <p>升级安卓 17 后悔，切槽位触发黑厂防回滚黑砖，遂至售后救砖。</p>
+          <p>升级安卓 17 后悔，切槽位触发黑厂防回滚黑砖，遂至售后救砖</p>
         </article>
 
         <article class="timeline-item reveal is-active">
           <span class="timeline-date">仍在折腾中</span>
           <h3>持续探索开放系统</h3>
-          <p>折腾没有终点——继续折腾新设备、新系统、新玩法，也把这些过程分享在 B 站、酷安，以及更多的平台上。</p>
+          <p>折腾没有终点——继续折腾新设备、新系统、新玩法，也把这些过程分享在 B 站、酷安，以及更多的平台上</p>
         </article>
       </div>
     </div>
