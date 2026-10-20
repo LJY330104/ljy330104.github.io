@@ -8,8 +8,8 @@
   <!-- ============================================================
        SEO / 社交分享
        ============================================================ -->
-  <meta name="description" content="鸢见夜樱的个人网站 —— 一位热爱折腾 Android 系统的 B站 UP主，记录刷机、Magisk、ROM、内核调优与破解的故事。">
-  <meta name="keywords" content="鸢见夜樱,Android,刷机,Magisk,ROM,Root,B站UP主,玩机">
+  <meta name="description" content="鸢见夜樱的个人网站 —— 一位热爱折腾 Android 系统的学生，记录刷机、Magisk、ROM、内核调优与破解的故事。">
+  <meta name="keywords" content="鸢见夜樱,Android,刷机,Magisk,ROM,Root,玩机">
   <meta name="author" content="鸢见夜樱">
   <meta name="theme-color" content="#39C5BB" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0E1514" media="(prefers-color-scheme: dark)">
@@ -17,14 +17,14 @@
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="鸢见夜樱 | 个人网站">
-  <meta property="og:description" content="一位热爱折腾 Android 系统的 B站 UP主，记录刷机、Magisk、ROM、内核调优与破解的故事。">
+  <meta property="og:description" content="一位热爱折腾 Android 系统的学生，记录刷机、Magisk、ROM、内核调优与破解的故事。">
   <meta property="og:image" content="websrc/avatar.jpeg">
   <meta property="og:locale" content="zh_CN">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="鸢见夜樱 | 个人网站">
-  <meta name="twitter:description" content="一位热爱折腾 Android 系统的 B站 UP主。">
+  <meta name="twitter:description" content="一位热爱折腾 Android 系统的学生。">
   <meta name="twitter:image" content="websrc/avatar.jpeg">
 
   <!-- 图标 -->
@@ -35,39 +35,39 @@
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
 
- <style>
+<style>
   /* ============================================================
-     1. 设计令牌（Design Tokens）
+     1. 设计令牌
      ------------------------------------------------------------
-     命名约定：
-       --md-*   → Material You (M3) 色彩与动效角色
-       --nm-*   → Neumorphism 新拟物派生值
-       阴影高光/暗部颜色均「跟随父容器背景」，避免纯白穿帮
+     风格：新扁平化 + Material You + 轻新拟物
+     交互规则：
+       · 可点击元素 → 常态凸起，hover/active 凹陷
+       · 不可点击元素 → 常态凹陷
      ============================================================ */
   :root {
-    /* ---------- 1.1 色彩：Primary ---------- */
+    /* ---------- 1.1 Primary ---------- */
     --md-primary: #006A63;
     --md-on-primary: #FFFFFF;
     --md-primary-container: #9CF2E8;
     --md-on-primary-container: #00201D;
 
-    /* ---------- 1.2 色彩：Secondary ---------- */
+    /* ---------- 1.2 Secondary ---------- */
     --md-secondary: #4A6360;
     --md-on-secondary: #FFFFFF;
     --md-secondary-container: #CCE8E4;
     --md-on-secondary-container: #051F1D;
 
-    /* ---------- 1.3 色彩：Tertiary ---------- */
+    /* ---------- 1.3 Tertiary ---------- */
     --md-tertiary: #4B607C;
     --md-on-tertiary: #FFFFFF;
     --md-tertiary-container: #D3E4FF;
     --md-on-tertiary-container: #041C35;
 
-    /* ---------- 1.4 色彩：Error ---------- */
+    /* ---------- 1.4 Error ---------- */
     --md-error: #BA1A1A;
     --md-on-error: #FFFFFF;
 
-    /* ---------- 1.5 色彩：Surface ---------- */
+    /* ---------- 1.5 Surface ---------- */
     --md-surface: #F5FBF9;
     --md-surface-dim: #D5DBD9;
     --md-surface-container-lowest: #FFFFFF;
@@ -76,65 +76,65 @@
     --md-surface-container-high: #E4EAE8;
     --md-surface-container-highest: #DEE4E2;
 
-    /* ---------- 1.6 色彩：On Surface ---------- */
+    /* ---------- 1.6 On Surface ---------- */
     --md-on-surface: #171D1C;
     --md-on-surface-variant: #3F4947;
 
-    /* ---------- 1.7 色彩：Outline ---------- */
+    /* ---------- 1.7 Outline ---------- */
     --md-outline: #6F7977;
     --md-outline-variant: #BEC9C6;
 
-    /* ---------- 1.8 新拟物基础色 ---------- */
-    /* 所有新拟物元素的背景都统一为这个色 */
+    /* ---------- 1.8 新拟物基础色（扁平化：对比更弱） ---------- */
     --nm-bg: #E9EFED;
-    /* 高光：比背景略亮，绝不是纯白 */
-    --nm-light: #FAFDFC;
-    /* 暗部：比背景略暗 */
-    --nm-dark: #C2CCCA;
+    --nm-light: #F4F9F7;   /* 高光：非常接近背景 */
+    --nm-dark: #CBD6D3;    /* 暗部：柔和，不刺眼 */
 
-    /* ---------- 1.9 兼容降级：背景光晕 ---------- */
-    --bg-glow-1: rgba(204, 232, 228, 0.60);
-    --bg-glow-2: rgba(211, 228, 255, 0.55);
-    --bg-glow-3: rgba(156, 242, 232, 0.50);
-    --bg-glow-4: rgba(204, 232, 228, 0.45);
+    /* ---------- 1.9 背景光晕 ---------- */
+    --bg-glow-1: rgba(204, 232, 228, 0.55);
+    --bg-glow-2: rgba(211, 228, 255, 0.50);
+    --bg-glow-3: rgba(156, 242, 232, 0.45);
+    --bg-glow-4: rgba(204, 232, 228, 0.40);
 
-    /* ---------- 1.10 M3 动效曲线 ---------- */
+    /* ---------- 1.10 M3 动效 ---------- */
     --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
     --ease-emphasized-decel: cubic-bezier(0.05, 0.7, 0.1, 1);
-    --ease-emphasized-accel: cubic-bezier(0.3, 0, 0.8, 0.15);
     --ease-standard: cubic-bezier(0.2, 0, 0, 1);
-    --ease-standard-decel: cubic-bezier(0, 0, 0, 1);
 
     /* ---------- 1.11 时长 ---------- */
-    --dur-short: 200ms;
-    --dur-medium: 350ms;
-    --dur-long: 500ms;
-    --dur-extra: 700ms;
+    --dur-short: 180ms;
+    --dur-medium: 320ms;
+    --dur-long: 480ms;
+    --dur-extra: 640ms;
 
     /* ---------- 1.12 圆角 ---------- */
     --radius-xs: 8px;
     --radius-sm: 12px;
     --radius-md: 16px;
-    --radius-lg: 24px;
+    --radius-lg: 22px;
     --radius-xl: 28px;
     --radius-full: 999px;
 
-    /* ---------- 1.13 新拟物阴影组合（统一，高光跟随背景） ---------- */
+    /* ---------- 1.13 新拟物阴影（扁平化：更轻、更柔） ---------- */
+    /* 凸起 */
     --nm-out:
-      8px 8px 18px var(--nm-dark),
-      -8px -8px 18px var(--nm-light);
-    --nm-out-sm:
       4px 4px 10px var(--nm-dark),
       -4px -4px 10px var(--nm-light);
+    --nm-out-sm:
+      2px 2px 6px var(--nm-dark),
+      -2px -2px 6px var(--nm-light);
     --nm-out-lg:
-      14px 14px 32px var(--nm-dark),
-      -14px -14px 32px var(--nm-light);
+      6px 6px 16px var(--nm-dark),
+      -6px -6px 16px var(--nm-light);
+    /* 凹陷 */
     --nm-in:
-      inset 6px 6px 12px var(--nm-dark),
-      inset -6px -6px 12px var(--nm-light);
+      inset 3px 3px 8px var(--nm-dark),
+      inset -3px -3px 8px var(--nm-light);
     --nm-in-sm:
-      inset 3px 3px 7px var(--nm-dark),
-      inset -3px -3px 7px var(--nm-light);
+      inset 2px 2px 5px var(--nm-dark),
+      inset -2px -2px 5px var(--nm-light);
+    --nm-in-lg:
+      inset 4px 4px 12px var(--nm-dark),
+      inset -4px -4px 12px var(--nm-light);
   }
 
   /* ============================================================
@@ -173,15 +173,14 @@
     --md-outline: #899390;
     --md-outline-variant: #3F4947;
 
-    /* 暗色新拟物：高光/暗部跟随深色背景 */
     --nm-bg: #1B2120;
-    --nm-light: #262E2D;
-    --nm-dark: #0A100F;
+    --nm-light: #252C2B;
+    --nm-dark: #111716;
 
-    --bg-glow-1: rgba(50, 75, 72, 0.45);
-    --bg-glow-2: rgba(51, 72, 99, 0.40);
-    --bg-glow-3: rgba(0, 80, 74, 0.40);
-    --bg-glow-4: rgba(50, 75, 72, 0.35);
+    --bg-glow-1: rgba(50, 75, 72, 0.40);
+    --bg-glow-2: rgba(51, 72, 99, 0.35);
+    --bg-glow-3: rgba(0, 80, 74, 0.35);
+    --bg-glow-4: rgba(50, 75, 72, 0.30);
   }
 
   /* ============================================================
@@ -206,7 +205,6 @@
                 color var(--dur-long) var(--ease-emphasized);
   }
 
-  /* 全局背景光晕（带 color-mix 降级） */
   body::before {
     content: "";
     position: fixed;
@@ -221,21 +219,11 @@
     transition: opacity var(--dur-long) var(--ease-emphasized);
   }
 
-  @supports (background: color-mix(in srgb, red 50%, blue)) {
-    body::before {
-      background:
-        radial-gradient(700px 500px at 12% 8%,  color-mix(in srgb, var(--md-secondary-container) 60%, transparent), transparent 65%),
-        radial-gradient(600px 500px at 88% 18%, color-mix(in srgb, var(--md-tertiary-container) 55%, transparent), transparent 65%),
-        radial-gradient(700px 600px at 78% 78%, color-mix(in srgb, var(--md-primary-container) 50%, transparent), transparent 65%),
-        radial-gradient(600px 500px at 18% 88%, color-mix(in srgb, var(--md-secondary-container) 45%, transparent), transparent 65%);
-    }
-  }
-
   a { color: inherit; text-decoration: none; }
   img { max-width: 100%; display: block; }
 
   /* ============================================================
-     4. 布局容器 & 通用区块
+     4. 布局 & 通用区块
      ============================================================ */
   .container {
     max-width: 1200px;
@@ -258,18 +246,17 @@
     content: "";
     display: block;
     width: 56px;
-    height: 6px;
-    border-radius: 6px;
+    height: 5px;
+    border-radius: 5px;
     background: linear-gradient(90deg,
       var(--md-primary), var(--md-tertiary), var(--md-secondary));
-    margin-top: 16px;
-    box-shadow: var(--nm-out-sm);
+    margin-top: 14px;
   }
 
   .section-sub {
     color: var(--md-on-surface-variant);
-    margin-bottom: 56px;
-    font-size: 1.05rem;
+    margin-bottom: 48px;
+    font-size: 1.02rem;
   }
 
   .section-center .section-title::after {
@@ -287,50 +274,45 @@
     outline-offset: 3px;
   }
 
-  /* 5.2 新拟物卡片（统一背景、统一阴影） */
-  .nm-card {
+  /* 5.2 【不可点击】展示卡片：常态凹陷 */
+  .display-card {
     background: var(--nm-bg);
     border-radius: var(--radius-lg);
-    box-shadow: var(--nm-out);
-    transition: transform var(--dur-medium) var(--ease-emphasized),
-                box-shadow var(--dur-medium) var(--ease-emphasized);
-  }
-  .nm-card:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--nm-out-lg);
+    box-shadow: var(--nm-in);
+    transition: box-shadow var(--dur-medium) var(--ease-emphasized);
   }
 
-  /* 5.3 新拟物按钮 */
+  /* 5.3 【可点击】交互按钮：常态凸起，hover/active 凹陷 */
   .btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 16px 34px;
+    padding: 14px 30px;
     border: none;
     border-radius: var(--radius-full);
     font-weight: 600;
-    font-size: .95rem;
+    font-size: .92rem;
     cursor: pointer;
     background: var(--nm-bg);
     color: var(--md-on-surface);
     box-shadow: var(--nm-out);
     position: relative;
-    overflow: hidden;
-    transition: box-shadow var(--dur-medium) var(--ease-emphasized),
-                transform var(--dur-medium) var(--ease-emphasized),
+    transition: box-shadow var(--dur-short) var(--ease-standard),
+                transform var(--dur-short) var(--ease-standard),
                 color var(--dur-short) var(--ease-standard);
   }
   .btn:hover {
     box-shadow: var(--nm-in);
-    transform: translateY(2px);
+    transform: translateY(1px);
+    color: var(--md-primary);
   }
   .btn:active {
-    transform: translateY(4px) scale(0.98);
     box-shadow: var(--nm-in);
+    transform: translateY(2px) scale(0.98);
   }
   .btn-primary { color: var(--md-primary); }
 
-  /* 5.4 标签 */
+  /* 5.4 【不可点击】标签：常态凹陷 */
   .tag {
     padding: 6px 14px;
     font-size: .78rem;
@@ -338,18 +320,18 @@
     border-radius: var(--radius-full);
     color: var(--md-primary);
     background: var(--nm-bg);
-    box-shadow: var(--nm-out-sm);
+    box-shadow: var(--nm-in-sm);
   }
 
-  /* 5.5 新拟物图标块 */
+  /* 5.5 【不可点击】图标块：常态凹陷 */
   .icon-block {
-    width: 64px;
-    height: 64px;
-    border-radius: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     background: var(--nm-bg);
     box-shadow: var(--nm-in);
     position: relative;
@@ -361,11 +343,11 @@
     border-radius: inherit;
     background: linear-gradient(135deg,
       var(--md-primary), var(--md-tertiary), var(--md-secondary));
-    opacity: .12;
+    opacity: .10;
     pointer-events: none;
   }
 
-  /* 5.6 回到顶部按钮 */
+  /* 5.6 【可点击】回到顶部：常态凸起，hover/active 凹陷 */
   .back-to-top {
     position: fixed;
     right: 28px;
@@ -377,7 +359,7 @@
     border-radius: 50%;
     background: var(--nm-bg);
     color: var(--md-primary);
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     cursor: pointer;
     box-shadow: var(--nm-out);
     display: flex;
@@ -389,8 +371,7 @@
     transition: opacity var(--dur-medium) var(--ease-emphasized),
                 visibility var(--dur-medium) var(--ease-emphasized),
                 transform var(--dur-medium) var(--ease-emphasized),
-                box-shadow var(--dur-short) var(--ease-standard),
-                color var(--dur-short) var(--ease-standard);
+                box-shadow var(--dur-short) var(--ease-standard);
   }
   .back-to-top.show {
     opacity: 1;
@@ -399,10 +380,11 @@
   }
   .back-to-top:hover {
     box-shadow: var(--nm-in);
-    transform: translateY(2px);
+    transform: translateY(1px);
   }
   .back-to-top:active {
-    transform: translateY(4px) scale(0.94);
+    box-shadow: var(--nm-in);
+    transform: translateY(2px) scale(0.94);
   }
 
   /* ============================================================
@@ -412,15 +394,15 @@
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 100;
-    padding: 20px 0;
+    padding: 18px 0;
     transition: padding var(--dur-medium) var(--ease-emphasized);
   }
-  header.scrolled { padding: 14px 0; }
+  header.scrolled { padding: 12px 0; }
 
   nav {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 12px 28px;
+    padding: 10px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -433,22 +415,22 @@
 
   .logo {
     font-weight: 800;
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     letter-spacing: -.5px;
     display: flex;
     align-items: center;
     gap: 10px;
-    padding-left: 8px;
+    padding-left: 6px;
   }
   .logo-dot {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--md-primary), var(--md-tertiary));
-    box-shadow: var(--nm-out-sm);
   }
   .logo span { color: var(--md-primary); }
 
+  /* 导航链接：可跳转 → 凸起 → hover 凹陷 */
   .nav-links {
     display: flex;
     gap: 2px;
@@ -456,12 +438,13 @@
   }
   .nav-links a {
     display: block;
-    padding: 10px 16px;
-    font-size: .88rem;
+    padding: 9px 15px;
+    font-size: .86rem;
     font-weight: 500;
     color: var(--md-on-surface-variant);
     border-radius: var(--radius-full);
     white-space: nowrap;
+    box-shadow: none;
     transition: color var(--dur-short) var(--ease-standard),
                 box-shadow var(--dur-short) var(--ease-standard);
   }
@@ -473,25 +456,26 @@
   .nav-right {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
   }
 
+  /* 主题切换：可点击 → 凸起 → hover/active 凹陷 */
   .theme-toggle {
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     border: none;
     border-radius: 50%;
     background: var(--nm-bg);
     color: var(--md-on-surface);
     cursor: pointer;
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: var(--nm-out-sm);
     transition: color var(--dur-short) var(--ease-standard),
                 box-shadow var(--dur-short) var(--ease-standard),
-                transform var(--dur-medium) var(--ease-emphasized);
+                transform var(--dur-short) var(--ease-standard);
   }
   .theme-toggle:hover {
     color: var(--md-primary);
@@ -523,27 +507,26 @@
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 22px;
+    padding: 9px 20px;
     margin-bottom: 28px;
-    font-size: .85rem;
+    font-size: .82rem;
     font-weight: 600;
     color: var(--md-on-secondary-container);
     background: var(--md-secondary-container);
     border-radius: var(--radius-full);
-    box-shadow: var(--nm-out-sm);
+    box-shadow: var(--nm-in-sm);
   }
   .hero-badge::before {
     content: "";
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: var(--md-primary);
-    box-shadow: 0 0 10px var(--md-primary);
     animation: pulse 2s var(--ease-emphasized) infinite;
   }
   @keyframes pulse {
     0%, 100% { opacity: 1; transform: scale(1); }
-    50%      { opacity: .5; transform: scale(1.4); }
+    50%      { opacity: .5; transform: scale(1.3); }
   }
 
   .hero-title {
@@ -573,50 +556,40 @@
   .hero-desc {
     max-width: 540px;
     margin-bottom: 40px;
-    font-size: 1.15rem;
+    font-size: 1.12rem;
     color: var(--md-on-surface-variant);
   }
 
   .btn-group {
     display: flex;
-    gap: 20px;
+    gap: 16px;
     flex-wrap: wrap;
   }
 
+  /* 头像盘：不可点击 → 常态凹陷 */
   .avatar-wrap { display: flex; justify-content: center; }
   .avatar-disc {
-    width: 360px;
-    height: 360px;
-    padding: 18px;
+    width: 340px;
+    height: 340px;
+    padding: 16px;
     border-radius: 50%;
     background: var(--nm-bg);
-    box-shadow: var(--nm-out-lg);
+    box-shadow: var(--nm-in-lg);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-  }
-  .avatar-disc::after {
-    content: "";
-    position: absolute;
-    inset: 28px;
-    border-radius: 50%;
-    box-shadow: var(--nm-in);
-    pointer-events: none;
-    z-index: 2;
   }
   .avatar {
     width: 100%;
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    position: relative;
-    z-index: 1;
     animation: float 6s var(--ease-emphasized) infinite;
   }
   @keyframes float {
     0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(-12px); }
+    50%      { transform: translateY(-10px); }
   }
 
   /* ============================================================
@@ -625,13 +598,13 @@
   .about-grid {
     display: grid;
     grid-template-columns: 1.1fr 1fr;
-    gap: 80px;
+    gap: 72px;
     align-items: center;
   }
 
   .about-text p {
     margin-bottom: 18px;
-    font-size: 1.02rem;
+    font-size: 1rem;
     color: var(--md-on-surface-variant);
   }
   .about-text strong { color: var(--md-primary); }
@@ -639,33 +612,28 @@
   .about-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 10px;
     margin-top: 24px;
     margin-bottom: 8px;
   }
 
+  /* 数据卡：不可点击 → 常态凹陷 */
   .stats {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-    margin-top: 40px;
-    max-width: 420px;
+    gap: 20px;
+    margin-top: 36px;
+    max-width: 400px;
   }
   .stat {
     text-align: center;
-    padding: 28px 16px;
+    padding: 24px 14px;
     background: var(--nm-bg);
     border-radius: var(--radius-lg);
-    box-shadow: var(--nm-out);
-    transition: box-shadow var(--dur-medium) var(--ease-emphasized),
-                transform var(--dur-medium) var(--ease-emphasized);
-  }
-  .stat:hover {
     box-shadow: var(--nm-in);
-    transform: translateY(2px);
   }
   .stat-num {
-    font-size: 1.8rem;
+    font-size: 1.7rem;
     font-weight: 800;
     line-height: 1.2;
     background: linear-gradient(135deg, var(--md-primary), var(--md-tertiary));
@@ -674,43 +642,49 @@
     -webkit-text-fill-color: transparent;
   }
   .stat-label {
-    font-size: .85rem;
+    font-size: .82rem;
     color: var(--md-on-surface-variant);
     margin-top: 6px;
   }
 
+  /* 关于图框：不可点击 → 常态凹陷 */
   .about-img-frame {
-    padding: 16px;
+    padding: 14px;
     border-radius: var(--radius-xl);
     background: var(--nm-bg);
-    box-shadow: var(--nm-in);
+    box-shadow: var(--nm-in-lg);
   }
   .about-img {
     width: 100%;
     height: auto;
     border-radius: var(--radius-lg);
-    box-shadow: var(--nm-out-sm);
-    transition: opacity var(--dur-medium) var(--ease-emphasized);
+    display: block;
   }
 
+  /* 版本号：可点击 → 凸起 → hover/active 凹陷 */
   .version-badge {
     display: inline-block;
-    margin-top: 28px;
-    padding: 8px 18px;
-    font-size: .78rem;
+    margin-top: 26px;
+    padding: 7px 16px;
+    font-size: .76rem;
     font-weight: 600;
     letter-spacing: .5px;
     color: var(--md-on-surface-variant);
     background: var(--nm-bg);
     border-radius: var(--radius-full);
-    box-shadow: var(--nm-in-sm);
+    box-shadow: var(--nm-out-sm);
     cursor: pointer;
     user-select: none;
     transition: color var(--dur-short) var(--ease-standard),
-                box-shadow var(--dur-medium) var(--ease-emphasized);
+                box-shadow var(--dur-short) var(--ease-standard);
   }
-  .version-badge:hover { color: var(--md-primary); }
-  .version-badge:active { box-shadow: var(--nm-out-sm); }
+  .version-badge:hover {
+    color: var(--md-primary);
+    box-shadow: var(--nm-in-sm);
+  }
+  .version-badge:active {
+    box-shadow: var(--nm-in-sm);
+  }
 
   /* 病娇彩蛋 */
   .secret-yandere { display: none; }
@@ -731,74 +705,60 @@
   }
 
   /* ============================================================
-     9. 技能
+     9. 技能（不可点击 → 常态凹陷）
      ============================================================ */
   .skills-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
+    gap: 24px;
   }
   .skill-card {
-    padding: 36px 28px;
+    padding: 32px 24px;
     background: var(--nm-bg);
     border-radius: var(--radius-lg);
-    box-shadow: var(--nm-out);
-    position: relative;
-    transition: transform var(--dur-medium) var(--ease-emphasized),
-                box-shadow var(--dur-medium) var(--ease-emphasized);
+    box-shadow: var(--nm-in);
   }
-  .skill-card:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--nm-out-lg);
-  }
-  .skill-card .icon-block { margin-bottom: 20px; }
-  .skill-card h3 { font-size: 1.1rem; margin-bottom: 8px; }
+  .skill-card .icon-block { margin-bottom: 18px; }
+  .skill-card h3 { font-size: 1.05rem; margin-bottom: 8px; }
   .skill-card p {
-    font-size: .9rem;
+    font-size: .88rem;
     color: var(--md-on-surface-variant);
   }
 
   /* ============================================================
-     10. 折腾历程（时间线）
+     10. 折腾历程（不可点击 → 常态凹陷）
      ============================================================ */
   .timeline {
     position: relative;
     max-width: 800px;
     margin: 0 auto;
-    padding-left: 40px;
+    padding-left: 36px;
   }
   .timeline::before {
     content: "";
     position: absolute;
-    left: 12px;
+    left: 10px;
     top: 0; bottom: 0;
-    width: 6px;
-    border-radius: 6px;
+    width: 4px;
+    border-radius: 4px;
     background: linear-gradient(180deg,
       var(--md-primary), var(--md-tertiary), var(--md-secondary));
-    box-shadow: var(--nm-out-sm);
   }
   .timeline-item {
     position: relative;
-    padding: 28px 32px;
-    margin-bottom: 32px;
+    padding: 24px 28px;
+    margin-bottom: 24px;
     background: var(--nm-bg);
     border-radius: var(--radius-lg);
-    box-shadow: var(--nm-out);
-    transition: box-shadow var(--dur-medium) var(--ease-emphasized),
-                transform var(--dur-medium) var(--ease-emphasized);
-  }
-  .timeline-item:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--nm-out-lg);
+    box-shadow: var(--nm-in);
   }
   .timeline-item::before {
     content: "";
     position: absolute;
-    left: -40px;
-    top: 36px;
-    width: 18px;
-    height: 18px;
+    left: -36px;
+    top: 32px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     background: var(--nm-bg);
     box-shadow: var(--nm-out-sm);
@@ -806,14 +766,13 @@
     z-index: 2;
   }
   .timeline-item.is-active::before {
-    border-color: var(--md-primary);
     background: var(--md-primary);
     box-shadow: 0 0 0 4px var(--md-primary-container);
     animation: activePulse 2s var(--ease-emphasized) infinite;
   }
   @keyframes activePulse {
     0%, 100% { box-shadow: 0 0 0 4px var(--md-primary-container); }
-    50%      { box-shadow: 0 0 0 12px transparent; }
+    50%      { box-shadow: 0 0 0 10px transparent; }
   }
   .timeline-item.is-active .timeline-date {
     background: var(--md-primary);
@@ -822,51 +781,44 @@
 
   .timeline-date {
     display: inline-block;
-    padding: 4px 14px;
-    margin-bottom: 12px;
-    font-size: .78rem;
+    padding: 4px 12px;
+    margin-bottom: 10px;
+    font-size: .76rem;
     font-weight: 600;
     color: var(--md-on-secondary-container);
     background: var(--md-secondary-container);
     border-radius: var(--radius-full);
-    box-shadow: var(--nm-out-sm);
   }
-  .timeline-item h3 { font-size: 1.15rem; margin-bottom: 8px; }
+  .timeline-item h3 { font-size: 1.08rem; margin-bottom: 8px; }
   .timeline-item p {
-    font-size: .92rem;
+    font-size: .9rem;
     color: var(--md-on-surface-variant);
   }
 
   /* ============================================================
-     11. 设备
+     11. 设备（不可点击 → 常态凹陷）
      ============================================================ */
   .devices-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
+    gap: 20px;
   }
   .device-card {
-    padding: 28px 20px;
+    padding: 24px 16px;
     text-align: center;
     background: var(--nm-bg);
     border-radius: var(--radius-lg);
-    box-shadow: var(--nm-out);
-    transition: transform var(--dur-medium) var(--ease-emphasized),
-                box-shadow var(--dur-medium) var(--ease-emphasized);
-  }
-  .device-card:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--nm-out-lg);
+    box-shadow: var(--nm-in);
   }
   .device-icon {
-    width: 56px;
-    height: 56px;
-    margin: 0 auto 16px;
-    border-radius: 16px;
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 14px;
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     background: var(--nm-bg);
     box-shadow: var(--nm-in);
     position: relative;
@@ -878,67 +830,57 @@
     border-radius: inherit;
     background: linear-gradient(135deg,
       var(--md-primary), var(--md-tertiary), var(--md-secondary));
-    opacity: .12;
+    opacity: .10;
     pointer-events: none;
   }
   .device-card h3 {
-    font-size: 1rem;
+    font-size: .95rem;
     margin-bottom: 6px;
     line-height: 1.4;
   }
   .device-card p {
-    font-size: .8rem;
+    font-size: .78rem;
     color: var(--md-on-surface-variant);
   }
 
   /* ============================================================
-     12. 友情链接
+     12. 友情链接（可跳转 → 凸起 → hover/active 凹陷）
      ============================================================ */
   .friends-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
+    gap: 24px;
   }
   .friend-card {
     display: flex;
     align-items: center;
-    gap: 18px;
-    padding: 28px 32px;
+    gap: 16px;
+    padding: 24px 28px;
     background: var(--nm-bg);
     border-radius: var(--radius-lg);
     box-shadow: var(--nm-out);
-    transition: transform var(--dur-medium) var(--ease-emphasized),
-                box-shadow var(--dur-medium) var(--ease-emphasized);
+    transition: box-shadow var(--dur-short) var(--ease-standard),
+                transform var(--dur-short) var(--ease-standard);
     position: relative;
     overflow: hidden;
   }
   .friend-card:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--nm-out-lg);
+    box-shadow: var(--nm-in);
+    transform: translateY(1px);
   }
-  .friend-card::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 4px;
-    background: linear-gradient(90deg,
-      var(--md-primary), var(--md-tertiary), var(--md-secondary));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform var(--dur-long) var(--ease-emphasized);
-  }
-  .friend-card:hover::before {
-    transform: scaleX(1);
+  .friend-card:active {
+    box-shadow: var(--nm-in);
+    transform: translateY(2px) scale(0.99);
   }
   .friend-icon {
     flex-shrink: 0;
-    width: 56px;
-    height: 56px;
-    border-radius: 18px;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     font-weight: 800;
     color: var(--md-primary);
     background: var(--nm-bg);
@@ -952,7 +894,7 @@
     border-radius: inherit;
     background: linear-gradient(135deg,
       var(--md-primary), var(--md-tertiary), var(--md-secondary));
-    opacity: .12;
+    opacity: .10;
     pointer-events: none;
   }
   .friend-info {
@@ -960,14 +902,14 @@
     flex: 1;
   }
   .friend-info h3 {
-    font-size: 1.05rem;
+    font-size: 1rem;
     margin-bottom: 4px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   .friend-info p {
-    font-size: .82rem;
+    font-size: .8rem;
     color: var(--md-on-surface-variant);
     white-space: nowrap;
     overflow: hidden;
@@ -975,18 +917,18 @@
   }
   .friend-arrow {
     flex-shrink: 0;
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--md-on-surface-variant);
-    transition: transform var(--dur-medium) var(--ease-emphasized),
+    transition: transform var(--dur-short) var(--ease-standard),
                 color var(--dur-short) var(--ease-standard);
   }
   .friend-card:hover .friend-arrow {
-    transform: translateX(4px);
+    transform: translateX(3px);
     color: var(--md-primary);
   }
 
   /* ============================================================
-     13. 联系
+     13. 联系（可跳转 → 凸起 → hover/active 凹陷）
      ============================================================ */
   #contact { text-align: center; }
 
@@ -994,40 +936,41 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 24px;
-    margin-top: 48px;
+    gap: 20px;
+    margin-top: 44px;
   }
   .contact-link {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 20px 34px;
+    gap: 10px;
+    padding: 18px 30px;
     font-weight: 600;
-    font-size: .95rem;
+    font-size: .92rem;
     color: var(--md-on-surface);
     background: var(--nm-bg);
     border-radius: var(--radius-full);
     box-shadow: var(--nm-out);
     transition: color var(--dur-short) var(--ease-standard),
-                box-shadow var(--dur-medium) var(--ease-emphasized),
-                transform var(--dur-medium) var(--ease-emphasized);
+                box-shadow var(--dur-short) var(--ease-standard),
+                transform var(--dur-short) var(--ease-standard);
   }
   .contact-link:hover {
     color: var(--md-primary);
     box-shadow: var(--nm-in);
-    transform: translateY(2px);
+    transform: translateY(1px);
   }
   .contact-link:active {
-    transform: translateY(4px) scale(0.98);
+    box-shadow: var(--nm-in);
+    transform: translateY(2px) scale(0.98);
   }
 
   /* ============================================================
      14. 页脚
      ============================================================ */
   footer {
-    padding: 60px 0 40px;
+    padding: 56px 0 36px;
     text-align: center;
-    font-size: .9rem;
+    font-size: .88rem;
     color: var(--md-on-surface-variant);
   }
   footer .heart { color: var(--md-tertiary); }
@@ -1037,7 +980,7 @@
      ============================================================ */
   .reveal {
     opacity: 0;
-    transform: translateY(36px);
+    transform: translateY(30px);
     transition: opacity var(--dur-extra) var(--ease-emphasized-decel),
                 transform var(--dur-extra) var(--ease-emphasized-decel);
   }
@@ -1050,14 +993,14 @@
   /* ============================================================
      16. 滚动条
      ============================================================ */
-  ::-webkit-scrollbar { width: 12px; }
+  ::-webkit-scrollbar { width: 10px; }
   ::-webkit-scrollbar-track {
     background: var(--md-surface-container-low);
   }
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, var(--md-primary), var(--md-tertiary));
-    border-radius: 6px;
-    border: 3px solid var(--md-surface-container-low);
+    background: var(--md-outline-variant);
+    border-radius: 5px;
+    border: 2px solid var(--md-surface-container-low);
   }
 
   /* ============================================================
@@ -1067,36 +1010,36 @@
     .container { padding: 0 20px; }
     section { padding: 70px 0; }
 
-    .section-title { font-size: 1.9rem; }
+    .section-title { font-size: 1.85rem; }
     .section-title::after {
       width: 44px;
-      height: 5px;
+      height: 4px;
       margin-top: 12px;
     }
     .section-sub {
       margin-bottom: 36px;
-      font-size: .98rem;
+      font-size: .95rem;
     }
 
     /* 导航 */
-    header { padding: 12px 0; }
+    header { padding: 10px 0; }
     header.scrolled { padding: 8px 0; }
     nav {
       flex-wrap: wrap;
       justify-content: center;
       gap: 6px;
-      padding: 10px 16px;
-      border-radius: 28px;
+      padding: 8px 14px;
+      border-radius: 24px;
     }
     .logo {
       padding-left: 0;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
     }
-    .logo-dot { width: 10px; height: 10px; }
+    .logo-dot { width: 9px; height: 9px; }
     .nav-right {
       flex-wrap: wrap;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
     }
     .nav-links {
       flex-wrap: wrap;
@@ -1104,179 +1047,178 @@
       gap: 0;
     }
     .nav-links a {
-      padding: 6px 12px;
-      font-size: .78rem;
+      padding: 6px 10px;
+      font-size: .75rem;
     }
     .theme-toggle {
-      width: 40px;
-      height: 40px;
-      font-size: 1rem;
+      width: 38px;
+      height: 38px;
+      font-size: .95rem;
     }
 
     /* 英雄区 */
     #hero {
       min-height: auto;
-      padding-top: 150px;
+      padding-top: 140px;
       padding-bottom: 40px;
     }
     .hero-inner {
       grid-template-columns: 1fr;
-      gap: 40px;
+      gap: 36px;
       text-align: center;
     }
     .hero-badge {
       margin-bottom: 20px;
-      padding: 8px 18px;
-      font-size: .78rem;
+      padding: 7px 16px;
+      font-size: .75rem;
     }
     .hero-title {
-      font-size: clamp(2.2rem, 8vw, 3rem);
+      font-size: clamp(2.1rem, 8vw, 2.8rem);
       letter-spacing: -1px;
     }
     .hero-desc {
       max-width: 100%;
-      margin-bottom: 30px;
-      font-size: 1rem;
+      margin-bottom: 28px;
+      font-size: .96rem;
     }
-    .btn-group { justify-content: center; gap: 14px; }
+    .btn-group { justify-content: center; gap: 12px; }
     .btn {
-      padding: 14px 26px;
-      font-size: .88rem;
+      padding: 12px 22px;
+      font-size: .85rem;
     }
     .avatar-wrap { order: -1; }
     .avatar-disc {
-      width: 220px;
-      height: 220px;
-      padding: 14px;
+      width: 200px;
+      height: 200px;
+      padding: 12px;
     }
-    .avatar-disc::after { inset: 18px; }
 
     /* 关于 */
     .about-grid {
       grid-template-columns: 1fr;
-      gap: 40px;
+      gap: 36px;
     }
     .about-text p {
       margin-bottom: 14px;
-      font-size: .96rem;
+      font-size: .94rem;
     }
     .about-tags {
       gap: 8px;
       margin-top: 18px;
     }
     .tag {
-      padding: 5px 12px;
-      font-size: .72rem;
+      padding: 5px 11px;
+      font-size: .7rem;
     }
     .stats {
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-top: 28px;
+      gap: 14px;
+      margin-top: 26px;
     }
-    .stat { padding: 20px 12px; }
-    .stat-num { font-size: 1.4rem; }
-    .stat-label { font-size: .75rem; }
+    .stat { padding: 18px 10px; }
+    .stat-num { font-size: 1.35rem; }
+    .stat-label { font-size: .72rem; }
     .about-img-frame { padding: 12px; }
     .version-badge {
       margin-top: 20px;
-      padding: 6px 14px;
-      font-size: .72rem;
+      padding: 6px 13px;
+      font-size: .7rem;
     }
 
     /* 技能 */
     .skills-grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
+      gap: 16px;
     }
     .skill-card { padding: 22px 16px; }
     .icon-block {
-      width: 48px;
-      height: 48px;
-      font-size: 1.3rem;
-      border-radius: 14px;
-      margin-bottom: 14px;
-    }
-    .skill-card h3 {
-      font-size: .98rem;
-      margin-bottom: 6px;
-    }
-    .skill-card p { font-size: .82rem; }
-
-    /* 折腾历程 */
-    .timeline { padding-left: 28px; }
-    .timeline::before {
-      left: 8px;
-      width: 5px;
-    }
-    .timeline-item {
-      padding: 20px 18px;
-      margin-bottom: 22px;
-      border-radius: var(--radius-md);
-    }
-    .timeline-item::before {
-      left: -28px;
-      top: 26px;
-      width: 14px;
-      height: 14px;
-      border-width: 3px;
-    }
-    .timeline-date {
-      margin-bottom: 8px;
-      padding: 3px 12px;
-      font-size: .72rem;
-    }
-    .timeline-item h3 {
-      font-size: 1.02rem;
-      margin-bottom: 6px;
-    }
-    .timeline-item p { font-size: .86rem; }
-
-    /* 设备 */
-    .devices-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-    .device-card { padding: 20px 12px; }
-    .device-icon {
       width: 44px;
       height: 44px;
       font-size: 1.2rem;
       border-radius: 12px;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
-    .device-card h3 { font-size: .88rem; }
-    .device-card p { font-size: .72rem; }
+    .skill-card h3 {
+      font-size: .94rem;
+      margin-bottom: 6px;
+    }
+    .skill-card p { font-size: .8rem; }
+
+    /* 折腾历程 */
+    .timeline { padding-left: 26px; }
+    .timeline::before {
+      left: 7px;
+      width: 3px;
+    }
+    .timeline-item {
+      padding: 18px 16px;
+      margin-bottom: 18px;
+      border-radius: var(--radius-md);
+    }
+    .timeline-item::before {
+      left: -26px;
+      top: 24px;
+      width: 12px;
+      height: 12px;
+      border-width: 2.5px;
+    }
+    .timeline-date {
+      margin-bottom: 8px;
+      padding: 3px 10px;
+      font-size: .7rem;
+    }
+    .timeline-item h3 {
+      font-size: .98rem;
+      margin-bottom: 6px;
+    }
+    .timeline-item p { font-size: .84rem; }
+
+    /* 设备 */
+    .devices-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .device-card { padding: 18px 12px; }
+    .device-icon {
+      width: 40px;
+      height: 40px;
+      font-size: 1.1rem;
+      border-radius: 11px;
+      margin-bottom: 10px;
+    }
+    .device-card h3 { font-size: .84rem; }
+    .device-card p { font-size: .7rem; }
 
     /* 友情链接 */
     .friends-grid {
       grid-template-columns: 1fr;
-      gap: 16px;
+      gap: 14px;
     }
     .friend-card {
-      padding: 20px 22px;
+      padding: 18px 20px;
     }
     .friend-icon {
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       font-size: 1.2rem;
-      border-radius: 14px;
+      border-radius: 12px;
     }
-    .friend-info h3 { font-size: .98rem; }
-    .friend-info p { font-size: .78rem; }
+    .friend-info h3 { font-size: .94rem; }
+    .friend-info p { font-size: .76rem; }
 
     /* 联系 */
     .contact-links {
       flex-direction: column;
       align-items: center;
-      gap: 14px;
-      margin-top: 32px;
+      gap: 12px;
+      margin-top: 30px;
     }
     .contact-link {
       width: 100%;
-      max-width: 300px;
+      max-width: 280px;
       justify-content: center;
-      padding: 16px 24px;
-      font-size: .9rem;
+      padding: 14px 22px;
+      font-size: .88rem;
     }
 
     /* 回到顶部 */
@@ -1285,34 +1227,34 @@
       bottom: 18px;
       width: 44px;
       height: 44px;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
     }
 
     /* 页脚 */
     footer {
-      padding: 40px 0 30px;
-      font-size: .82rem;
+      padding: 36px 0 28px;
+      font-size: .8rem;
     }
   }
 
   /* 超小屏 */
   @media (max-width: 400px) {
     .container { padding: 0 14px; }
-    .hero-title { font-size: 2rem; }
+    .hero-title { font-size: 1.95rem; }
     .avatar-disc {
-      width: 180px;
-      height: 180px;
+      width: 170px;
+      height: 170px;
     }
     .skills-grid { grid-template-columns: 1fr; }
     .stats { grid-template-columns: 1fr; }
     .devices-grid { grid-template-columns: 1fr; }
     .nav-links a {
-      padding: 5px 8px;
-      font-size: .72rem;
+      padding: 5px 7px;
+      font-size: .7rem;
     }
     .btn {
-      padding: 12px 20px;
-      font-size: .82rem;
+      padding: 11px 18px;
+      font-size: .8rem;
     }
   }
 
@@ -1358,26 +1300,25 @@
   <section id="hero">
     <div class="container hero-inner">
       <div>
-        <span class="hero-badge">B站 UP主 · Android 折腾党</span>
+        <span class="hero-badge">Hello, World!</span>
         <h1 class="hero-title">
-          我是 <span class="gradient">鸢见夜樱</span><br>
-          一位「安卓」UP主
+          我是 <span class="gradient">鸢见夜樱</span>，<br>
+          喜欢折腾电子设备
         </h1>
         <p class="hero-desc">
-          最大的喜好是折腾开放的系统。刷机、Magisk、ROM、内核……
-          在这里记录我与 Android 的故事。
+          对折腾电子设备有浓厚的兴趣。刷机、Magisk、ROM、内核……
+          在这里记录我与 Android 以及各种设备的故事。
         </p>
         <div class="btn-group">
           <a href="#timeline" class="btn btn-primary focus-ring">我的历程 →</a>
-          <a href="https://space.bilibili.com/2091587008"
-             target="_blank" rel="noopener noreferrer"
-             class="btn focus-ring">B站主页</a>
+          <a href="#contact"
+             class="btn focus-ring">联系我</a>
         </div>
       </div>
       <div class="avatar-wrap">
         <div class="avatar-disc">
           <img class="avatar" src="websrc/avatar.jpeg"
-               alt="鸢见夜樱的头像" width="360" height="360">
+               alt="鸢见夜樱的头像" width="340" height="340">
         </div>
       </div>
     </div>
@@ -1391,10 +1332,10 @@
 
       <div class="about-grid">
         <div class="about-text reveal">
-          <p>你好，我是 <strong>鸢见夜樱</strong>，一名热爱折腾 Android 系统的 UP 主。目前在 B 站已经发布了数个投稿视频。</p>
+          <p>你好，我是 <strong>鸢见夜樱</strong>，一名热爱折腾 Android 系统的学生。目前在 B 站已经发布了数个投稿视频。</p>
           <p>我最大的爱好之一是折腾开放的系统——从刷机、Magisk 模块、自定义 ROM 到内核调优，只要是能"折腾"的地方，我都想试试。</p>
           <p>
-            除了折腾手机，我还是个 <strong>10 后</strong>，喜欢玩 <strong>FPS 游戏</strong> 和 <strong>音游</strong>，
+            除了折腾电子设备，我还是个 <strong>10 后</strong>，喜欢玩 <strong>FPS 游戏</strong> 和 <strong>音游</strong>，
             听 <strong>速核音乐</strong>，偶尔也会以 <strong>猫娘</strong> 的身份出没。
             <span class="secret-yandere" id="secretText">同时还是个病娇猫娘…</span>
             希望我的内容能帮到同样喜欢折腾电子设备的你。
@@ -1444,7 +1385,7 @@
         <article class="skill-card reveal">
           <div class="icon-block">📱</div>
           <h3>刷机</h3>
-          <p>解锁 BL、刷入自定义 ROM 以及 TWRP 与橙狐 rec。</p>
+          <p>解锁 BL、刷入自定义 ROM 以及 TWRP 与橙狐 rec，苹果越狱。</p>
         </article>
 
         <article class="skill-card reveal">
@@ -1468,81 +1409,81 @@
     </div>
   </section>
 
-<!-- ==================== 折腾历程（时间线样式） ==================== -->
-<section id="timeline">
-  <div class="container">
-    <h2 class="section-title reveal">折腾历程</h2>
-    <p class="section-sub reveal">我与各种设备</p>
+  <!-- ==================== 折腾历程 ==================== -->
+  <section id="timeline">
+    <div class="container">
+      <h2 class="section-title reveal">折腾历程</h2>
+      <p class="section-sub reveal">我与各种设备</p>
 
-    <div class="timeline">
-      <article class="timeline-item reveal">
-        <span class="timeline-date">2022</span>
-        <h3>破解小天才 Z6_DFB</h3>
-        <p>从破解小天才 Z6_DFB 开始，一步步学习ADB、root、9008……从此走上折腾之路。</p>
-      </article>
+      <div class="timeline">
+        <article class="timeline-item reveal">
+          <span class="timeline-date">2022</span>
+          <h3>破解小天才 Z6_DFB</h3>
+          <p>从破解小天才 Z6_DFB 开始，一步步学习ADB、root、9008……从此走上折腾之路。</p>
+        </article>
 
-      <article class="timeline-item reveal">
-        <span class="timeline-date">2023 上半年</span>
-        <h3>成功破解倾听者 K3</h3>
-        <p>成功破解倾听者 K3，把封闭单一的播放器变成可自由折腾的设备。</p>
-      </article>
+        <article class="timeline-item reveal">
+          <span class="timeline-date">2023 上半年</span>
+          <h3>成功破解倾听者 K3</h3>
+          <p>成功破解倾听者 K3，把封闭单一的播放器变成可自由折腾的设备。</p>
+        </article>
 
-      <article class="timeline-item reveal">
-        <span class="timeline-date">2023</span>
-        <h3>在 iOS 设备上安装 TrollStore</h3>
-        <p>在 iOS 设备上成功安装 TrollStore，实现了免签名安装第三方应用。</p>
-      </article>
+        <article class="timeline-item reveal">
+          <span class="timeline-date">2023</span>
+          <h3>在 iOS 设备上安装 TrollStore</h3>
+          <p>在 iOS 设备上成功安装 TrollStore，实现了免签名安装第三方应用。</p>
+        </article>
 
-      <article class="timeline-item reveal">
-        <span class="timeline-date">2023</span>
-        <h3>利用 winra1n 首次越狱苹果设备</h3>
-        <p>借助 winra1n 工具，第一次成功越狱 iOS 设备，打开了 iOS 生态的另一扇门。</p>
-      </article>
+        <article class="timeline-item reveal">
+          <span class="timeline-date">2023</span>
+          <h3>利用 winra1n 首次越狱苹果设备</h3>
+          <p>借助 winra1n 工具，第一次成功越狱 iOS 设备，打开了 iOS 生态的另一扇门。</p>
+        </article>
 
-      <article class="timeline-item reveal">
-        <span class="timeline-date">2024 年 5 月</span>
-        <h3>获取倾听者 K5 的 Root 权限</h3>
-        <p>经过持续探索，成功获取倾听者 K5 的 Root 权限，进一步深入系统底层。</p>
-      </article>
+        <article class="timeline-item reveal">
+          <span class="timeline-date">2024 年 5 月</span>
+          <h3>获取倾听者 K5 的 Root 权限</h3>
+          <p>经过持续探索，成功获取倾听者 K5 的 Root 权限，进一步深入系统底层。</p>
+        </article>
 
-            <article class="timeline-item reveal">
-        <span class="timeline-date">2024 年末</span>
-        <h3>入手第一套VR设备</h3>
-        <p>不算大厂的设备，但是功能齐全。《半衰期：Alyx》是真好玩。</p>
-      </article>
+        <article class="timeline-item reveal">
+          <span class="timeline-date">2024 年末</span>
+          <h3>入手第一套 VR 设备</h3>
+          <p>不算大厂的设备，但是功能齐全。《半衰期：Alyx》是真好玩。</p>
+        </article>
 
-      <article class="timeline-item reveal">
-        <span class="timeline-date">2025 上半年</span>
-        <h3>在德州仪器计算器上安装 Ndless</h3>
-        <p>在德州仪器计算器上成功安装 Ndless，让计算器也能运行原生C程序和3D程序。</p>
-      </article>
+        <article class="timeline-item reveal">
+          <span class="timeline-date">2025 上半年</span>
+          <h3>在德州仪器计算器上安装 Ndless</h3>
+          <p>在德州仪器计算器上成功安装 Ndless，让计算器也能运行原生 C 程序和 3D 程序。</p>
+        </article>
 
-      <article class="timeline-item reveal">
-        <span class="timeline-date">2025</span>
-        <h3>在 Arch Linux 上试用 Hyprland</h3>
-        <p>在 Arch Linux 上尝试了 Hyprland 平铺窗口管理器，体验了一番 Wayland 下的炫酷桌面，不过现在已经停止使用。</p>
-      </article>
+        <article class="timeline-item reveal">
+          <span class="timeline-date">2025</span>
+          <h3>在 Arch Linux 上试用 Hyprland</h3>
+          <p>在 Arch Linux 上尝试了 Hyprland 平铺窗口管理器，体验了一番 Wayland 下的炫酷桌面，不过现在已经停止使用。</p>
+        </article>
 
-      <article class="timeline-item reveal">
-        <span class="timeline-date">2026 年 10 月初</span>
-        <h3>本地部署文生图小模型</h3>
-        <p>在本地部署了文生图小模型“Vivid Orange Mix”，探索 AI 生成图像的玩法。</p>
-      </article>
+        <article class="timeline-item reveal">
+          <span class="timeline-date">2026 年 10 月初</span>
+          <h3>本地部署文生图小模型</h3>
+          <p>在本地部署了文生图小模型"Vivid Orange Mix"，探索 AI 生成图像的玩法。</p>
+        </article>
 
-      <article class="timeline-item reveal">
-        <span class="timeline-date">2026 年 10 月中</span>
-        <h3>回退主力机安卓版本</h3>
-        <p>升级安卓17后悔，切槽位触发黑厂防回滚黑砖，遂至售后救砖。</p>
-      </article>
-    
-      <article class="timeline-item reveal is-active">
-        <span class="timeline-date">仍在折腾中</span>
-        <h3>持续探索开放系统</h3>
-        <p>折腾没有终点——继续折腾新设备、新系统、新玩法，也把这些过程分享在 B 站、酷安，以及更多的平台上。</p>
-      </article>
+        <article class="timeline-item reveal">
+          <span class="timeline-date">2026 年 10 月中</span>
+          <h3>回退主力机安卓版本</h3>
+          <p>升级安卓 17 后悔，切槽位触发黑厂防回滚黑砖，遂至售后救砖。</p>
+        </article>
+
+        <article class="timeline-item reveal is-active">
+          <span class="timeline-date">仍在折腾中</span>
+          <h3>持续探索开放系统</h3>
+          <p>折腾没有终点——继续折腾新设备、新系统、新玩法，也把这些过程分享在 B 站、酷安，以及更多的平台上。</p>
+        </article>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
   <!-- ==================== 设备 ==================== -->
   <section id="devices">
@@ -1556,109 +1497,91 @@
           <h3>一加 13T</h3>
           <p>手机</p>
         </article>
-
         <article class="device-card reveal">
           <div class="device-icon">📱</div>
           <h3>蓝狐 NX1</h3>
           <p>手机</p>
         </article>
-
         <article class="device-card reveal">
           <div class="device-icon">📱</div>
           <h3>魅族 21 Pro</h3>
           <p>手机</p>
         </article>
-
         <article class="device-card reveal">
           <div class="device-icon">📱</div>
           <h3>三星 Galaxy Fold</h3>
           <p>折叠屏手机</p>
         </article>
-
         <article class="device-card reveal">
           <div class="device-icon">📱</div>
           <h3>iPhone SE 2</h3>
           <p>手机</p>
         </article>
-
         <article class="device-card reveal">
           <div class="device-icon">📱</div>
           <h3>一加 11</h3>
           <p>手机</p>
         </article>
-
         <article class="device-card reveal">
           <div class="device-icon">📱</div>
           <h3>红米 4A</h3>
           <p>手机</p>
         </article>
-
         <article class="device-card reveal">
           <div class="device-icon">📱</div>
           <h3>Nothing Phone (1)</h3>
           <p>手机</p>
         </article>
-
         <article class="device-card reveal">
           <div class="device-icon">📱</div>
           <h3>小米 6</h3>
           <p>手机</p>
         </article>
-
         <article class="device-card reveal">
           <div class="device-icon">📱</div>
           <h3>华为 Mate 20</h3>
           <p>手机</p>
         </article>
-
         <article class="device-card reveal">
           <div class="device-icon">📟</div>
           <h3>一加平板 Pro</h3>
           <p>平板</p>
         </article>
-
         <article class="device-card reveal">
           <div class="device-icon">📟</div>
           <h3>iPad mini 5</h3>
           <p>平板</p>
         </article>
-
         <article class="device-card reveal">
           <div class="device-icon">📟</div>
           <h3>iPad 第 6 代</h3>
           <p>平板</p>
         </article>
-
         <article class="device-card reveal">
           <div class="device-icon">⌚</div>
           <h3>OPPO Watch X2</h3>
           <p>智能手表</p>
         </article>
-
         <article class="device-card reveal">
           <div class="device-icon">⌚</div>
           <h3>小米手环 8</h3>
           <p>智能手环</p>
         </article>
-
         <article class="device-card reveal">
           <div class="device-icon">⌚</div>
           <h3>小米手环 7 Pro</h3>
           <p>智能手环</p>
         </article>
-
         <article class="device-card reveal">
           <div class="device-icon">⌚</div>
           <h3>小天才 Z6_DFB</h3>
           <p>儿童手表</p>
         </article>
-
         <article class="device-card reveal">
           <div class="device-icon">💻</div>
           <h3>惠普暗影精灵 11</h3>
           <p>笔记本</p>
         </article>
-
         <article class="device-card reveal">
           <div class="device-icon">💻</div>
           <h3>MacBook Air 13 英寸 M5</h3>
@@ -1668,48 +1591,48 @@
     </div>
   </section>
 
-<!-- ==================== 友情链接 ==================== -->
-<section id="friends">
-  <div class="container">
-    <h2 class="section-title reveal">友情链接</h2>
-    <p class="section-sub reveal">一些好朋友或是有帮助的站点</p>
+  <!-- ==================== 友情链接 ==================== -->
+  <section id="friends">
+    <div class="container">
+      <h2 class="section-title reveal">友情链接</h2>
+      <p class="section-sub reveal">一些好朋友或是有帮助的站点</p>
 
-    <div class="friends-grid">
-      <a class="friend-card reveal focus-ring"
-         href="https://houlangs.cn"
-         target="_blank" rel="noopener noreferrer">
-        <div class="friend-icon">方</div>
-        <div class="friend-info">
-          <h3>方方的主页</h3>
-          <p>houlangs.cn</p>
-        </div>
-        <span class="friend-arrow">→</span>
-      </a>
+      <div class="friends-grid">
+        <a class="friend-card reveal focus-ring"
+           href="https://houlangs.cn"
+           target="_blank" rel="noopener noreferrer">
+          <div class="friend-icon">方</div>
+          <div class="friend-info">
+            <h3>方方的主页</h3>
+            <p>houlangs.cn</p>
+          </div>
+          <span class="friend-arrow">→</span>
+        </a>
 
-      <a class="friend-card reveal focus-ring"
-         href="https://deepseek.com"
-         target="_blank" rel="noopener noreferrer">
-        <div class="friend-icon">鱼</div>
-        <div class="friend-info">
-          <h3>吃白饭的蓝色大肥鱼</h3>
-          <p>deepseek.com</p>
-        </div>
-        <span class="friend-arrow">→</span>
-      </a>
+        <a class="friend-card reveal focus-ring"
+           href="https://deepseek.com"
+           target="_blank" rel="noopener noreferrer">
+          <div class="friend-icon">鱼</div>
+          <div class="friend-info">
+            <h3>吃白饭的蓝色大肥鱼</h3>
+            <p>deepseek.com</p>
+          </div>
+          <span class="friend-arrow">→</span>
+        </a>
 
-      <a class="friend-card reveal focus-ring"
-         href="https://moon9.top"
-         target="_blank" rel="noopener noreferrer">
-        <div class="friend-icon">月</div>
-        <div class="friend-info">
-          <h3>Moon公式</h3>
-          <p>moon9.top</p>
-        </div>
-        <span class="friend-arrow">→</span>
-      </a>
+        <a class="friend-card reveal focus-ring"
+           href="https://moon9.top"
+           target="_blank" rel="noopener noreferrer">
+          <div class="friend-icon">月</div>
+          <div class="friend-info">
+            <h3>Moon公式</h3>
+            <p>moon9.top</p>
+          </div>
+          <span class="friend-arrow">→</span>
+        </a>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
   <!-- ==================== 联系 ==================== -->
   <section id="contact" class="section-center">
@@ -1718,24 +1641,29 @@
       <p class="section-sub reveal">想聊聊 Android 或合作？欢迎联系</p>
 
       <div class="contact-links reveal">
-        <a class="contact-link focus-ring" href="mailto:ljy330104@126.com">
-          我的邮箱
-        </a>
+ 
         <a class="contact-link focus-ring"
            href="https://space.bilibili.com/2091587008"
            target="_blank" rel="noopener noreferrer">
           B站主页
         </a>
+
         <a class="contact-link focus-ring"
-           href="https://space.bilibili.com/2091587008"
-           target="_blank" rel="noopener noreferrer">
-          私信我
-        </a>
-                <a class="contact-link focus-ring"
            href="https://www.coolapk.com/u/30122899"
            target="_blank" rel="noopener noreferrer">
           酷安主页
         </a>
+
+        <a class="contact-link focus-ring"
+           href="https://github.com/LJY330104"
+           target="_blank" rel="noopener noreferrer">
+          Github主页
+        </a>
+
+       <a class="contact-link focus-ring" href="mailto:ljy330104@126.com">
+          我的邮箱
+        </a>
+
       </div>
     </div>
   </section>
