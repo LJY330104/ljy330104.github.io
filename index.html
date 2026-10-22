@@ -743,7 +743,7 @@
   .tag-detail {
     position: relative;
     width: 100%;
-    padding: 24px 26px 26px;
+    padding: 0 26px;
     border-radius: var(--radius-lg);
     background: var(--nm-bg);
     box-shadow: var(--nm-in);
@@ -754,6 +754,11 @@
       opacity var(--dur-long) var(--ease-emphasized-decel),
       max-height var(--dur-long) var(--ease-emphasized-decel),
       padding var(--dur-long) var(--ease-emphasized-decel);
+  }
+  .stats-panel.is-open .tag-detail {
+    opacity: 1;
+    max-height: 640px;
+    padding: 24px 26px 26px;
   }
   .tag-detail[hidden] { display: none; }
   .stats-panel.is-open .tag-detail {
@@ -2089,12 +2094,14 @@
         clearActive();
         PANEL.classList.remove('is-open');
 
-        setTimeout(() => {
-          if (!current) {
+        const onEnd = (e) => {
+          if (e.propertyName === 'max-height' && !current) {
             DETAIL.hidden = true;
             CONTENT.innerHTML = '';
+            DETAIL.removeEventListener('transitionend', onEnd);
           }
-        }, 480);
+        };
+        DETAIL.addEventListener('transitionend', onEnd);
       };
 
       const init = () => {
