@@ -1804,7 +1804,6 @@
       const CLICK_TARGET   = 7;
       const RESET_MS       = 1500;
       const REDIRECT_DELAY = 1500;
-      const REDIRECT_URL   = 'https://github.com/hushenghao/AndroidEasterEggs';
 
       const badge      = $('#versionBadge');
       const avatar     = $('#aboutAvatar');
@@ -1831,9 +1830,6 @@
 
         $('#about').scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-        setTimeout(() => {
-          window.open(REDIRECT_URL, '_blank', 'noopener,noreferrer');
-        }, REDIRECT_DELAY);
       };
 
       const init = () => {
