@@ -86,8 +86,8 @@
 
     /* ---------- 1.8 新拟物基础色（扁平化：对比更弱） ---------- */
     --nm-bg: #E9EFED;
-    --nm-light: #F4F9F7;   /* 高光：非常接近背景 */
-    --nm-dark: #CBD6D3;    /* 暗部：柔和，不刺眼 */
+    --nm-light: #F4F9F7;
+    --nm-dark: #CBD6D3;
 
     /* ---------- 1.9 背景光晕 ---------- */
     --bg-glow-1: rgba(204, 232, 228, 0.55);
@@ -114,8 +114,7 @@
     --radius-xl: 28px;
     --radius-full: 999px;
 
-    /* ---------- 1.13 新拟物阴影（扁平化：更轻、更柔） ---------- */
-    /* 凸起 */
+    /* ---------- 1.13 新拟物阴影 ---------- */
     --nm-out:
       4px 4px 10px var(--nm-dark),
       -4px -4px 10px var(--nm-light);
@@ -125,7 +124,6 @@
     --nm-out-lg:
       6px 6px 16px var(--nm-dark),
       -6px -6px 16px var(--nm-light);
-    /* 凹陷 */
     --nm-in:
       inset 3px 3px 8px var(--nm-dark),
       inset -3px -3px 8px var(--nm-light);
@@ -268,21 +266,12 @@
      5. 可复用组件
      ============================================================ */
 
-  /* 5.1 焦点环 */
   .focus-ring:focus-visible {
     outline: 3px solid var(--md-primary);
     outline-offset: 3px;
   }
 
-  /* 5.2 【不可点击】展示卡片：常态凹陷 */
-  .display-card {
-    background: var(--nm-bg);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--nm-in);
-    transition: box-shadow var(--dur-medium) var(--ease-emphasized);
-  }
-
-  /* 5.3 【可点击】交互按钮：常态凸起，hover/active 凹陷 */
+  /* 5.2 【可点击】按钮：常态凸起，hover/active 凹陷 */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -312,7 +301,7 @@
   }
   .btn-primary { color: var(--md-primary); }
 
-  /* 5.4 【不可点击】标签：常态凹陷 */
+  /* 5.3 【不可点击】标签：常态凹陷 */
   .tag {
     padding: 6px 14px;
     font-size: .78rem;
@@ -323,7 +312,7 @@
     box-shadow: var(--nm-in-sm);
   }
 
-  /* 5.5 【不可点击】图标块：常态凹陷 */
+  /* 5.4 【不可点击】图标块：常态凹陷 */
   .icon-block {
     width: 56px;
     height: 56px;
@@ -347,7 +336,7 @@
     pointer-events: none;
   }
 
-  /* 5.6 【可点击】回到顶部：常态凸起，hover/active 凹陷 */
+  /* 5.5 【可点击】回到顶部 */
   .back-to-top {
     position: fixed;
     right: 28px;
@@ -430,7 +419,6 @@
   }
   .logo span { color: var(--md-primary); }
 
-  /* 导航链接：可跳转 → 凸起 → hover 凹陷 */
   .nav-links {
     display: flex;
     gap: 2px;
@@ -459,7 +447,6 @@
     gap: 12px;
   }
 
-  /* 主题切换：可点击 → 凸起 → hover/active 凹陷 */
   .theme-toggle {
     width: 44px;
     height: 44px;
@@ -566,7 +553,6 @@
     flex-wrap: wrap;
   }
 
-  /* 头像盘：不可点击 → 常态凹陷 */
   .avatar-wrap { display: flex; justify-content: center; }
   .avatar-disc {
     width: 340px;
@@ -585,11 +571,6 @@
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    animation: float 6s var(--ease-emphasized) infinite;
-  }
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(0); }
   }
 
   /* ============================================================
@@ -599,7 +580,7 @@
     display: grid;
     grid-template-columns: 1.1fr 1fr;
     gap: 72px;
-    align-items: center;
+    align-items: start;
   }
 
   .about-text p {
@@ -617,7 +598,6 @@
     margin-bottom: 8px;
   }
 
-  /* 数据卡：不可点击 → 常态凹陷 */
   .stats {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -647,12 +627,12 @@
     margin-top: 6px;
   }
 
-  /* 关于图框：不可点击 → 常态凹陷 */
   .about-img-frame {
     padding: 14px;
     border-radius: var(--radius-xl);
     background: var(--nm-bg);
     box-shadow: var(--nm-in-lg);
+    margin-top: 8px;
   }
   .about-img {
     width: 100%;
@@ -661,7 +641,7 @@
     display: block;
   }
 
-  /* 版本号：可点击 → 凸起 → hover/active 凹陷 */
+  /* 版本号：默认凹陷，隐藏彩蛋入口 */
   .version-badge {
     display: inline-block;
     margin-top: 26px;
@@ -672,7 +652,7 @@
     color: var(--md-on-surface-variant);
     background: var(--nm-bg);
     border-radius: var(--radius-full);
-    box-shadow: var(--nm-out-sm);
+    box-shadow: var(--nm-in-sm);
     cursor: pointer;
     user-select: none;
     transition: color var(--dur-short) var(--ease-standard),
@@ -680,9 +660,6 @@
   }
   .version-badge:hover {
     color: var(--md-primary);
-    box-shadow: var(--nm-in-sm);
-  }
-  .version-badge:active {
     box-shadow: var(--nm-in-sm);
   }
 
@@ -702,6 +679,167 @@
     55%  { opacity: 1; transform: scale(1.15) rotate(4deg); }
     75%  { transform: scale(.95) rotate(-1deg); }
     100% { opacity: 1; transform: scale(1) rotate(0); }
+  }
+
+  /* ============================================================
+     8.5 标签交互 + 详情面板
+     ============================================================ */
+
+  /* 可点击标签：默认凸起，激活时纯色凹陷（无高光） */
+  .tag-btn {
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    box-shadow: var(--nm-out-sm);
+    transition: color var(--dur-short) var(--ease-standard),
+                box-shadow var(--dur-short) var(--ease-standard),
+                transform var(--dur-short) var(--ease-standard),
+                background var(--dur-short) var(--ease-standard);
+  }
+  .tag-btn:hover {
+    color: var(--md-primary);
+    box-shadow: var(--nm-in-sm);
+    transform: translateY(1px);
+  }
+  .tag-btn:active {
+    transform: translateY(2px) scale(0.97);
+  }
+  /* 激活态：与普通按钮按下一致 —— 纯凹陷，不改色 */
+  .tag-btn.is-active {
+    color: var(--md-primary);
+    background: var(--nm-bg);
+    box-shadow: var(--nm-in-sm);
+    transform: translateY(1px);
+  }
+
+  /* 连通容器：参与文档流，展开时撑高 */
+  .stats-panel {
+    margin-top: 36px;
+    max-width: 520px;
+    position: relative;
+  }
+
+  /* 默认两个数据卡 */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 400px;
+    transition:
+      opacity var(--dur-medium) var(--ease-emphasized),
+      transform var(--dur-medium) var(--ease-emphasized);
+  }
+
+  /* 打开详情时：数据卡淡出并移出布局流 */
+  .stats-panel.is-open .stats {
+    opacity: 0;
+    transform: scale(0.92);
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+  }
+
+  /* 详情面板：参与文档流，撑开父容器，下方元素自然下移 */
+  .tag-detail {
+    position: relative;
+    width: 100%;
+    padding: 24px 26px 26px;
+    border-radius: var(--radius-lg);
+    background: var(--nm-bg);
+    box-shadow: var(--nm-in);
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition:
+      opacity var(--dur-long) var(--ease-emphasized-decel),
+      max-height var(--dur-long) var(--ease-emphasized-decel),
+      padding var(--dur-long) var(--ease-emphasized-decel);
+  }
+  .tag-detail[hidden] { display: none; }
+  .stats-panel.is-open .tag-detail {
+    opacity: 1;
+    max-height: 640px;
+    padding: 24px 26px 26px;
+  }
+
+  .tag-detail-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    background: var(--nm-bg);
+    color: var(--md-on-surface-variant);
+    box-shadow: var(--nm-out-sm);
+    cursor: pointer;
+    font-size: .8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--dur-short) var(--ease-standard),
+                box-shadow var(--dur-short) var(--ease-standard);
+  }
+  .tag-detail-close:hover {
+    color: var(--md-primary);
+    box-shadow: var(--nm-in-sm);
+  }
+
+  .tag-detail-title {
+    font-size: .82rem;
+    font-weight: 700;
+    letter-spacing: .5px;
+    color: var(--md-primary);
+    margin-bottom: 14px;
+  }
+
+  /* 内容切换缩放 */
+  .tag-detail-content {
+    transition:
+      opacity var(--dur-medium) var(--ease-emphasized),
+      transform var(--dur-medium) var(--ease-emphasized);
+  }
+  .tag-detail-content.is-switching {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  /* 详情：文字列表 */
+  .tag-detail-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .tag-detail-list li {
+    font-size: .9rem;
+    color: var(--md-on-surface-variant);
+  }
+
+  /* 详情：图片 —— 并排等高 */
+  .tag-detail-images {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .tag-detail-images img {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--nm-in-sm);
+  }
+  /* 单图：完整显示 */
+  .tag-detail-images.single {
+    grid-template-columns: 1fr;
+  }
+  .tag-detail-images.single img {
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    background: var(--nm-bg);
   }
 
   /* ============================================================
@@ -1021,7 +1159,6 @@
       font-size: .95rem;
     }
 
-    /* 导航 */
     header { padding: 10px 0; }
     header.scrolled { padding: 8px 0; }
     nav {
@@ -1056,7 +1193,6 @@
       font-size: .95rem;
     }
 
-    /* 角色区 */
     #char {
       min-height: auto;
       padding-top: 140px;
@@ -1093,10 +1229,10 @@
       padding: 12px;
     }
 
-    /* 关于 */
     .about-grid {
       grid-template-columns: 1fr;
       gap: 36px;
+      align-items: start;
     }
     .about-text p {
       margin-bottom: 14px;
@@ -1125,7 +1261,12 @@
       font-size: .7rem;
     }
 
-    /* 技能 */
+    .stats-panel { max-width: 100%; }
+    .stats { gap: 14px; margin-top: 0; }
+    .tag-detail { padding: 20px 18px 22px; }
+    .tag-detail-images img { aspect-ratio: 2 / 3; }
+    .tag-detail-list li { font-size: .84rem; }
+
     .skills-grid {
       grid-template-columns: repeat(2, 1fr);
       gap: 16px;
@@ -1144,7 +1285,6 @@
     }
     .skill-card p { font-size: .8rem; }
 
-    /* 折腾历程 */
     .timeline { padding-left: 26px; }
     .timeline::before {
       left: 7px;
@@ -1173,7 +1313,6 @@
     }
     .timeline-item p { font-size: .84rem; }
 
-    /* 设备 */
     .devices-grid {
       grid-template-columns: repeat(2, 1fr);
       gap: 14px;
@@ -1189,7 +1328,6 @@
     .device-card h3 { font-size: .84rem; }
     .device-card p { font-size: .7rem; }
 
-    /* 友情链接 */
     .friends-grid {
       grid-template-columns: 1fr;
       gap: 14px;
@@ -1206,7 +1344,6 @@
     .friend-info h3 { font-size: .94rem; }
     .friend-info p { font-size: .76rem; }
 
-    /* 联系 */
     .contact-links {
       flex-direction: column;
       align-items: center;
@@ -1221,7 +1358,6 @@
       font-size: .88rem;
     }
 
-    /* 回到顶部 */
     .back-to-top {
       right: 18px;
       bottom: 18px;
@@ -1230,14 +1366,12 @@
       font-size: 1.05rem;
     }
 
-    /* 页脚 */
     footer {
       padding: 36px 0 28px;
       font-size: .8rem;
     }
   }
 
-  /* 超小屏 */
   @media (max-width: 400px) {
     .container { padding: 0 14px; }
     .char-title { font-size: 1.95rem; }
@@ -1258,7 +1392,6 @@
     }
   }
 
-  /* 减少动效偏好 */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: .01ms !important;
@@ -1333,31 +1466,40 @@
       <div class="about-grid">
         <div class="about-text reveal">
           <p>你好，我是 <strong>鸢见夜樱</strong>，一名热爱折腾 Android 系统的学生。目前在 B 站已经发布了数个投稿视频。</p>
-          <p>我最大的爱好之一是折腾开放的系统——从刷机、Magisk 模块、自定义 ROM 到内核调优，只要是能"折腾"的地方，我都想试试。</p>
+          <p>我最大的爱好之一是折腾开放的系统——从刷机、Magisk 模块、自定义 ROM 到调度调优，只要是能"折腾"的地方，我都想试试。</p>
           <p>
             除了折腾电子设备，我还是个 <strong>10 后</strong>，喜欢玩 <strong>FPS 游戏</strong> 和 <strong>音游</strong>，
-            听 <strong>速核音乐</strong>，偶尔也会以 <strong>猫娘</strong> 的身份出没。
+            听 <strong>硬核音乐</strong>，以 <strong>猫娘</strong> 的身份出没于互联网的角落。
             <span class="secret-yandere" id="secretText">同时还是个病娇猫娘…</span>
             希望我的内容能帮到同样喜欢折腾电子设备的你。
           </p>
 
           <div class="about-tags">
-            <span class="tag">10后</span>
-            <span class="tag">FPS玩家</span>
-            <span class="tag">音游</span>
-            <span class="tag">速核音乐</span>
-            <span class="tag">猫娘</span>
+            <button type="button" class="tag tag-btn" data-tag="fps">FPS玩家</button>
+            <button type="button" class="tag tag-btn" data-tag="rhythm">音游</button>
+            <button type="button" class="tag tag-btn" data-tag="hardcore">硬核音乐</button>
+            <button type="button" class="tag tag-btn" data-tag="neko">猫娘</button>
             <span class="tag secret-yandere" id="secretTag">病娇</span>
           </div>
 
-          <div class="stats">
-            <div class="stat">
-              <div class="stat-num">10后</div>
-              <div class="stat-label">普通的那种</div>
+          <!-- 数据卡 + 详情面板（连通容器） -->
+          <div class="stats-panel" id="statsPanel">
+            <!-- 默认状态：两个数据卡 -->
+            <div class="stats" id="statsDefault">
+              <div class="stat">
+                <div class="stat-num">10后</div>
+                <div class="stat-label">普通的那种</div>
+              </div>
+              <div class="stat">
+                <div class="stat-num">2022年</div>
+                <div class="stat-label">开始玩机</div>
+              </div>
             </div>
-            <div class="stat">
-              <div class="stat-num">安卓13</div>
-              <div class="stat-label">开始玩机</div>
+
+            <!-- 详情状态：点击标签后展开 -->
+            <div class="tag-detail" id="tagDetail" hidden>
+              <button type="button" class="tag-detail-close" id="tagDetailClose" aria-label="关闭">✕</button>
+              <div class="tag-detail-content" id="tagDetailContent"></div>
             </div>
           </div>
 
@@ -1798,12 +1940,11 @@
     })();
 
     /* ----------------------------------------------------------
-       模块 4：版本号彩蛋
+       模块 4：版本号彩蛋（默认凹陷，隐藏入口）
        ---------------------------------------------------------- */
     const EasterEgg = (() => {
       const CLICK_TARGET   = 7;
       const RESET_MS       = 1500;
-      const REDIRECT_DELAY = 1500;
 
       const badge      = $('#versionBadge');
       const avatar     = $('#aboutAvatar');
@@ -1829,7 +1970,6 @@
         avatar.src = EGG_AVATAR;
 
         $('#about').scrollIntoView({ behavior: 'smooth', block: 'center' });
-
       };
 
       const init = () => {
@@ -1843,6 +1983,131 @@
             trigger();
           }
         });
+      };
+
+      return { init };
+    })();
+
+    /* ----------------------------------------------------------
+       模块 4.5：标签点击 → 展开详情（参与文档流，下方同步下移）
+       ---------------------------------------------------------- */
+    const TagPanel = (() => {
+      const PANEL   = $('#statsPanel');
+      const DETAIL  = $('#tagDetail');
+      const CONTENT = $('#tagDetailContent');
+      const CLOSE   = $('#tagDetailClose');
+      const BTNS    = $$('.tag-btn');
+
+      const DATA = {
+        fps: {
+          title: 'FPS 玩家',
+          type: 'images',
+          items: ['websrc/cs2.jpg', 'websrc/hl2.jpg']
+        },
+        rhythm: {
+          title: '音游',
+          type: 'list',
+          items: ['Phigros', 'Malody', 'Rizline', 'Paradigm:Reboot',
+                  'Cytus II', 'Muse Dash', 'Milthm', '…']
+        },
+        hardcore: {
+          title: '硬核音乐',
+          type: 'list',
+          items: ['Kobaryo', 'かめりあ', 'Sakuzyo', 'hkmori', '…']
+        },
+        neko: {
+          title: '猫娘',
+          type: 'images',
+          items: ['websrc/meow.jpg'],
+          single: true
+        }
+      };
+
+      let current = null;
+      let switching = false;
+
+      const buildHTML = (key) => {
+        const d = DATA[key];
+        if (!d) return '';
+
+        const parts = [`<div class="tag-detail-title">${d.title}</div>`];
+
+        if (d.type === 'images') {
+          const cls = d.single ? 'tag-detail-images single' : 'tag-detail-images';
+          const imgs = d.items
+            .map(src => `<img src="${src}" alt="${d.title}" loading="lazy"
+                              onerror="this.style.display='none'">`)
+            .join('');
+          parts.push(`<div class="${cls}">${imgs}</div>`);
+        } else {
+          const lis = d.items.map(t => `<li>${t}</li>`).join('');
+          parts.push(`<ul class="tag-detail-list">${lis}</ul>`);
+        }
+
+        return parts.join('');
+      };
+
+      const clearActive = () => {
+        BTNS.forEach(b => b.classList.remove('is-active'));
+      };
+
+      const swapContent = (key) => {
+        if (switching) return;
+        switching = true;
+        CONTENT.classList.add('is-switching');
+
+        setTimeout(() => {
+          CONTENT.innerHTML = buildHTML(key);
+          requestAnimationFrame(() => {
+            CONTENT.classList.remove('is-switching');
+            switching = false;
+          });
+        }, 180);
+      };
+
+      const open = (key, btn) => {
+        clearActive();
+        btn.classList.add('is-active');
+
+        if (current === null) {
+          current = key;
+          CONTENT.innerHTML = buildHTML(key);
+          DETAIL.hidden = false;
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => PANEL.classList.add('is-open'));
+          });
+        } else {
+          current = key;
+          swapContent(key);
+        }
+      };
+
+      const close = () => {
+        current = null;
+        clearActive();
+        PANEL.classList.remove('is-open');
+
+        setTimeout(() => {
+          if (!current) {
+            DETAIL.hidden = true;
+            CONTENT.innerHTML = '';
+          }
+        }, 480);
+      };
+
+      const init = () => {
+        BTNS.forEach(btn => {
+          btn.addEventListener('click', () => {
+            const key = btn.dataset.tag;
+            if (current === key && PANEL.classList.contains('is-open')) {
+              close();
+            } else {
+              open(key, btn);
+            }
+          });
+        });
+
+        CLOSE.addEventListener('click', close);
       };
 
       return { init };
@@ -1872,6 +2137,7 @@
       Navbar.init();
       Reveal.init();
       EasterEgg.init();
+      TagPanel.init();
       PWA.init();
     };
 
