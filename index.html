@@ -837,7 +837,9 @@
     grid-template-columns: 1fr;
   }
   .tag-detail-images.single img {
-    aspect-ratio: 1 / 1;
+    width: 100%;
+    height: 240px;
+    aspect-ratio: auto;
     object-fit: contain;
     background: var(--nm-bg);
   }
@@ -1468,14 +1470,14 @@
           <p>你好，我是 <strong>鸢见夜樱</strong>，一名热爱折腾 Android 系统的学生。目前在 B 站已经发布了数个投稿视频。</p>
           <p>我最大的爱好之一是折腾开放的系统——从刷机、Magisk 模块、自定义 ROM 到调度调优，只要是能"折腾"的地方，我都想试试。</p>
           <p>
-            除了折腾电子设备，我还是个 <strong>10 后</strong>，喜欢玩 <strong>FPS 游戏</strong> 和 <strong>音游</strong>，
+            除了折腾电子设备，我还是个 <strong>10 后</strong>，喜欢玩 <strong>FPS</strong> 游戏和 <strong>音游</strong>，
             听 <strong>硬核音乐</strong>，以 <strong>猫娘</strong> 的身份出没于互联网的角落。
             <span class="secret-yandere" id="secretText">同时还是个病娇猫娘…</span>
             希望我的内容能帮到同样喜欢折腾电子设备的你。
           </p>
 
           <div class="about-tags">
-            <button type="button" class="tag tag-btn" data-tag="fps">FPS玩家</button>
+            <button type="button" class="tag tag-btn" data-tag="fps">FPS</button>
             <button type="button" class="tag tag-btn" data-tag="rhythm">音游</button>
             <button type="button" class="tag tag-btn" data-tag="hardcore">硬核音乐</button>
             <button type="button" class="tag tag-btn" data-tag="neko">猫娘</button>
@@ -2000,7 +2002,7 @@
 
       const DATA = {
         fps: {
-          title: 'FPS 玩家',
+          title: 'FPS',
           type: 'images',
           items: ['websrc/cs2.jpg', 'websrc/hl2.jpg']
         },
