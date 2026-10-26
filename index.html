@@ -940,6 +940,52 @@
     color: var(--md-on-surface-variant);
   }
 
+  /* ---------- 折叠：默认只展示前 3 条，点击按钮展开 ---------- */
+  .timeline-extra {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--dur-long) var(--ease-emphasized);
+  }
+  .timeline-extra.is-open { grid-template-rows: 1fr; }
+  .timeline-extra-inner {
+    min-height: 0;
+    overflow: hidden;
+    /* 把裁剪区向左扩到时间轴圆点之外，避免折叠容器裁掉节点 */
+    width: calc(100% + 41px);
+    margin-left: -41px;
+    padding-left: 41px;
+  }
+  .timeline-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+  }
+  .timeline-toggle {
+    padding: 12px 22px;
+    font-size: .88rem;
+  }
+  .timeline-toggle-icon {
+    display: inline-flex;
+    transition: transform var(--dur-medium) var(--ease-emphasized);
+  }
+  .timeline-toggle-icon svg {
+    display: block;
+    width: 18px;
+    height: 18px;
+  }
+  .timeline-toggle[aria-expanded="true"] .timeline-toggle-icon {
+    transform: rotate(180deg);
+  }
+  .timeline-toggle-count {
+    padding: 2px 9px;
+    border-radius: var(--radius-full);
+    font-size: .72rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--md-on-primary-container);
+    background: var(--md-primary-container);
+  }
+
   /* ============================================================
      11. 设备（不可点击 → 常态凹陷）
      ============================================================ */
@@ -1319,6 +1365,17 @@
       margin-bottom: 6px;
     }
     .timeline-item p { font-size: .84rem; }
+    .timeline-extra-inner {
+      width: calc(100% + 30px);
+      margin-left: -30px;
+      padding-left: 30px;
+    }
+    .timeline-actions { margin-top: 4px; }
+    .timeline-toggle {
+      padding: 11px 18px;
+      font-size: .82rem;
+    }
+    .timeline-toggle-count { font-size: .68rem; }
 
     .devices-grid {
       grid-template-columns: repeat(2, 1fr);
@@ -1411,6 +1468,14 @@
 </head>
 
 <body class="no-js">
+
+<noscript>
+  <style>
+    /* 无 JS 时直接展示完整历程 */
+    .timeline-extra { grid-template-rows: 1fr; }
+    .timeline-actions { display: none; }
+  </style>
+</noscript>
 
 <!-- ==================== 导航栏 ==================== -->
 <header id="header">
@@ -1583,59 +1648,77 @@
           <p>在 iOS 设备上成功安装 TrollStore，实现了免签名安装第三方应用</p>
         </article>
 
-        <article class="timeline-item reveal">
-          <span class="timeline-date">2023 年</span>
-          <h3>利用 winra1n 首次越狱苹果设备</h3>
-          <p>借助 winra1n 工具，第一次成功越狱 iOS 设备，打开了 iOS 生态的另一扇门</p>
-        </article>
+        <div class="timeline-extra" id="timelineExtra">
+          <div class="timeline-extra-inner">
+            <article class="timeline-item reveal">
+              <span class="timeline-date">2023 年</span>
+              <h3>利用 winra1n 首次越狱苹果设备</h3>
+              <p>借助 winra1n 工具，第一次成功越狱 iOS 设备，打开了 iOS 生态的另一扇门</p>
+            </article>
 
-        <article class="timeline-item reveal">
-          <span class="timeline-date">2024 年 5 月</span>
-          <h3>获取倾听者 K5 的 Root 权限</h3>
-          <p>经过持续探索，成功获取倾听者 K5 的 Root 权限，进一步深入系统底层</p>
-        </article>
+            <article class="timeline-item reveal">
+              <span class="timeline-date">2024 年 5 月</span>
+              <h3>获取倾听者 K5 的 Root 权限</h3>
+              <p>经过持续探索，成功获取倾听者 K5 的 Root 权限，进一步深入系统底层</p>
+            </article>
 
-        <article class="timeline-item reveal">
-          <span class="timeline-date">2024 年末</span>
-          <h3>入手第一套 VR 设备</h3>
-          <p>不算大厂的设备，但是功能齐全。《半衰期：Alyx》是真好玩</p>
-        </article>
+            <article class="timeline-item reveal">
+              <span class="timeline-date">2024 年末</span>
+              <h3>入手第一套 VR 设备</h3>
+              <p>不算大厂的设备，但是功能齐全。《半衰期：Alyx》是真好玩</p>
+            </article>
 
-        <article class="timeline-item reveal">
-          <span class="timeline-date">2025 上半年</span>
-          <h3>在德州仪器计算器上安装 Ndless</h3>
-          <p>在德州仪器计算器上成功安装 Ndless，让计算器也能运行原生 C 程序和 3D 程序</p>
-        </article>
+            <article class="timeline-item reveal">
+              <span class="timeline-date">2025 上半年</span>
+              <h3>在德州仪器计算器上安装 Ndless</h3>
+              <p>在德州仪器计算器上成功安装 Ndless，让计算器也能运行原生 C 程序和 3D 程序</p>
+            </article>
 
-        <article class="timeline-item reveal">
-          <span class="timeline-date">2025 年末</span>
-          <h3>在 Arch Linux 上试用 Hyprland</h3>
-          <p>在 Arch Linux 上尝试了 Hyprland 桌面环境，体验了 Wayland 下的炫酷平铺式桌面，但是现已停止使用</p>
-        </article>
+            <article class="timeline-item reveal">
+              <span class="timeline-date">2025 年末</span>
+              <h3>在 Arch Linux 上试用 Hyprland</h3>
+              <p>在 Arch Linux 上尝试了 Hyprland 桌面环境，体验了 Wayland 下的炫酷平铺式桌面，但是现已停止使用</p>
+            </article>
 
-        <article class="timeline-item reveal">
-          <span class="timeline-date">2026 年 10 月上旬</span>
-          <h3>本地部署文生图小模型</h3>
-          <p>在本地部署了文生图小模型"Vivid Orange Mix"，探索 AI 生成图像的玩法</p>
-        </article>
+            <article class="timeline-item reveal">
+              <span class="timeline-date">2026 年 10 月上旬</span>
+              <h3>本地部署文生图小模型</h3>
+              <p>在本地部署了文生图小模型"Vivid Orange Mix"，探索 AI 生成图像的玩法</p>
+            </article>
 
-        <article class="timeline-item reveal">
-          <span class="timeline-date">2026 年 10 月 17 日</span>
-          <h3>回退主力机安卓版本</h3>
-          <p>升级安卓 17 后悔，切槽位触发黑厂防回滚黑砖，遂至售后救砖</p>
-        </article>
+            <article class="timeline-item reveal">
+              <span class="timeline-date">2026 年 10 月 17 日</span>
+              <h3>回退主力机安卓版本</h3>
+              <p>升级安卓 17 后悔，切槽位触发黑厂防回滚黑砖，遂至售后救砖</p>
+            </article>
 
-        <article class="timeline-item reveal">
-          <span class="timeline-date">2026 年 10 月 25 日</span>
-          <h3>获取三星Galaxy Fold 1 的 Root 权限</h3>
-          <p>使用 Frija 下载固件，Magisk 修补，并用 Odin 刷入</p>
-        </article>
+            <article class="timeline-item reveal">
+              <span class="timeline-date">2026 年 10 月 25 日</span>
+              <h3>获取三星Galaxy Fold 1 的 Root 权限</h3>
+              <p>使用 Frija 下载固件，Magisk 修补，并用 Odin 刷入</p>
+            </article>
 
-        <article class="timeline-item reveal is-active">
-          <span class="timeline-date">仍在折腾中</span>
-          <h3>持续探索开放系统</h3>
-          <p>折腾没有终点——继续折腾新设备、新系统、新玩法，也把这些过程分享在 B 站、酷安，以及更多的平台上</p>
-        </article>
+            <article class="timeline-item reveal is-active">
+              <span class="timeline-date">仍在折腾中</span>
+              <h3>持续探索开放系统</h3>
+              <p>折腾没有终点——继续折腾新设备、新系统、新玩法，也把这些过程分享在 B 站、酷安，以及更多的平台上</p>
+            </article>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-actions">
+        <button type="button" class="btn btn-primary timeline-toggle focus-ring"
+                id="timelineToggle" aria-expanded="false" aria-controls="timelineExtra">
+          <span id="timelineToggleLabel">展开全部历程</span>
+          <span class="timeline-toggle-count" id="timelineToggleCount">还有 9 条</span>
+          <span class="timeline-toggle-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 9l6 6 6-6"></path>
+            </svg>
+          </span>
+        </button>
       </div>
     </div>
   </section>
@@ -1902,6 +1985,65 @@
     })();
 
     /* ----------------------------------------------------------
+       模块 2.5：折腾历程折叠（默认只显示前 3 条）
+       ---------------------------------------------------------- */
+    const Timeline = (() => {
+      const PREVIEW = 3;
+      const TOGGLE  = $('#timelineToggle');
+      const EXTRA   = $('#timelineExtra');
+      const LABEL   = $('#timelineToggleLabel');
+      const COUNT   = $('#timelineToggleCount');
+      const TOTAL   = $$('.timeline-item').length;
+      const HIDDEN  = Math.max(TOTAL - PREVIEW, 0);
+
+      const setOpen = (open) => {
+        EXTRA.classList.toggle('is-open', open);
+        EXTRA.toggleAttribute('inert', !open);
+        TOGGLE.setAttribute('aria-expanded', String(open));
+        LABEL.textContent = open ? '收起历程' : '展开全部历程';
+        COUNT.textContent = open ? `共 ${TOTAL} 条` : `还有 ${HIDDEN} 条`;
+
+        if (open) {
+          EXTRA.removeAttribute('aria-hidden');
+        } else {
+          EXTRA.setAttribute('aria-hidden', 'true');
+        }
+      };
+
+      const onCollapseEnd = (event) => {
+        if (event.target !== EXTRA ||
+            event.propertyName !== 'grid-template-rows' ||
+            EXTRA.classList.contains('is-open')) return;
+
+        const rect = TOGGLE.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > window.innerHeight) {
+          const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          TOGGLE.scrollIntoView({
+            behavior: reduced ? 'auto' : 'smooth',
+            block: 'center'
+          });
+        }
+      };
+
+      const init = () => {
+        if (!TOGGLE || !EXTRA) return;
+
+        if (!HIDDEN) {
+          TOGGLE.parentElement.hidden = true;
+          return;
+        }
+
+        setOpen(false);
+        EXTRA.addEventListener('transitionend', onCollapseEnd);
+        TOGGLE.addEventListener('click', () => {
+          setOpen(TOGGLE.getAttribute('aria-expanded') !== 'true');
+        });
+      };
+
+      return { init };
+    })();
+
+    /* ----------------------------------------------------------
        模块 3：滚动入场动画（带兜底）
        ---------------------------------------------------------- */
     const Reveal = (() => {
@@ -2150,6 +2292,7 @@
       document.body.classList.remove('no-js');
       Theme.init();
       Navbar.init();
+      Timeline.init();
       Reveal.init();
       EasterEgg.init();
       TagPanel.init();
