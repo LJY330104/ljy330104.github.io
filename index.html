@@ -1098,6 +1098,9 @@
     background: var(--nm-bg);
     border-radius: var(--radius-lg);
     box-shadow: var(--nm-in);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .device-icon {
     width: 48px;
@@ -1130,6 +1133,72 @@
   .device-card p {
     font-size: .78rem;
     color: var(--md-on-surface-variant);
+  }
+
+  /* ---------- 设备状态标签 ---------- */
+  /* 「使用状态」和「是否 Root」是两条独立的维度，并排放进一个可换行的容器 */
+  .device-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .device-status,
+  .device-root {
+    display: inline-block;
+    padding: 3px 12px;
+    font-size: .69rem;
+    font-weight: 600;
+    line-height: 1.7;
+    letter-spacing: .2px;
+    white-space: nowrap;
+    border-radius: var(--radius-full);
+  }
+  /* Root 用 tertiary 色，和状态色区分开 */
+  .device-root {
+    padding: 3px 10px;
+    background: var(--md-tertiary-container);
+    color: var(--md-on-tertiary-container);
+  }
+  /* 主力：实心主色，最醒目 */
+  .device-status.is-primary {
+    background: var(--md-primary);
+    color: var(--md-on-primary);
+  }
+  /* 仍在用：主色容器 */
+  .device-status.is-live {
+    background: var(--md-primary-container);
+    color: var(--md-on-primary-container);
+  }
+  /* 等适配 / 半吃灰：中性 */
+  .device-status.is-half {
+    background: var(--md-secondary-container);
+    color: var(--md-on-secondary-container);
+  }
+  /* 吃灰：最弱 */
+  .device-status.is-idle {
+    background: var(--md-surface-container-high);
+    color: var(--md-on-surface-variant);
+  }
+  /* 砖了：错误色 */
+  .device-status.is-dead {
+    background: var(--md-error);
+    color: var(--md-on-error);
+  }
+  /* 已送出 / 已丢失 */
+  .device-status.is-gone {
+    background: transparent;
+    color: var(--md-on-surface-variant);
+    box-shadow: inset 0 0 0 1.5px var(--md-outline-variant);
+  }
+
+  .device-card .device-note {
+    margin-top: 10px;
+    font-size: .72rem;
+    line-height: 1.65;
+    color: var(--md-on-surface-variant);
+    opacity: .85;
   }
 
   .devices-actions {
@@ -1528,7 +1597,7 @@
     }
     .devices-scroller { --devices-fade-size: 44px; }
     .device-card {
-      flex-basis: 190px;
+      flex-basis: 200px;
       padding: 18px 12px;
     }
     .device-icon {
@@ -1540,6 +1609,20 @@
     }
     .device-card h3 { font-size: .84rem; }
     .device-card p { font-size: .7rem; }
+    .device-badges {
+      margin-top: 8px;
+      gap: 5px;
+    }
+    .device-status,
+    .device-root {
+      padding: 2px 10px;
+      font-size: .64rem;
+    }
+    .device-card .device-note {
+      margin-top: 8px;
+      font-size: .67rem;
+      line-height: 1.6;
+    }
     .devices-actions { margin-top: 18px; }
     .devices-hint { font-size: .76rem; }
     .devices-jump {
@@ -1601,7 +1684,7 @@
     .skills-grid { grid-template-columns: 1fr; }
     .stats { grid-template-columns: 1fr; }
     .devices-grid { gap: 12px; }
-    .device-card { flex-basis: 160px; }
+    .device-card { flex-basis: 172px; }
     .devices-scroller { --devices-fade-size: 34px; }
     .nav-links a {
       padding: 5px 7px;
@@ -1903,97 +1986,131 @@
             <div class="device-icon">📱</div>
             <h3>一加 13T</h3>
             <p>手机</p>
+            <div class="device-badges"><span class="device-status is-primary">主力机</span><span class="device-root">已 Root</span></div>
           </article>
           <article class="device-card">
             <div class="device-icon">📟</div>
             <h3>一加平板 Pro</h3>
             <p>平板</p>
+            <div class="device-badges"><span class="device-status is-live">音游专用</span><span class="device-root">已 Root</span></div>
+            <p class="device-note">主要拿来打音游</p>
           </article>
           <article class="device-card">
             <div class="device-icon">⌚</div>
             <h3>OPPO Watch X2</h3>
             <p>智能手表</p>
+            <div class="device-badges"><span class="device-status is-live">日常佩戴</span></div>
           </article>
           <article class="device-card">
             <div class="device-icon">💻</div>
             <h3>惠普暗影精灵 11</h3>
             <p>笔记本</p>
+            <div class="device-badges"><span class="device-status is-live">游戏主力</span></div>
+            <p class="device-note">主要打游戏；装过 Arch Linux，本地部署过生图模型</p>
           </article>
           <article class="device-card">
             <div class="device-icon">💻</div>
             <h3>MacBook Air 13 英寸 M5</h3>
             <p>笔记本</p>
+            <div class="device-badges"><span class="device-status is-live">随身</span></div>
+            <p class="device-note">在外面用，兼顾续航和性能</p>
           </article>
 
           <article class="device-card">
             <div class="device-icon">📱</div>
             <h3>蓝狐 NX1</h3>
             <p>手机</p>
+            <div class="device-badges"><span class="device-status is-dead">砖了</span></div>
           </article>
           <article class="device-card">
             <div class="device-icon">📱</div>
             <h3>魅族 21 Pro</h3>
             <p>手机</p>
+            <div class="device-badges"><span class="device-status is-gone">已送出</span></div>
+            <p class="device-note">我妈在用，换下了她的 Mate 60 Pro</p>
           </article>
           <article class="device-card">
             <div class="device-icon">📱</div>
             <h3>三星 Galaxy Fold</h3>
             <p>折叠屏手机</p>
+            <div class="device-badges"><span class="device-status is-live">在用</span><span class="device-root">已 Root</span></div>
+            <p class="device-note">Frija 下固件、Magisk 修补，再用 Odin 刷入</p>
           </article>
           <article class="device-card">
             <div class="device-icon">📱</div>
             <h3>iPhone SE 2</h3>
             <p>手机</p>
+            <div class="device-badges"><span class="device-status is-half">等越狱</span></div>
+            <p class="device-note">停在 iOS 27 beta 3，等越狱工具</p>
           </article>
           <article class="device-card">
             <div class="device-icon">📱</div>
             <h3>一加 11</h3>
             <p>手机</p>
+            <div class="device-badges"><span class="device-status is-idle">半吃灰</span></div>
+            <p class="device-note">偶尔拿出来用用</p>
           </article>
           <article class="device-card">
             <div class="device-icon">📱</div>
             <h3>红米 4A</h3>
             <p>手机</p>
+            <div class="device-badges"><span class="device-status is-idle">吃灰</span><span class="device-root">已 Root</span></div>
+            <p class="device-note">改成 18650 电池供电，然后吃灰了</p>
           </article>
           <article class="device-card">
             <div class="device-icon">📱</div>
             <h3>Nothing Phone (1)</h3>
             <p>手机</p>
+            <div class="device-badges"><span class="device-status is-dead">砖了</span></div>
+            <p class="device-note">吃灰中</p>
           </article>
           <article class="device-card">
             <div class="device-icon">📱</div>
             <h3>小米 6</h3>
             <p>手机</p>
+            <div class="device-badges"><span class="device-status is-half">等适配</span><span class="device-root">已 Root</span></div>
+            <p class="device-note">刷了澎湃 OS 4，在等 hackiOS 适配</p>
           </article>
           <article class="device-card">
             <div class="device-icon">📱</div>
             <h3>华为 Mate 20</h3>
             <p>手机</p>
+            <div class="device-badges"><span class="device-status is-idle">吃灰</span></div>
           </article>
           <article class="device-card">
             <div class="device-icon">📟</div>
             <h3>iPad mini 5</h3>
             <p>平板</p>
+            <div class="device-badges"><span class="device-status is-gone">已送出</span></div>
+            <p class="device-note">还给我爸了</p>
           </article>
           <article class="device-card">
             <div class="device-icon">📟</div>
             <h3>iPad 第 6 代</h3>
             <p>平板</p>
+            <div class="device-badges"><span class="device-status is-idle">吃灰</span></div>
+            <p class="device-note">已经越狱，现在吃灰</p>
           </article>
           <article class="device-card">
             <div class="device-icon">⌚</div>
             <h3>小米手环 8</h3>
             <p>智能手环</p>
+            <div class="device-badges"><span class="device-status is-gone">已丢失</span></div>
+            <p class="device-note">在动物园弄丢了</p>
           </article>
           <article class="device-card">
             <div class="device-icon">⌚</div>
             <h3>小米手环 7 Pro</h3>
             <p>智能手环</p>
+            <div class="device-badges"><span class="device-status is-gone">已送出</span></div>
+            <p class="device-note">给爷爷看通知用</p>
           </article>
           <article class="device-card">
             <div class="device-icon">⌚</div>
             <h3>小天才 Z6_DFB</h3>
             <p>儿童手表</p>
+            <div class="device-badges"><span class="device-status is-gone">已损坏</span></div>
+            <p class="device-note">卡槽坏了，吃灰中</p>
           </article>
         </div>
       </div>
