@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ljy330104.github.io/sitemap.xml

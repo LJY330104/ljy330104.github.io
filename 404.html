@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>404 · 页面走丢了 | 鸢见夜樱</title>
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="#39C5BB" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0E1514" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="/websrc/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/websrc/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/websrc/apple-touch-icon.png" sizes="180x180">
+
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #F5FBF9;
+      --fg: #171D1C;
+      --fg-dim: #3F4947;
+      --primary: #006A63;
+      --container: #CCE8E4;
+      --nm-light: #F4F9F7;
+      --nm-dark: #CBD6D3;
+      --glow: rgba(156, 242, 232, .45);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        color-scheme: dark;
+        --bg: #0E1514;
+        --fg: #DEE4E2;
+        --fg-dim: #BEC9C6;
+        --primary: #80D5CC;
+        --container: #324B48;
+        --nm-light: #252C2B;
+        --nm-dark: #111716;
+        --glow: rgba(0, 80, 74, .38);
+      }
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 24px;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+                   Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    /* 背景光晕 */
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(70px);
+      z-index: 0;
+      pointer-events: none;
+    }
+    body::before {
+      width: 420px; height: 420px;
+      top: -140px; right: -120px;
+      background: var(--glow);
+    }
+    body::after {
+      width: 360px; height: 360px;
+      bottom: -160px; left: -130px;
+      background: var(--glow);
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 520px;
+      padding: 56px 40px;
+      border-radius: 28px;
+      background: var(--bg);
+      box-shadow:
+        10px 10px 28px var(--nm-dark),
+        -10px -10px 28px var(--nm-light);
+    }
+
+    .code {
+      font-size: clamp(4.2rem, 16vw, 6.5rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -3px;
+      background: linear-gradient(135deg, var(--primary), var(--fg-dim));
+      -webkit-background-clip: text;
+              background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    p {
+      color: var(--fg-dim);
+      font-size: .96rem;
+      margin-bottom: 32px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    a {
+      display: inline-block;
+      padding: 12px 26px;
+      border-radius: 999px;
+      font-size: .92rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--fg-dim);
+      background: var(--bg);
+      box-shadow:
+        4px 4px 10px var(--nm-dark),
+        -4px -4px 10px var(--nm-light);
+      transition: box-shadow .18s ease, color .18s ease, transform .18s ease;
+    }
+    a:hover,
+    a:focus-visible {
+      color: var(--primary);
+      box-shadow:
+        inset 4px 4px 10px var(--nm-dark),
+        inset -4px -4px 10px var(--nm-light);
+      outline: none;
+    }
+    a:active { transform: scale(.97); }
+
+    a.primary {
+      color: #FFFFFF;
+      background: var(--primary);
+      box-shadow: 4px 4px 12px var(--nm-dark);
+    }
+    a.primary:hover,
+    a.primary:focus-visible {
+      color: #FFFFFF;
+      box-shadow: inset 0 0 0 2px var(--bg), 4px 4px 12px var(--nm-dark);
+    }
+    @media (prefers-color-scheme: dark) {
+      a.primary { color: #003733; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <main>
+    <div class="code">404</div>
+    <h1>这一页被刷没了</h1>
+    <p>你访问的地址不存在，或者已经被我折腾崩了。<br>不如回首页看看我最近又在折腾什么。</p>
+    <div class="actions">
+      <a class="primary" href="/">回首页</a>
+      <a href="https://github.com/LJY330104">GitHub</a>
+    </div>
+  </main>
+
+</body>
+</html>

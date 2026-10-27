@@ -9,31 +9,65 @@
        SEO / 社交分享
        ============================================================ -->
   <meta name="description" content="鸢见夜樱的个人网站 —— 一位热爱折腾 Android 系统的学生，记录刷机、Magisk、ROM、内核调优与破解的故事。">
-  <meta name="keywords" content="鸢见夜樱,Android,刷机,Magisk,ROM,Root,玩机">
   <meta name="author" content="鸢见夜樱">
-  <meta name="theme-color" content="#39C5BB" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0E1514" media="(prefers-color-scheme: dark)">
+  <link rel="canonical" href="https://ljy330104.github.io/">
 
-  <!-- Open Graph -->
+  <!-- 主题色：由 JS 依据当前明暗主题更新（见下方初始化脚本与 Theme 模块） -->
+  <meta name="theme-color" content="#39C5BB">
+
+  <!-- Open Graph（图片必须用绝对地址，否则部分抓取器会丢弃） -->
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="鸢见夜樱">
+  <meta property="og:url" content="https://ljy330104.github.io/">
   <meta property="og:title" content="鸢见夜樱 | 个人网站">
   <meta property="og:description" content="一位热爱折腾 Android 系统的学生，记录刷机、Magisk、ROM、内核调优与破解的故事。">
-  <meta property="og:image" content="websrc/avatar.jpeg">
+  <meta property="og:image" content="https://ljy330104.github.io/websrc/og-cover.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="鸢见夜樱 —— 喜欢折腾电子设备">
   <meta property="og:locale" content="zh_CN">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="鸢见夜樱 | 个人网站">
   <meta name="twitter:description" content="一位热爱折腾 Android 系统的学生。">
-  <meta name="twitter:image" content="websrc/avatar.jpeg">
+  <meta name="twitter:image" content="https://ljy330104.github.io/websrc/og-cover.jpg">
 
-  <!-- 图标 -->
-  <link rel="icon" href="/websrc/icon.jpg" sizes="any">
-  <link rel="icon" href="/websrc/icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="/websrc/icon.jpg">
+  <!-- 图标：32/192/180 三档，外加 .ico 兼容旧抓取器 -->
+  <link rel="icon" href="/websrc/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/websrc/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="/websrc/favicon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/websrc/apple-touch-icon.png" sizes="180x180">
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
+
+  <!-- ============================================================
+       主题初始化（阻塞执行，必须放在样式表之前/正文之前）
+       目的：在首次绘制前就把 data-theme 定下来，避免深色模式白闪。
+       ============================================================ -->
+  <script>
+    (function () {
+      var KEY = 'theme';
+      var saved = null;
+      try { saved = localStorage.getItem(KEY); } catch (e) { /* 隐私模式下可能抛错 */ }
+
+      var prefersDark = window.matchMedia
+        && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      // 只有用户在站内主动切换过才用存档值，否则跟随系统偏好
+      var theme = (saved === 'dark' || saved === 'light')
+        ? saved
+        : (prefersDark ? 'dark' : 'light');
+
+      var root = document.documentElement;
+      root.setAttribute('data-theme', theme);
+      root.style.colorScheme = theme;
+
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', theme === 'dark' ? '#0E1514' : '#39C5BB');
+    })();
+  </script>
 
 <style>
   /* ============================================================
@@ -45,6 +79,9 @@
        · 不可点击元素 → 常态凹陷
      ============================================================ */
   :root {
+    /* 让滚动条 / 原生控件跟随主题（不写的话深色模式下滚动条仍是浅色） */
+    color-scheme: light;
+
     /* ---------- 1.1 Primary ---------- */
     --md-primary: #006A63;
     --md-on-primary: #FFFFFF;
@@ -139,6 +176,8 @@
      2. 暗色主题
      ============================================================ */
   [data-theme="dark"] {
+    color-scheme: dark;
+
     --md-primary: #80D5CC;
     --md-on-primary: #003733;
     --md-primary-container: #00504A;
@@ -410,12 +449,18 @@
     align-items: center;
     gap: 10px;
     padding-left: 6px;
+    /* 作为可点击的首页链接 */
+    text-decoration: none;
+    color: inherit;
+    border-radius: var(--radius-full);
   }
+  .logo:hover .logo-dot { transform: scale(1.35); }
   .logo-dot {
     width: 10px;
     height: 10px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--md-primary), var(--md-tertiary));
+    transition: transform var(--dur-short) var(--ease-emphasized);
   }
   .logo span { color: var(--md-primary); }
 
@@ -476,7 +521,7 @@
   /* ============================================================
      7. 角色区
      ============================================================ */
-  #char {
+  #hero {
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -566,6 +611,8 @@
     justify-content: center;
     position: relative;
   }
+  /* <picture> 不参与排版，让内部的 img 直接撑满圆盘 */
+  .avatar-disc picture { display: contents; }
   .avatar {
     width: 100%;
     height: 100%;
@@ -1294,37 +1341,58 @@
     header.scrolled { padding: 8px 0; }
     nav {
       flex-wrap: wrap;
-      justify-content: center;
-      gap: 6px;
-      padding: 8px 14px;
+      justify-content: space-between;
+      gap: 6px 10px;
+      padding: 8px 12px;
       border-radius: 24px;
     }
     .logo {
       padding-left: 0;
       font-size: 1.05rem;
+      order: 1;
+      margin-right: auto;
     }
     .logo-dot { width: 9px; height: 9px; }
+    /* display:contents 让按钮和链接列表直接参与 nav 的 flex 排版：
+       第一行「logo ←→ 主题按钮」，第二行「可横向滑动的导航条」 */
     .nav-right {
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 6px;
-    }
-    .nav-links {
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0;
-    }
-    .nav-links a {
-      padding: 6px 10px;
-      font-size: .75rem;
+      display: contents;
     }
     .theme-toggle {
+      order: 2;
       width: 38px;
       height: 38px;
       font-size: .95rem;
     }
+    /* 七项导航改成单行可横滑，避免换行把 sticky header 撑到两行高 */
+    .nav-links {
+      order: 3;
+      flex: 1 0 100%;
+      min-width: 0;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      gap: 2px;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x proximity;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+      /* 两端渐隐，暗示还能滑 */
+      -webkit-mask-image: linear-gradient(90deg,
+        transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
+              mask-image: linear-gradient(90deg,
+        transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
+    }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links li { flex: 0 0 auto; scroll-snap-align: start; }
+    .nav-links a {
+      padding: 6px 12px;
+      font-size: .78rem;
+      white-space: nowrap;
+    }
 
-    #char {
+    #hero {
       min-height: auto;
       padding-top: 140px;
       padding-bottom: 40px;
@@ -1554,10 +1622,8 @@
     }
   }
 </style>
-</head>
 
-<body class="no-js">
-
+<!-- 无 JS 兜底：<style> 属于 metadata content，规范上只能出现在 head 中 -->
 <noscript>
   <style>
     /* 无 JS 时直接展示完整历程 */
@@ -1566,17 +1632,20 @@
     .devices-jump { display: none; }
   </style>
 </noscript>
+</head>
+
+<body class="no-js">
 
 <!-- ==================== 导航栏 ==================== -->
 <header id="header">
   <nav>
-    <div class="logo">
+    <a class="logo focus-ring" href="#hero">
       <span class="logo-dot"></span>
       鸢见<span>夜樱</span>
-    </div>
+    </a>
     <div class="nav-right">
       <ul class="nav-links">
-        <li><a href="#char" class="focus-ring">首页</a></li>
+        <li><a href="#hero" class="focus-ring">首页</a></li>
         <li><a href="#about" class="focus-ring">关于</a></li>
         <li><a href="#skills" class="focus-ring">技能</a></li>
         <li><a href="#timeline" class="focus-ring">历程</a></li>
@@ -1584,7 +1653,8 @@
         <li><a href="#friends" class="focus-ring">友链</a></li>
         <li><a href="#contact" class="focus-ring">联系</a></li>
       </ul>
-      <button class="theme-toggle focus-ring" id="themeToggle" title="切换主题">🌙</button>
+      <button class="theme-toggle focus-ring" id="themeToggle" type="button"
+              title="切换主题" aria-label="深色模式" aria-pressed="false">🌙</button>
     </div>
   </nav>
 </header>
@@ -1592,7 +1662,7 @@
 <main>
 
   <!-- ==================== 角色区 ==================== -->
-  <section id="char">
+  <section id="hero">
     <div class="container char-inner">
       <div>
         <span class="char-badge">Hello, World!</span>
@@ -1612,8 +1682,13 @@
       </div>
       <div class="avatar-wrap">
         <div class="avatar-disc">
-          <img class="avatar" src="websrc/avatar.jpeg"
-               alt="鸢见夜樱的头像" width="340" height="340">
+          <!-- WebP 优先（约 57KB），不支持时回落到 JPEG（约 80KB） -->
+          <picture>
+            <source srcset="websrc/avatar.webp" type="image/webp">
+            <img class="avatar" src="websrc/avatar.jpeg"
+                 alt="鸢见夜樱的头像" width="340" height="340"
+                 fetchpriority="high" decoding="async">
+          </picture>
         </div>
       </div>
     </div>
@@ -1665,7 +1740,8 @@
             </div>
           </div>
 
-          <div class="version-badge focus-ring" id="versionBadge">v2.5.2</div>
+          <div class="version-badge focus-ring" id="versionBadge"
+               title="站点版本 v2.5.2">v2.5.2</div>
         </div>
 
         <div class="reveal">
@@ -1801,7 +1877,7 @@
         <button type="button" class="btn btn-primary timeline-toggle focus-ring"
                 id="timelineToggle" aria-expanded="false" aria-controls="timelineExtra">
           <span id="timelineToggleLabel">展开全部历程</span>
-          <span class="timeline-toggle-count" id="timelineToggleCount">还有 9 条</span>
+          <span class="timeline-toggle-count" id="timelineToggleCount"></span>
           <span class="timeline-toggle-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1820,7 +1896,7 @@
       <p class="section-sub reveal">折腾过的那些机器</p>
 
       <div class="devices-scroller reveal focus-ring" id="devicesScroller"
-           tabindex="0" role="region" aria-label="我的设备列表，可横向滚动"
+           tabindex="0" role="region"
            aria-describedby="devicesHint">
         <div class="devices-grid">
           <article class="device-card">
@@ -2044,26 +2120,52 @@
       const KEY = 'theme';
       const root = document.documentElement;
       const btn = $('#themeToggle');
+      const meta = document.querySelector('meta[name="theme-color"]');
+      const media = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
 
-      const apply = (theme) => {
+      // 读取存档值；隐私模式下 localStorage 可能直接抛错
+      const readSaved = () => {
+        try {
+          const v = localStorage.getItem(KEY);
+          return (v === 'dark' || v === 'light') ? v : null;
+        } catch (e) { return null; }
+      };
+
+      const writeSaved = (theme) => {
+        try { localStorage.setItem(KEY, theme); } catch (e) {}
+      };
+
+      const current = () => (root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+
+      // 只负责“画”到页面上，不碰存储
+      const paint = (theme) => {
         root.setAttribute('data-theme', theme);
+        root.style.colorScheme = theme;
         btn.textContent = theme === 'dark' ? '☀️' : '🌙';
-        localStorage.setItem(KEY, theme);
-        const themeColor = theme === 'dark' ? '#0E1514' : '#39C5BB';
-        let meta = document.querySelector('meta[name="theme-color"]');
-        if (meta) meta.setAttribute('content', themeColor);
+        // 无障碍名保持不变，用 aria-pressed 表达开关状态
+        btn.setAttribute('aria-pressed', String(theme === 'dark'));
+        if (meta) meta.setAttribute('content', theme === 'dark' ? '#0E1514' : '#39C5BB');
       };
 
       const init = () => {
-        const saved = localStorage.getItem(KEY) || 'light';
-        apply(saved);
+        // 主题已由 <head> 中的阻塞脚本在首次绘制前设定，这里只做 UI 同步
+        paint(current());
 
         btn.addEventListener('click', () => {
-          const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-          apply(next);
+          const next = current() === 'dark' ? 'light' : 'dark';
+          paint(next);
+          writeSaved(next);          // 只有用户主动切换才持久化
           btn.style.transform = 'scale(0.85) rotate(180deg)';
           setTimeout(() => { btn.style.transform = ''; }, 300);
         });
+
+        // 用户没手动选过主题时，跟随系统偏好的实时变化
+        if (media && media.addEventListener) {
+          media.addEventListener('change', (event) => {
+            if (readSaved()) return;   // 用户已显式选择，尊重之
+            paint(event.matches ? 'dark' : 'light');
+          });
+        }
       };
 
       return { init };

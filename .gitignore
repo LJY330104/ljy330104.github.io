@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+._*
+.AppleDouble
+Icon?
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
