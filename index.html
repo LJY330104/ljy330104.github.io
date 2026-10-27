@@ -987,14 +987,65 @@
   }
 
   /* ============================================================
-     11. 设备（不可点击 → 常态凹陷）
+     11. 设备（横向滚动；卡片不可点击 → 常态凹陷）
      ============================================================ */
+  @property --devices-fade-left {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0px;
+  }
+  @property --devices-fade-right {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0px;
+  }
+
+  .devices-scroller {
+    --devices-fade-size: 64px;
+    --devices-fade-left: 0px;
+    --devices-fade-right: 0px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 14px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--md-outline-variant) transparent;
+    -webkit-mask-image: linear-gradient(to right,
+      transparent 0,
+      #000 var(--devices-fade-left),
+      #000 calc(100% - var(--devices-fade-right)),
+      transparent 100%);
+    mask-image: linear-gradient(to right,
+      transparent 0,
+      #000 var(--devices-fade-left),
+      #000 calc(100% - var(--devices-fade-right)),
+      transparent 100%);
+    transition: --devices-fade-left var(--dur-medium) var(--ease-standard),
+                --devices-fade-right var(--dur-medium) var(--ease-standard);
+  }
+  .devices-scroller.fade-left {
+    --devices-fade-left: var(--devices-fade-size);
+  }
+  .devices-scroller.fade-right {
+    --devices-fade-right: var(--devices-fade-size);
+  }
+  .devices-scroller::-webkit-scrollbar { height: 8px; }
+  .devices-scroller::-webkit-scrollbar-track { background: transparent; }
+  .devices-scroller::-webkit-scrollbar-thumb {
+    background: var(--md-outline-variant);
+    border: none;
+    border-radius: var(--radius-full);
+  }
+
   .devices-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    display: flex;
     gap: 20px;
+    width: max-content;
   }
   .device-card {
+    flex: 0 0 240px;
+    scroll-snap-align: start;
     padding: 24px 16px;
     text-align: center;
     background: var(--nm-bg);
@@ -1032,6 +1083,33 @@
   .device-card p {
     font-size: .78rem;
     color: var(--md-on-surface-variant);
+  }
+
+  .devices-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 16px;
+    margin-top: 22px;
+  }
+  .devices-hint {
+    font-size: .82rem;
+    color: var(--md-on-surface-variant);
+  }
+  .devices-jump {
+    padding: 10px 18px;
+    font-size: .82rem;
+  }
+  .devices-jump-icon { display: inline-flex; }
+  .devices-jump-icon svg {
+    display: block;
+    width: 16px;
+    height: 16px;
+  }
+  .devices-jump.is-hidden {
+    visibility: hidden;
+    pointer-events: none;
   }
 
   /* ============================================================
@@ -1378,10 +1456,13 @@
     .timeline-toggle-count { font-size: .68rem; }
 
     .devices-grid {
-      grid-template-columns: repeat(2, 1fr);
       gap: 14px;
     }
-    .device-card { padding: 18px 12px; }
+    .devices-scroller { --devices-fade-size: 44px; }
+    .device-card {
+      flex-basis: 190px;
+      padding: 18px 12px;
+    }
     .device-icon {
       width: 40px;
       height: 40px;
@@ -1391,6 +1472,12 @@
     }
     .device-card h3 { font-size: .84rem; }
     .device-card p { font-size: .7rem; }
+    .devices-actions { margin-top: 18px; }
+    .devices-hint { font-size: .76rem; }
+    .devices-jump {
+      padding: 9px 14px;
+      font-size: .78rem;
+    }
 
     .friends-grid {
       grid-template-columns: 1fr;
@@ -1445,7 +1532,9 @@
     }
     .skills-grid { grid-template-columns: 1fr; }
     .stats { grid-template-columns: 1fr; }
-    .devices-grid { grid-template-columns: 1fr; }
+    .devices-grid { gap: 12px; }
+    .device-card { flex-basis: 160px; }
+    .devices-scroller { --devices-fade-size: 34px; }
     .nav-links a {
       padding: 5px 7px;
       font-size: .7rem;
@@ -1474,6 +1563,7 @@
     /* 无 JS 时直接展示完整历程 */
     .timeline-extra { grid-template-rows: 1fr; }
     .timeline-actions { display: none; }
+    .devices-jump { display: none; }
   </style>
 </noscript>
 
@@ -1729,102 +1819,121 @@
       <h2 class="section-title reveal">我的设备</h2>
       <p class="section-sub reveal">折腾过的那些机器</p>
 
-      <div class="devices-grid">
-        <article class="device-card reveal">
-          <div class="device-icon">📱</div>
-          <h3>一加 13T</h3>
-          <p>手机</p>
-        </article>
-        <article class="device-card reveal">
-          <div class="device-icon">📱</div>
-          <h3>蓝狐 NX1</h3>
-          <p>手机</p>
-        </article>
-        <article class="device-card reveal">
-          <div class="device-icon">📱</div>
-          <h3>魅族 21 Pro</h3>
-          <p>手机</p>
-        </article>
-        <article class="device-card reveal">
-          <div class="device-icon">📱</div>
-          <h3>三星 Galaxy Fold</h3>
-          <p>折叠屏手机</p>
-        </article>
-        <article class="device-card reveal">
-          <div class="device-icon">📱</div>
-          <h3>iPhone SE 2</h3>
-          <p>手机</p>
-        </article>
-        <article class="device-card reveal">
-          <div class="device-icon">📱</div>
-          <h3>一加 11</h3>
-          <p>手机</p>
-        </article>
-        <article class="device-card reveal">
-          <div class="device-icon">📱</div>
-          <h3>红米 4A</h3>
-          <p>手机</p>
-        </article>
-        <article class="device-card reveal">
-          <div class="device-icon">📱</div>
-          <h3>Nothing Phone (1)</h3>
-          <p>手机</p>
-        </article>
-        <article class="device-card reveal">
-          <div class="device-icon">📱</div>
-          <h3>小米 6</h3>
-          <p>手机</p>
-        </article>
-        <article class="device-card reveal">
-          <div class="device-icon">📱</div>
-          <h3>华为 Mate 20</h3>
-          <p>手机</p>
-        </article>
-        <article class="device-card reveal">
-          <div class="device-icon">📟</div>
-          <h3>一加平板 Pro</h3>
-          <p>平板</p>
-        </article>
-        <article class="device-card reveal">
-          <div class="device-icon">📟</div>
-          <h3>iPad mini 5</h3>
-          <p>平板</p>
-        </article>
-        <article class="device-card reveal">
-          <div class="device-icon">📟</div>
-          <h3>iPad 第 6 代</h3>
-          <p>平板</p>
-        </article>
-        <article class="device-card reveal">
-          <div class="device-icon">⌚</div>
-          <h3>OPPO Watch X2</h3>
-          <p>智能手表</p>
-        </article>
-        <article class="device-card reveal">
-          <div class="device-icon">⌚</div>
-          <h3>小米手环 8</h3>
-          <p>智能手环</p>
-        </article>
-        <article class="device-card reveal">
-          <div class="device-icon">⌚</div>
-          <h3>小米手环 7 Pro</h3>
-          <p>智能手环</p>
-        </article>
-        <article class="device-card reveal">
-          <div class="device-icon">⌚</div>
-          <h3>小天才 Z6_DFB</h3>
-          <p>儿童手表</p>
-        </article>
-        <article class="device-card reveal">
-          <div class="device-icon">💻</div>
-          <h3>惠普暗影精灵 11</h3>
-          <p>笔记本</p>
-        </article>
-        <article class="device-card reveal">
-          <div class="device-icon">💻</div>
-          <h3>MacBook Air 13 英寸 M5</h3>
-          <p>笔记本</p>
-        </article>
+      <div class="devices-scroller reveal focus-ring" id="devicesScroller"
+           tabindex="0" role="region" aria-label="我的设备列表，可横向滚动"
+           aria-describedby="devicesHint">
+        <div class="devices-grid">
+          <article class="device-card">
+            <div class="device-icon">📱</div>
+            <h3>一加 13T</h3>
+            <p>手机</p>
+          </article>
+          <article class="device-card">
+            <div class="device-icon">📟</div>
+            <h3>一加平板 Pro</h3>
+            <p>平板</p>
+          </article>
+          <article class="device-card">
+            <div class="device-icon">⌚</div>
+            <h3>OPPO Watch X2</h3>
+            <p>智能手表</p>
+          </article>
+          <article class="device-card">
+            <div class="device-icon">💻</div>
+            <h3>惠普暗影精灵 11</h3>
+            <p>笔记本</p>
+          </article>
+          <article class="device-card">
+            <div class="device-icon">💻</div>
+            <h3>MacBook Air 13 英寸 M5</h3>
+            <p>笔记本</p>
+          </article>
+
+          <article class="device-card">
+            <div class="device-icon">📱</div>
+            <h3>蓝狐 NX1</h3>
+            <p>手机</p>
+          </article>
+          <article class="device-card">
+            <div class="device-icon">📱</div>
+            <h3>魅族 21 Pro</h3>
+            <p>手机</p>
+          </article>
+          <article class="device-card">
+            <div class="device-icon">📱</div>
+            <h3>三星 Galaxy Fold</h3>
+            <p>折叠屏手机</p>
+          </article>
+          <article class="device-card">
+            <div class="device-icon">📱</div>
+            <h3>iPhone SE 2</h3>
+            <p>手机</p>
+          </article>
+          <article class="device-card">
+            <div class="device-icon">📱</div>
+            <h3>一加 11</h3>
+            <p>手机</p>
+          </article>
+          <article class="device-card">
+            <div class="device-icon">📱</div>
+            <h3>红米 4A</h3>
+            <p>手机</p>
+          </article>
+          <article class="device-card">
+            <div class="device-icon">📱</div>
+            <h3>Nothing Phone (1)</h3>
+            <p>手机</p>
+          </article>
+          <article class="device-card">
+            <div class="device-icon">📱</div>
+            <h3>小米 6</h3>
+            <p>手机</p>
+          </article>
+          <article class="device-card">
+            <div class="device-icon">📱</div>
+            <h3>华为 Mate 20</h3>
+            <p>手机</p>
+          </article>
+          <article class="device-card">
+            <div class="device-icon">📟</div>
+            <h3>iPad mini 5</h3>
+            <p>平板</p>
+          </article>
+          <article class="device-card">
+            <div class="device-icon">📟</div>
+            <h3>iPad 第 6 代</h3>
+            <p>平板</p>
+          </article>
+          <article class="device-card">
+            <div class="device-icon">⌚</div>
+            <h3>小米手环 8</h3>
+            <p>智能手环</p>
+          </article>
+          <article class="device-card">
+            <div class="device-icon">⌚</div>
+            <h3>小米手环 7 Pro</h3>
+            <p>智能手环</p>
+          </article>
+          <article class="device-card">
+            <div class="device-icon">⌚</div>
+            <h3>小天才 Z6_DFB</h3>
+            <p>儿童手表</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="devices-actions reveal">
+        <span class="devices-hint" id="devicesHint">左右滑动查看全部设备</span>
+        <button type="button" class="btn btn-primary devices-jump focus-ring is-hidden"
+                id="devicesJumpLeft" aria-controls="devicesScroller">
+          <span class="devices-jump-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 12H5"></path>
+              <path d="M11 18l-6-6 6-6"></path>
+            </svg>
+          </span>
+        </button>
       </div>
     </div>
   </section>
@@ -2271,6 +2380,53 @@
     })();
 
     /* ----------------------------------------------------------
+       模块 4.6：设备横向滚动 + 两侧边缘渐隐 + 一键回最左
+       ---------------------------------------------------------- */
+    const Devices = (() => {
+      const SCROLLER = $('#devicesScroller');
+      const JUMP     = $('#devicesJumpLeft');
+      const HINT     = $('#devicesHint');
+      const TOTAL    = $$('.device-card').length;
+      const EDGE     = 4;
+
+      const atLeft = () => SCROLLER.scrollLeft <= EDGE;
+      const atRight = () =>
+        SCROLLER.scrollWidth - SCROLLER.clientWidth - SCROLLER.scrollLeft <= EDGE;
+
+      const sync = () => {
+        const isLeft = atLeft();
+        const isRight = atRight();
+
+        JUMP.classList.toggle('is-hidden', isLeft);
+        SCROLLER.classList.toggle('fade-left', !isLeft);
+        SCROLLER.classList.toggle('fade-right', !isRight);
+      };
+
+      const init = () => {
+        if (!SCROLLER || !JUMP) return;
+
+        if (HINT) HINT.textContent = `左右滑动查看全部 ${TOTAL} 台设备`;
+
+        JUMP.addEventListener('click', () => {
+          if (atLeft()) return;
+
+          SCROLLER.focus({ preventScroll: true });
+          const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          SCROLLER.scrollTo({
+            left: 0,
+            behavior: reduced ? 'auto' : 'smooth'
+          });
+        });
+
+        SCROLLER.addEventListener('scroll', sync, { passive: true });
+        window.addEventListener('resize', sync);
+        sync();
+      };
+
+      return { init };
+    })();
+
+    /* ----------------------------------------------------------
        模块 5：PWA Service Worker 注册
        ---------------------------------------------------------- */
     const PWA = (() => {
@@ -2296,6 +2452,7 @@
       Reveal.init();
       EasterEgg.init();
       TagPanel.init();
+      Devices.init();
       PWA.init();
     };
 
