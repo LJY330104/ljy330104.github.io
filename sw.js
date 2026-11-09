@@ -14,7 +14,7 @@
       不版本号 +1 的话，老访客会一直看着旧缓存。
    ============================================================ */
 
-const CACHE_VERSION = 'v2.6.0';
+const CACHE_VERSION = 'v2.7.0';
 const CACHE_PREFIX = 'yyy-cache-';
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;
 

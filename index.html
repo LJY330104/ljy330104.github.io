@@ -43,6 +43,10 @@
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
 
+  <!-- 首屏头像：提前拉取 WebP，减少 LCP 等待 -->
+  <link rel="preload" as="image" href="websrc/avatar.webp"
+        type="image/webp" fetchpriority="high">
+
   <!-- ============================================================
        主题初始化（阻塞执行，必须放在样式表之前/正文之前）
        目的：在首次绘制前就把 data-theme 定下来，避免深色模式白闪。
@@ -662,9 +666,11 @@
     height: auto;
     border-radius: var(--radius-lg);
     display: block;
+    transition: opacity var(--dur-medium) var(--ease-standard);
   }
+  .about-img.is-fading { opacity: 0; }
 
-  /* 版本号：默认凹陷，隐藏彩蛋入口 */
+  /* 版本号：静态凹陷徽标（连点触发彩蛋，外观始终凹陷） */
   .version-badge {
     display: inline-block;
     margin-top: 26px;
@@ -678,30 +684,31 @@
     box-shadow: var(--nm-in-sm);
     cursor: pointer;
     user-select: none;
-    transition: color var(--dur-short) var(--ease-standard),
-                box-shadow var(--dur-short) var(--ease-standard);
-  }
-  .version-badge:hover {
-    color: var(--md-primary);
-    box-shadow: var(--nm-in-sm);
   }
 
   /* 病娇彩蛋 */
   .secret-yandere { display: none; }
   .secret-yandere.revealed {
+    display: inline;
     opacity: 1;
     animation: yandereIn .7s var(--ease-emphasized-decel);
   }
-  span.secret-yandere.revealed { display: inline; }
   .tag.secret-yandere.revealed {
     display: inline-flex;
     align-items: center;
+  }
+  .secret-yandere.is-hiding {
+    animation: yandereOut .54s var(--ease-standard) forwards;
   }
   @keyframes yandereIn {
     0%   { opacity: 0; transform: scale(.5) rotate(-12deg); }
     55%  { opacity: 1; transform: scale(1.15) rotate(4deg); }
     75%  { transform: scale(.95) rotate(-1deg); }
     100% { opacity: 1; transform: scale(1) rotate(0); }
+  }
+  @keyframes yandereOut {
+    0%   { opacity: 1; transform: scale(1) rotate(0); }
+    100% { opacity: 0; transform: scale(.72) rotate(6deg); }
   }
 
   /* ============================================================
@@ -733,6 +740,20 @@
     background: var(--nm-bg);
     box-shadow: var(--nm-in-sm);
     transform: translateY(1px);
+  }
+
+  /* 病娇标签关闭时保持凸起，不再被 hover 按下去 */
+  #yandereTag:not(.is-active) {
+    box-shadow: var(--nm-out-sm);
+  }
+  #yandereTag:not(.is-active):hover {
+    color: var(--md-primary);
+    box-shadow: var(--nm-out-sm);
+    transform: translateY(-1px);
+  }
+  #yandereTag:not(.is-active):active {
+    box-shadow: var(--nm-in-sm);
+    transform: translateY(1px) scale(.99);
   }
 
   /* 连通容器：参与文档流，展开时撑高 */
@@ -1870,7 +1891,8 @@
             <button type="button" class="tag tag-btn" data-tag="rhythm">音游</button>
             <button type="button" class="tag tag-btn" data-tag="hardcore">硬核音乐</button>
             <button type="button" class="tag tag-btn" data-tag="neko">猫娘</button>
-            <span class="tag secret-yandere" id="secretTag">病娇</span>
+            <button type="button" class="tag tag-btn secret-yandere" id="yandereTag"
+                    aria-pressed="false">病娇</button>
           </div>
 
           <!-- 数据卡 + 详情面板（连通容器） -->
@@ -1895,7 +1917,8 @@
           </div>
 
           <div class="version-badge focus-ring" id="versionBadge"
-               title="站点版本 v2.5.2">v2.5.2</div>
+               role="button" tabindex="0"
+               title="站点版本 v2.7.0">v2.7.0</div>
         </div>
 
         <div class="reveal">
@@ -2489,49 +2512,114 @@
     })();
 
     /* ----------------------------------------------------------
-       模块 4：版本号彩蛋（默认凹陷，隐藏入口）
+       模块 4：病娇彩蛋（连点版本号 7 次开启，点击「病娇」标签关闭）
        ---------------------------------------------------------- */
     const EasterEgg = (() => {
-      const CLICK_TARGET   = 7;
-      const RESET_MS       = 1500;
+      const CLICK_TARGET = 7;
+      const RESET_MS     = 1500;
+      const FADE_MS      = 560;
 
       const badge      = $('#versionBadge');
+      const tag        = $('#yandereTag');
       const avatar     = $('#aboutAvatar');
       const secretText = $('#secretText');
-      const secretTag  = $('#secretTag');
 
-      const FALLBACK_AVATAR = 'websrc/avatar1.jpeg';
-      const EGG_AVATAR      = 'websrc/avatar2.jpeg';
+      const NORMAL_AVATAR = 'websrc/avatar1.jpeg';
+      const EGG_AVATAR    = 'websrc/avatar2.jpeg';
 
       let count = 0;
       let timer = null;
+      let fadeTimer = null;
+      let active = false;
+      let hiding = false;
 
-      const reset = () => { count = 0; };
+      const reducedMotion = () =>
+        window.matchMedia
+        && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      const trigger = () => {
+      const clearCountTimer = () => {
+        clearTimeout(timer);
+        timer = null;
+      };
+
+      const scheduleReset = () => {
+        clearCountTimer();
+        timer = setTimeout(() => { count = 0; }, RESET_MS);
+      };
+
+      const showEgg = () => {
+        active = true;
+        hiding = false;
+        count = 0;
+        clearCountTimer();
+        clearTimeout(fadeTimer);
+
+        tag.classList.remove('is-hiding');
+        tag.classList.add('revealed', 'is-active');
+        tag.setAttribute('aria-pressed', 'true');
+
+        secretText.classList.remove('is-hiding');
         secretText.classList.add('revealed');
-        secretTag.classList.add('revealed');
 
+        avatar.classList.remove('is-fading');
         avatar.onerror = () => {
           avatar.onerror = null;
-          avatar.src = FALLBACK_AVATAR;
+          avatar.src = NORMAL_AVATAR;
         };
         avatar.src = EGG_AVATAR;
+      };
 
-        $('#about').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const hideEgg = () => {
+        active = false;
+        hiding = true;
+
+        tag.classList.remove('is-active');
+        tag.setAttribute('aria-pressed', 'false');
+        tag.classList.add('is-hiding');
+
+        secretText.classList.add('is-hiding');
+        avatar.classList.add('is-fading');
+
+        clearTimeout(fadeTimer);
+        fadeTimer = setTimeout(() => {
+          tag.classList.remove('revealed', 'is-hiding');
+          secretText.classList.remove('revealed', 'is-hiding');
+          avatar.src = NORMAL_AVATAR;
+          avatar.onerror = null;
+          avatar.classList.remove('is-fading');
+          hiding = false;
+          count = 0;
+
+          if (document.activeElement === tag) {
+            badge.focus({ preventScroll: true });
+          }
+        }, reducedMotion() ? 30 : FADE_MS);
+      };
+
+      const onBadgeActivate = () => {
+        if (active || hiding) return;
+
+        count++;
+        scheduleReset();
+
+        if (count >= CLICK_TARGET) showEgg();
+      };
+
+      const onTagClick = () => {
+        if (hiding || !active) return;
+        hideEgg();
       };
 
       const init = () => {
-        badge.addEventListener('click', () => {
-          count++;
-          clearTimeout(timer);
-          timer = setTimeout(reset, RESET_MS);
+        if (!badge || !tag) return;
 
-          if (count >= CLICK_TARGET) {
-            reset();
-            trigger();
-          }
+        badge.addEventListener('click', onBadgeActivate);
+        badge.addEventListener('keydown', (event) => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          onBadgeActivate();
         });
+        tag.addEventListener('click', onTagClick);
       };
 
       return { init };
@@ -2545,7 +2633,7 @@
       const DETAIL  = $('#tagDetail');
       const CONTENT = $('#tagDetailContent');
       const CLOSE   = $('#tagDetailClose');
-      const BTNS    = $$('.tag-btn');
+      const BTNS    = $$('.tag-btn[data-tag]');
 
       const DATA = {
         fps: {
