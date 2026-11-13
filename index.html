@@ -1220,6 +1220,8 @@
     transition: box-shadow var(--dur-short) var(--ease-standard),
                 transform var(--dur-short) var(--ease-standard);
   }
+  /* 多个项目卡片之间的间距 */
+  .project-card + .project-card { margin-top: 22px; }
   .project-card::before {
     content: "";
     position: absolute;
@@ -1918,7 +1920,7 @@
 
           <div class="version-badge focus-ring" id="versionBadge"
                role="button" tabindex="0"
-               title="站点版本 v2.8.0">v2.8.0</div>
+               title="站点版本 v2.9.2">v2.9.2</div>
         </div>
 
         <div class="reveal">
@@ -2223,6 +2225,27 @@
             <span class="tag">任意单词</span>
             <span class="tag">自定义词书</span>
             <span class="tag">本地优先</span>
+          </div>
+        </div>
+        <span class="project-cta">
+          访问项目
+          <span class="project-arrow" aria-hidden="true">→</span>
+        </span>
+      </a>
+
+      <a class="project-card reveal focus-ring"
+         href="https://ljy330104.github.io/TecChess/"
+         target="_blank" rel="noopener noreferrer"
+         aria-label="TecChess 科技象棋，可融合棋子的象棋变体">
+        <div class="project-icon" aria-hidden="true">♟</div>
+        <div class="project-body">
+          <span class="project-eyebrow">WEB APP · 科技象棋</span>
+          <h3>TecChess</h3>
+          <p>把可融合的友方棋子走到同一格合成一枚，连点切换融合走子 / 分裂走子 / 取消选择，另有融合实验室可以摆局面。</p>
+          <div class="project-tags">
+            <span class="tag">融合走法</span>
+            <span class="tag">分裂走子</span>
+            <span class="tag">纯前端</span>
           </div>
         </div>
         <span class="project-cta">
