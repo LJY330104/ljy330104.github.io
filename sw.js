@@ -14,7 +14,7 @@
       不版本号 +1 的话，老访客会一直看着旧缓存。
    ============================================================ */
 
-const CACHE_VERSION = 'v2.9.2';
+const CACHE_VERSION = 'v3.1.0';
 const CACHE_PREFIX = 'yyy-cache-';
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;
 
@@ -23,6 +23,7 @@ const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;
 const PRECACHE = [
   './',
   './index.html',
+  './academic.html',
   './manifest.json',
   './websrc/favicon-32.png',
   './websrc/favicon.ico',

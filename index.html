@@ -108,6 +108,9 @@
     --md-error: #BA1A1A;
     --md-on-error: #FFFFFF;
 
+    /* ---------- 1.4.1 学术页入口（学术页是红色调，这里只用于箭头） ---------- */
+    --academic-accent: #B3261E;
+
     /* ---------- 1.5 Surface ---------- */
     --md-surface: #F5FBF9;
     --md-surface-dim: #D5DBD9;
@@ -199,6 +202,8 @@
 
     --md-error: #FFB4AB;
     --md-on-error: #690005;
+
+    --academic-accent: #FFB4AB;
 
     --md-surface: #0E1514;
     --md-surface-dim: #0E1514;
@@ -393,6 +398,75 @@
   .back-to-top:active {
     box-shadow: var(--nm-in);
     transform: translateY(2px) scale(0.94);
+  }
+
+  /* 5.5 【可点击】右侧学术页入口（横向长条）
+     只出现在首页；学术页是红色调，这里用红色点缀做区分。 */
+  .academic-jump {
+    position: fixed;
+    right: 24px;
+    top: 50%;
+    z-index: 90;
+    height: 46px;
+    padding: 0 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    border-radius: var(--radius-full);
+    background: var(--nm-bg);
+    color: var(--academic-accent);
+    font-size: .88rem;
+    font-weight: 700;
+    letter-spacing: .2px;
+    line-height: 1;
+    white-space: nowrap;
+    box-shadow: var(--nm-out);
+    transform: translateY(-50%);
+    transition: box-shadow var(--dur-short) var(--ease-standard),
+                color var(--dur-short) var(--ease-standard),
+                transform var(--dur-short) var(--ease-standard);
+  }
+  .academic-jump-arrow {
+    font-size: 1.02rem;
+    line-height: 1;
+    transition: transform var(--dur-short) var(--ease-standard);
+  }
+  .academic-jump:hover {
+    color: var(--academic-accent);
+    box-shadow: var(--nm-in);
+    transform: translateY(-50%) scale(0.985);
+  }
+  .academic-jump:hover .academic-jump-arrow { transform: translateX(3px); }
+  .academic-jump:active {
+    box-shadow: var(--nm-in-lg);
+    transform: translateY(-50%) scale(0.96);
+  }
+
+  /* 切换页面：红色圆形波纹从按钮位置扩散，盖满后跳转 */
+  .page-wipe {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    background: linear-gradient(135deg, #C0271D 0%, #7A1510 60%, #3A0B08 100%);
+    clip-path: circle(0% at var(--wipe-x, 92%) var(--wipe-y, 50%));
+    transition: clip-path 480ms var(--ease-emphasized);
+  }
+  .page-wipe.is-active {
+    clip-path: circle(150% at var(--wipe-x, 92%) var(--wipe-y, 50%));
+  }
+
+  /* 窗口不够宽时，视口右侧会压到正文，改到右下角（回到顶部按钮上方） */
+  @media (max-width: 1450px) {
+    .academic-jump {
+      top: auto;
+      right: 22px;
+      bottom: 88px;
+      transform: none;
+    }
+    .academic-jump:hover { transform: scale(0.985); }
+    .academic-jump:active { transform: scale(0.96); }
   }
 
   /* ============================================================
@@ -1763,6 +1837,21 @@
       font-size: 1.05rem;
     }
 
+    /* 手机上改到右下角，避免压住正文；位置在回到顶部按钮上方 */
+    .academic-jump {
+      top: auto;
+      right: 18px;
+      bottom: 74px;
+      transform: none;
+      height: 40px;
+      padding: 0 16px;
+      font-size: .8rem;
+      gap: 7px;
+    }
+    .academic-jump-arrow { font-size: .95rem; }
+    .academic-jump:hover { transform: scale(0.985); }
+    .academic-jump:active { transform: scale(0.96); }
+
     footer {
       padding: 36px 0 28px;
       font-size: .8rem;
@@ -1920,7 +2009,7 @@
 
           <div class="version-badge focus-ring" id="versionBadge"
                role="button" tabindex="0"
-               title="站点版本 v2.9.2">v2.9.2</div>
+               title="站点版本 v3.1.0">v3.1.0</div>
         </div>
 
         <div class="reveal">
@@ -2344,6 +2433,13 @@
 
 <!-- ==================== 回到顶部 ==================== -->
 <button class="back-to-top focus-ring" id="backToTop" title="回到顶部" aria-label="回到顶部">↑</button>
+
+<!-- ==================== 学术档案入口 ==================== -->
+<a class="academic-jump focus-ring" id="academicJump" href="academic.html"
+   title="我的学术" aria-label="我的学术">
+  <span class="academic-jump-label">我的学术</span>
+  <span class="academic-jump-arrow" aria-hidden="true">→</span>
+</a>
 
 <script>
   /* ============================================================
@@ -2836,6 +2932,48 @@
     })();
 
     /* ----------------------------------------------------------
+       模块 4.9：首页 → 学术页 红色波纹转场
+       ---------------------------------------------------------- */
+    const PageTransition = (() => {
+      const JUMP = $('#academicJump');
+      const reduce = () => window.matchMedia
+        && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const init = () => {
+        if (!JUMP) return;
+
+        JUMP.addEventListener('click', (event) => {
+          // 新标签页、鼠标中键、带修饰键的点击都按浏览器默认行为处理
+          if (event.defaultPrevented || event.button !== 0) return;
+          if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+          if (reduce()) return;
+          if (document.querySelector('.page-wipe')) return;   // 连点不重复叠加
+
+          event.preventDefault();
+
+          const rect = JUMP.getBoundingClientRect();
+          const wipe = document.createElement('div');
+          wipe.className = 'page-wipe';
+          wipe.setAttribute('aria-hidden', 'true');
+          wipe.style.setProperty('--wipe-x', (rect.left + rect.width / 2) + 'px');
+          wipe.style.setProperty('--wipe-y', (rect.top + rect.height / 2) + 'px');
+          document.body.appendChild(wipe);
+
+          // 先让元素带初始 clip-path 渲染一帧，再加类才有扩散动画
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => wipe.classList.add('is-active'));
+          });
+
+          try { sessionStorage.setItem('academic-transition', '1'); } catch (e) {}
+
+          setTimeout(() => { window.location.href = JUMP.href; }, 470);
+        });
+      };
+
+      return { init };
+    })();
+
+    /* ----------------------------------------------------------
        模块 5：PWA Service Worker 注册
        ---------------------------------------------------------- */
     const PWA = (() => {
@@ -2862,6 +3000,7 @@
       EasterEgg.init();
       TagPanel.init();
       Devices.init();
+      PageTransition.init();
       PWA.init();
     };
 
