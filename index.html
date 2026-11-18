@@ -2092,7 +2092,7 @@
 
           <div class="version-badge focus-ring" id="versionBadge"
                role="button" tabindex="0"
-               title="站点版本 v3.2.6">v3.2.6</div>
+               title="站点版本 v3.2.7">v3.2.7</div>
         </div>
 
         <div class="reveal">
@@ -2742,9 +2742,7 @@
 
       const init = () => {
         const onScroll = () => {
-          const y = window.scrollY;
-          header.classList.toggle('scrolled', y > 20);
-          backToTop.classList.toggle('show', y > 300);
+          header.classList.toggle('scrolled', window.scrollY > 20);
         };
         window.addEventListener('scroll', onScroll, { passive: true });
         onScroll();
@@ -2823,15 +2821,26 @@
       const init = () => {
         const jumps = $('#pageJumps');
         const hero = $('#char');
-        if (!jumps || !hero) return;
+        const backToTop = $('#backToTop');
+        if (!backToTop) return;
+
+        // 万一入口按钮被拆掉，退回老规矩：滚过 300px 就出现
+        if (!jumps || !hero) {
+          const fallback = () => backToTop.classList.toggle('show', window.scrollY > 300);
+          window.addEventListener('scroll', fallback, { passive: true });
+          fallback();
+          return;
+        }
 
         let ticking = false;
 
         const sync = () => {
           ticking = false;
-          // 首屏快滑出去时（底边不到视口一半）就把两条横条淡掉
+          // 首屏快滑出去时（底边不到视口一半）把两条横条淡掉，同时让回到顶部接手
           const rect = hero.getBoundingClientRect();
-          jumps.classList.toggle('is-hidden', rect.bottom < window.innerHeight * 0.5);
+          const past = rect.bottom < window.innerHeight * 0.5;
+          jumps.classList.toggle('is-hidden', past);
+          backToTop.classList.toggle('show', past);
         };
 
         const request = () => {
