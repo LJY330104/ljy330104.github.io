@@ -32,9 +32,16 @@
 
       var prefersDark = window.matchMedia
         && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      var theme = (saved === 'dark' || saved === 'light')
-        ? saved
-        : (prefersDark ? 'dark' : 'light');
+
+      // 跨页跳转时会把当前主题塞进 ?theme=，存档读不到（隐私模式 / file://）时靠它兜住
+      var fromUrl = null;
+      try {
+        var matched = /[?&]theme=(dark|light)(?:&|$)/.exec(location.search);
+        if (matched) fromUrl = matched[1];
+      } catch (e) {}
+
+      if (saved !== 'dark' && saved !== 'light') saved = null;
+      var theme = saved || fromUrl || (prefersDark ? 'dark' : 'light');
 
       var root = document.documentElement;
       root.setAttribute('data-theme', theme);
@@ -249,7 +256,7 @@
     padding: 10px 16px 10px 22px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 12px;
     background: var(--nm-bg);
     border-radius: var(--radius-full);
@@ -331,6 +338,7 @@
     align-items: center;
     gap: 10px;
     flex: none;
+    margin-left: auto;   /* 标题紧跟返回按钮左对齐，按钮组靠右 */
   }
 
   .lang-toggle {
@@ -708,25 +716,25 @@
   html.page-transition-in .page-enter {
     opacity: 1;
     visibility: visible;
-    clip-path: circle(150% at 100% 50%);
+    clip-path: circle(160% at var(--enter-x, 100%) var(--enter-y, 50%));
   }
   html.page-transition-in .page-enter.is-out {
-    clip-path: circle(0% at 100% 50%);
+    clip-path: circle(0% at var(--enter-x, 100%) var(--enter-y, 50%));
     transition: clip-path 560ms var(--ease-emphasized);
   }
 
-  /* 返回首页：红色波纹从被点的链接扩散，盖满后跳转 */
+  /* 返回首页：绿色波纹从被点的链接扩散，盖满后跳转 */
   .page-wipe {
     position: fixed;
     inset: 0;
     z-index: 9999;
     pointer-events: none;
-    background: linear-gradient(135deg, #C0271D 0%, #7A1510 60%, #3A0B08 100%);
+    background: linear-gradient(135deg, #0C8A76 0%, #006A63 55%, #02423E 100%);
     clip-path: circle(0% at var(--wipe-x, 50%) var(--wipe-y, 50%));
     transition: clip-path 480ms var(--ease-emphasized);
   }
   .page-wipe.is-active {
-    clip-path: circle(150% at var(--wipe-x, 50%) var(--wipe-y, 50%));
+    clip-path: circle(160% at var(--wipe-x, 50%) var(--wipe-y, 50%));
   }
 
   /* 明暗切换：新主题底色从按钮位置圆形扩散（不支持 View Transitions 时的回退） */
@@ -1291,6 +1299,9 @@
         });
 
         if (btn) btn.textContent = lang.short;
+
+        // 通知其它模块：页脚等被重绘过了
+        try { document.dispatchEvent(new CustomEvent('langchange')); } catch (e) {}
       };
 
       const init = () => {
@@ -1334,12 +1345,30 @@
       };
       const current = () => (root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
 
+      // 地址栏里已经有 ?theme= 时，跟着当前主题一起更新，刷新也不会跳回去
+      const syncUrl = (theme) => {
+        try {
+          if (!/[?&]theme=(dark|light)/.test(location.search)) return;
+          const search = location.search.replace(/([?&])theme=(dark|light)/, '$1theme=' + theme);
+          history.replaceState(null, '', location.pathname + search + location.hash);
+        } catch (e) {}
+      };
+
+      // 回首页的链接带上当前主题；页脚链接会被语言切换重绘，所以由 langchange 再同步一次
+      const syncLinks = (theme) => {
+        document.querySelectorAll('a[href^="index.html"]').forEach((link) => {
+          link.setAttribute('href', 'index.html?theme=' + theme);
+        });
+      };
+
       const paint = (theme) => {
         root.setAttribute('data-theme', theme);
         root.style.colorScheme = theme;
         btn.textContent = theme === 'dark' ? '☀️' : '🌙';
         btn.setAttribute('aria-pressed', String(theme === 'dark'));
         if (meta) meta.setAttribute('content', THEME_COLORS[theme]);
+        syncUrl(theme);
+        syncLinks(theme);
       };
 
       const commit = (theme) => {
@@ -1431,6 +1460,18 @@
             paint(event.matches ? 'dark' : 'light');
           });
         }
+
+        // 另一个标签页切了主题：这边立刻跟上，不用刷新
+        window.addEventListener('storage', (event) => {
+          if (event.key !== KEY) return;
+          const next = event.newValue;
+          if (next !== 'dark' && next !== 'light') return;
+          if (next === current()) return;
+          paint(next);
+        });
+
+        // 语言切换重绘页脚，链接里的 ?theme= 要重新补上
+        document.addEventListener('langchange', () => syncLinks(current()));
       };
 
       return { init };
@@ -1499,6 +1540,16 @@
 
         try { sessionStorage.removeItem('academic-transition'); } catch (e) {}
 
+        // 波纹最后收进顶栏「学术档案」左边那颗红点，位置按实际排版算
+        const dot = $('.nav-dot');
+        if (dot) {
+          const rect = dot.getBoundingClientRect();
+          if (rect.width && rect.height) {
+            root.style.setProperty('--enter-x', (rect.left + rect.width / 2) + 'px');
+            root.style.setProperty('--enter-y', (rect.top + rect.height / 2) + 'px');
+          }
+        }
+
         let done = false;
         const finish = () => {
           if (done) return;
@@ -1526,7 +1577,7 @@
       const init = () => {
         // 用事件委托：页脚的链接会被语言切换重绘，直接绑在元素上会丢
         document.addEventListener('click', (event) => {
-          const link = event.target.closest && event.target.closest('a[href="index.html"]');
+          const link = event.target.closest && event.target.closest('a[href^="index.html"]');
           if (!link) return;
 
           // 新标签页、鼠标中键、带修饰键的点击都按浏览器默认行为处理
@@ -1550,12 +1601,13 @@
             requestAnimationFrame(() => wipe.classList.add('is-active'));
           });
 
-          // 交给首页：从同一个位置把红色波纹揭开
-          const cx = (rect.left + rect.width / 2) / window.innerWidth * 100;
-          const cy = (rect.top + rect.height / 2) / window.innerHeight * 100;
-          try { sessionStorage.setItem('index-transition', cx.toFixed(2) + ',' + cy.toFixed(2)); } catch (e) {}
+          // 告诉首页：这次是转场进入，先铺满绿波再揭开
+          try { sessionStorage.setItem('index-transition', '1'); } catch (e) {}
 
-          setTimeout(() => { window.location.href = 'index.html'; }, 470);
+          // 带上当前主题，首页即使读不到 localStorage 也能保持一致
+          const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+
+          setTimeout(() => { window.location.href = 'index.html?theme=' + theme; }, 470);
         });
       };
 

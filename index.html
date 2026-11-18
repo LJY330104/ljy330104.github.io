@@ -59,10 +59,17 @@
 
       var prefersDark = window.matchMedia
         && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+      // 跨页跳转时会把当前主题塞进 ?theme=，存档读不到（隐私模式 / file://）时靠它兜住
+      var fromUrl = null;
+      try {
+        var matched = /[?&]theme=(dark|light)(?:&|$)/.exec(location.search);
+        if (matched) fromUrl = matched[1];
+      } catch (e) {}
+
       // 只有用户在站内主动切换过才用存档值，否则跟随系统偏好
-      var theme = (saved === 'dark' || saved === 'light')
-        ? saved
-        : (prefersDark ? 'dark' : 'light');
+      if (saved !== 'dark' && saved !== 'light') saved = null;
+      var theme = saved || fromUrl || (prefersDark ? 'dark' : 'light');
 
       var root = document.documentElement;
       root.setAttribute('data-theme', theme);
@@ -71,18 +78,10 @@
       var meta = document.querySelector('meta[name="theme-color"]');
       if (meta) meta.setAttribute('content', theme === 'dark' ? '#0E1514' : '#39C5BB');
 
-      // 从学术页「返回主页」过来时，先铺满红色波纹再揭开
+      // 从学术页「返回主页」过来时，先铺满绿色波纹再揭开（收起位置在脚本里对齐 logo 绿点）
       try {
-        var origin = sessionStorage.getItem('index-transition');
-        if (origin) {
+        if (sessionStorage.getItem('index-transition')) {
           root.classList.add('page-transition-in');
-          var parts = origin.split(',');
-          var cx = parseFloat(parts[0]);
-          var cy = parseFloat(parts[1]);
-          if (isFinite(cx) && isFinite(cy)) {
-            root.style.setProperty('--enter-x', cx + '%');
-            root.style.setProperty('--enter-y', cy + '%');
-          }
         }
       } catch (e) {}
     })();
@@ -493,13 +492,13 @@
     mix-blend-mode: normal;
   }
 
-  /* 从学术页返回：红色波纹从返回按钮位置揭开 */
+  /* 从学术页返回：绿色波纹，最后收进 logo 旁的绿点 */
   .page-enter {
     position: fixed;
     inset: 0;
     z-index: 9999;
     pointer-events: none;
-    background: linear-gradient(135deg, #C0271D 0%, #7A1510 60%, #3A0B08 100%);
+    background: linear-gradient(135deg, #0C8A76 0%, #006A63 55%, #02423E 100%);
     opacity: 0;
     visibility: hidden;
   }
@@ -2066,7 +2065,7 @@
 
           <div class="version-badge focus-ring" id="versionBadge"
                role="button" tabindex="0"
-               title="站点版本 v3.1.3">v3.1.3</div>
+               title="站点版本 v3.1.6">v3.1.6</div>
         </div>
 
         <div class="reveal">
@@ -2566,6 +2565,22 @@
 
       const current = () => (root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
 
+      // 地址栏里已经有 ?theme= 时，跟着当前主题一起更新，刷新也不会跳回去
+      const syncUrl = (theme) => {
+        try {
+          if (!/[?&]theme=(dark|light)/.test(location.search)) return;
+          const search = location.search.replace(/([?&])theme=(dark|light)/, '$1theme=' + theme);
+          history.replaceState(null, '', location.pathname + search + location.hash);
+        } catch (e) {}
+      };
+
+      // 跳到学术页的链接带上当前主题，存档读不到时也能保持一致
+      const syncLinks = (theme) => {
+        document.querySelectorAll('a[href^="academic.html"]').forEach((link) => {
+          link.setAttribute('href', 'academic.html?theme=' + theme);
+        });
+      };
+
       // 只负责“画”到页面上，不碰存储
       const paint = (theme) => {
         root.setAttribute('data-theme', theme);
@@ -2574,6 +2589,8 @@
         // 无障碍名保持不变，用 aria-pressed 表达开关状态
         btn.setAttribute('aria-pressed', String(theme === 'dark'));
         if (meta) meta.setAttribute('content', theme === 'dark' ? '#0E1514' : '#39C5BB');
+        syncUrl(theme);
+        syncLinks(theme);
       };
 
       const commit = (theme) => {
@@ -2667,6 +2684,15 @@
             paint(event.matches ? 'dark' : 'light');
           });
         }
+
+        // 另一个标签页切了主题：这边立刻跟上，不用刷新
+        window.addEventListener('storage', (event) => {
+          if (event.key !== KEY) return;
+          const next = event.newValue;
+          if (next !== 'dark' && next !== 'light') return;
+          if (next === current()) return;
+          paint(next);
+        });
       };
 
       return { init };
@@ -3129,7 +3155,12 @@
 
           try { sessionStorage.setItem('academic-transition', '1'); } catch (e) {}
 
-          setTimeout(() => { window.location.href = JUMP.href; }, 470);
+          // 带上当前主题，学术页即使读不到 localStorage 也能保持一致
+          const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+          const base = (JUMP.getAttribute('href') || 'academic.html').split('?')[0];
+          const target = base + '?theme=' + theme;
+
+          setTimeout(() => { window.location.href = target; }, 470);
         });
       };
 
@@ -3150,6 +3181,16 @@
         }
 
         try { sessionStorage.removeItem('index-transition'); } catch (e) {}
+
+        // 波纹最后收进顶栏 logo 旁的绿点，位置按实际排版算
+        const dot = $('.logo-dot');
+        if (dot) {
+          const rect = dot.getBoundingClientRect();
+          if (rect.width && rect.height) {
+            root.style.setProperty('--enter-x', (rect.left + rect.width / 2) + 'px');
+            root.style.setProperty('--enter-y', (rect.top + rect.height / 2) + 'px');
+          }
+        }
 
         let done = false;
         const finish = () => {
