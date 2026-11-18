@@ -685,8 +685,8 @@
     font-size: clamp(1rem, 2.6vw, 1.2rem);
     font-weight: 800;
     letter-spacing: -.3px;
-    color: var(--md-on-primary);
-    background: var(--md-primary);
+    color: var(--md-primary);
+    background: var(--nm-bg);
     border-radius: var(--radius-full);
     box-shadow: var(--nm-out);
     transition: box-shadow var(--dur-short) var(--ease-standard),
@@ -794,6 +794,24 @@
   }
   .reveal.active { opacity: 1; transform: translateY(0); }
   .no-js .reveal { opacity: 1; transform: none; }
+
+  /* ============================================================
+     滚动条：取 Material 色板里的 outline / surface-container-low，
+     亮暗模式各自跟着令牌换色，不写死颜色。
+     ============================================================ */
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--md-outline) var(--md-surface-container-low);
+  }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--md-surface-container-low); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--md-outline);
+    border-radius: var(--radius-full);
+    border: 2px solid var(--md-surface-container-low);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--md-primary); }
+  ::-webkit-scrollbar-corner { background: var(--md-surface-container-low); }
 
   /* ============================================================
      8. 响应式

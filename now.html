@@ -957,6 +957,24 @@
   .no-js .reveal { opacity: 1; transform: none; }
 
   /* ============================================================
+     滚动条：取 Material 色板里的 outline / surface-container-low，
+     亮暗模式各自跟着令牌换色，不写死颜色。
+     ============================================================ */
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--md-outline) var(--md-surface-container-low);
+  }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--md-surface-container-low); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--md-outline);
+    border-radius: var(--radius-full);
+    border: 2px solid var(--md-surface-container-low);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--md-primary); }
+  ::-webkit-scrollbar-corner { background: var(--md-surface-container-low); }
+
+  /* ============================================================
      8. 响应式
      ============================================================ */
   @media (max-width: 720px) {

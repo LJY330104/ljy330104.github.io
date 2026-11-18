@@ -1624,17 +1624,23 @@
   .no-js .reveal { opacity: 1; transform: none; }
 
   /* ============================================================
-     15. 滚动条
+     15. 滚动条：取 Material 色板里的 outline / surface-container-low，
+     亮暗模式各自跟着令牌换色，不写死颜色。
      ============================================================ */
-  ::-webkit-scrollbar { width: 10px; }
-  ::-webkit-scrollbar-track {
-    background: var(--md-surface-container-low);
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--md-outline) var(--md-surface-container-low);
   }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--md-surface-container-low); }
   ::-webkit-scrollbar-thumb {
-    background: var(--md-outline-variant);
-    border-radius: 5px;
+    background: var(--md-outline);
+    border-radius: var(--radius-full);
     border: 2px solid var(--md-surface-container-low);
   }
+  ::-webkit-scrollbar-thumb:hover { background: var(--md-primary); }
+  ::-webkit-scrollbar-corner { background: var(--md-surface-container-low); }
+
 
   /* ============================================================
      16. 响应式 — 手机端
@@ -2092,7 +2098,7 @@
 
           <div class="version-badge focus-ring" id="versionBadge"
                role="button" tabindex="0"
-               title="站点版本 v3.2.7">v3.2.7</div>
+               title="站点版本 v3.2.11">v3.2.11</div>
         </div>
 
         <div class="reveal">
@@ -2767,6 +2773,39 @@
       const TOTAL   = $$('.timeline-item').length;
       const HIDDEN  = Math.max(TOTAL - PREVIEW, 0);
 
+      let followRaf = 0;
+      let followTimer = 0;
+
+      const stopFollow = () => {
+        if (followRaf) cancelAnimationFrame(followRaf);
+        if (followTimer) clearTimeout(followTimer);
+        followRaf = 0;
+        followTimer = 0;
+      };
+
+      // 只在「收起」时把按钮“钉”在原地：滚动量跟着内容高度缩小的幅度走，
+      // 动画一开始页面就跟着动，不用等收起结束再补一次滚动。展开时不滚动。
+      const followToggle = () => {
+        stopFollow();
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        const docTop = () => TOGGLE.getBoundingClientRect().top + window.scrollY;
+        let prev = docTop();
+
+        const tick = () => {
+          const now = docTop();
+          const delta = now - prev;
+          prev = now;
+          // 必须用 instant：全局 html 设了 scroll-behavior: smooth，
+          // 否则每帧的补偿滚动会被浏览器再平滑一遍，反而追不上
+          if (delta) window.scrollBy({ top: delta, left: 0, behavior: 'instant' });
+          followRaf = requestAnimationFrame(tick);
+        };
+
+        followRaf = requestAnimationFrame(tick);
+        followTimer = setTimeout(stopFollow, 900);   // 兜底：过渡事件不触发时也能停
+      };
+
       const setOpen = (open) => {
         EXTRA.classList.toggle('is-open', open);
         EXTRA.toggleAttribute('inert', !open);
@@ -2781,21 +2820,6 @@
         }
       };
 
-      const onCollapseEnd = (event) => {
-        if (event.target !== EXTRA ||
-            event.propertyName !== 'grid-template-rows' ||
-            EXTRA.classList.contains('is-open')) return;
-
-        const rect = TOGGLE.getBoundingClientRect();
-        if (rect.bottom < 0 || rect.top > window.innerHeight) {
-          const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          TOGGLE.scrollIntoView({
-            behavior: reduced ? 'auto' : 'smooth',
-            block: 'center'
-          });
-        }
-      };
-
       const init = () => {
         if (!TOGGLE || !EXTRA) return;
 
@@ -2805,9 +2829,16 @@
         }
 
         setOpen(false);
-        EXTRA.addEventListener('transitionend', onCollapseEnd);
+
+        EXTRA.addEventListener('transitionend', (event) => {
+          if (event.target !== EXTRA || event.propertyName !== 'grid-template-rows') return;
+          stopFollow();
+        });
+
         TOGGLE.addEventListener('click', () => {
-          setOpen(TOGGLE.getAttribute('aria-expanded') !== 'true');
+          const open = TOGGLE.getAttribute('aria-expanded') !== 'true';
+          setOpen(open);
+          if (!open) followToggle();   // 展开时页面保持不动，只有收起才跟着按钮
         });
       };
 
