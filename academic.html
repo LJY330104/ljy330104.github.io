@@ -59,6 +59,7 @@
 <style>
   /* ============================================================
      1. 设计令牌（红色调 · 新扁平化 + Material You + 轻新拟物）
+     约定：只有可点击的凸起块才做 hover 动画，纯展示的块不要加。
      ============================================================ */
   :root {
     color-scheme: light;
@@ -589,8 +590,7 @@
     transition: box-shadow var(--dur-short) var(--ease-standard),
                 transform var(--dur-short) var(--ease-standard);
   }
-  .ap-item:hover { box-shadow: var(--nm-in-sm); transform: translateY(1px); }
-  .ap-dot {
+    .ap-dot {
     flex: none;
     width: 8px;
     height: 8px;
@@ -647,8 +647,7 @@
     transition: box-shadow var(--dur-short) var(--ease-standard),
                 transform var(--dur-short) var(--ease-standard);
   }
-  .act-item:hover { box-shadow: var(--nm-in-sm); transform: translateY(1px); }
-  .act-num {
+    .act-num {
     flex: none;
     width: 34px;
     height: 34px;
@@ -858,12 +857,12 @@
       <h1><span data-i18n="hero.h1a">课堂之外，</span><br><span class="gradient" data-i18n="hero.h1b">也认真做点学问</span></h1>
       <p data-i18n="hero.p">
         这里放的是我的学术侧写：读过的学校、正在啃的 AP、考出来的成绩，
-        以及那些让我记很久的夏校和竞赛。折腾设备之外的另一半生活。
+        以及那些让我记很久的夏校和竞赛。
       </p>
       <div class="hero-meta">
-        <span class="hero-chip" data-i18n="hero.chip1">7 门 AP 在读</span>
-        <span class="hero-chip" data-i18n="hero.chip2">SMC 金奖</span>
-        <span class="hero-chip" data-i18n="hero.chip3">托福 99</span>
+        <span class="hero-chip" data-i18n="hero.chip1">各种 AP</span>
+        <span class="hero-chip" data-i18n="hero.chip2">竞赛奖项</span>
+        <span class="hero-chip" data-i18n="hero.chip3">标化成绩</span>
       </div>
     </section>
 
@@ -898,26 +897,26 @@
     <section class="block reveal" id="focus">
       <div class="section-head">
         <span class="section-index">02</span>
-        <h2 data-i18n="sec02.title">学科专长 · 攻克</h2>
+        <h2 data-i18n="sec02.title">学科专长</h2>
       </div>
 
       <div class="card focus-card">
         <p data-i18n="focus.p1">
-          比起硬背结论，我更吃「有图有真相」这一套——能画成图、
-          能一眼看出映射关系的理论，往往看一遍就通了。
-          习惯先建立几何直觉，再把公式补上，最后才去抠证明。
+          比起硬背结论，我更喜欢「有图有真相」的知识——
+          能画成图、能一眼看出映射关系的理论更方便理解。
+          习惯先建立几何直觉，再补上数理，不拘泥于证明，但摸清原理最痛快。
         </p>
         <p class="muted" data-i18n-html="focus.p2">
-          最近反复在啃的是线性代数：向量、基底、矩阵，本质都是空间里的变换。
+          最近反复在啃的是和物理相关的线性代数：矢量、基、矩阵，本质都是空间里的变换。
           配合 3Blue1Brown 的
           <a class="inline-link"
              href="https://www.3blue1brown.com/topics/linear-algebra"
              target="_blank" rel="noopener noreferrer">《线性代数的本质》系列<span class="ext" aria-hidden="true">↗</span></a>
-          一起看，脑子里真的会有画面。
+          一起看，会豁然开朗，露出微笑。
         </p>
         <div class="focus-tags">
           <span data-i18n="focus.t1">几何直觉</span>
-          <span data-i18n="focus.t2">线性代数</span>
+          <span data-i18n="focus.t2">线性变换</span>
           <span data-i18n="focus.t3">可视化理解</span>
         </div>
       </div>
@@ -994,7 +993,7 @@
           <span class="act-num" aria-hidden="true">03</span>
           <div class="act-body">
             <h3 data-i18n="act3.title">康莱德创新挑战赛</h3>
-            <p data-i18n="act3.desc">组队把想法做成产品，再讲给评委听</p>
+            <p data-i18n-html="act3.desc">组队把想法做成产品，再答辩、产出结果，项目在<a class="inline-link" href="https://evakit.cn" target="_blank" rel="noopener noreferrer">evakit.cn<span class="ext" aria-hidden="true">↗</span></a></p>
           </div>
         </div>
       </div>
@@ -1013,7 +1012,7 @@
           ljytoefl@126.com
         </a>
         <p class="contact-note" data-i18n="contact.note">
-          和学术相关的事——夏校、竞赛、项目合作——发这里就好。
+          学术相关邮箱
         </p>
       </div>
     </section>
@@ -1068,10 +1067,10 @@
           'hero.badge': 'Academic · 学术',
           'hero.h1a': '课堂之外，',
           'hero.h1b': '也认真做点学问',
-          'hero.p': '这里放的是我的学术侧写：读过的学校、正在啃的 AP、考出来的成绩，以及那些让我记很久的夏校和竞赛。折腾设备之外的另一半生活。',
-          'hero.chip1': '7 门 AP 在读',
-          'hero.chip2': 'SMC 金奖',
-          'hero.chip3': '托福 99',
+          'hero.p': '这里放的是我的学术侧写：读过的学校、正在啃的 AP、考出来的成绩，以及那些让我记很久的夏校和竞赛。',
+          'hero.chip1': '各种 AP',
+          'hero.chip2': '竞赛奖项',
+          'hero.chip3': '标化成绩',
           'sec01.title': '教育经历',
           'edu1.mark': '初',
           'edu1.name': '杭州外国语学校',
@@ -1081,11 +1080,11 @@
           'edu2.name': '杭州高级中学国际部',
           'edu2.meta': '国际课程方向 · 向国际方向发展',
           'edu2.date': '在读',
-          'sec02.title': '学科专长 · 攻克',
-          'focus.p1': '比起硬背结论，我更吃「有图有真相」这一套——能画成图、能一眼看出映射关系的理论，往往看一遍就通了。习惯先建立几何直觉，再把公式补上，最后才去抠证明。',
+          'sec02.title': '学科专长',
+          'focus.p1': '比起硬背结论，我更喜欢「有图有真相」的知识——能画成图、能一眼看出映射关系的理论更方便理解。习惯先建立几何直觉，再补上数理，不拘泥于证明，但摸清原理最痛快。',
           'focus.p2': '最近反复在啃的是线性代数：向量、基底、矩阵，本质都是空间里的变换。配合 3Blue1Brown 的<a class="inline-link" href="https://www.3blue1brown.com/topics/linear-algebra" target="_blank" rel="noopener noreferrer">《线性代数的本质》系列<span class="ext" aria-hidden="true">↗</span></a>一起看，脑子里真的会有画面。',
           'focus.t1': '几何直觉',
-          'focus.t2': '线性代数',
+          'focus.t2': '线性变换',
           'focus.t3': '可视化理解',
           'sec03.title': '现在读的 AP 科目',
           'sec03.sub': '七门一起上',
@@ -1109,10 +1108,10 @@
           'act2.title': '约翰·霍普金斯大学 · 工程夏校',
           'act2.desc': '工程方向的夏校，理论和实践结合',
           'act3.title': '康莱德创新挑战赛',
-          'act3.desc': '组队把想法做成产品，再讲给评委听',
+          'act3.desc': '组队把想法做成产品，再答辩、产出结果，项目在<a class="inline-link" href="https://evakit.cn" target="_blank" rel="noopener noreferrer">evakit.cn<span class="ext" aria-hidden="true">↗</span></a>',
           'sec06.title': '联系我（学术）',
           'contact.kicker': 'Academic Contact',
-          'contact.note': '和学术相关的事——夏校、竞赛、项目合作——发这里就好。',
+          'contact.note': '学术相关邮箱',
           'footer.text': '© 2026 鸢见夜樱 · <a href="index.html">返回主页</a> · <a href="now.html">我正在做</a>'
         },
 
@@ -1130,10 +1129,10 @@
           'hero.badge': 'Academic · 學術',
           'hero.h1a': '課堂之外，',
           'hero.h1b': '也認真做點學問',
-          'hero.p': '這裏放的是我的學術側寫：讀過的學校、正在啃的 AP、考出來的成績，以及那些讓我記很久的夏校和競賽。折騰設備之外的另一半生活。',
-          'hero.chip1': '7 門 AP 在讀',
-          'hero.chip2': 'SMC 金獎',
-          'hero.chip3': '托福 99',
+          'hero.p': '這裏放的是我的學術側寫：讀過的學校、正在啃的 AP、考出來的成績，以及那些讓我記很久的夏校和競賽。',
+          'hero.chip1': '各種 AP',
+          'hero.chip2': '競賽獎項',
+          'hero.chip3': '標化成績',
           'sec01.title': '教育經歷',
           'edu1.mark': '初',
           'edu1.name': '杭州外國語學校',
@@ -1143,11 +1142,11 @@
           'edu2.name': '杭州高級中學國際部',
           'edu2.meta': '國際課程方向 · 向國際方向發展',
           'edu2.date': '在讀',
-          'sec02.title': '學科專長 · 攻克',
-          'focus.p1': '比起硬背結論，我更吃「有圖有真相」這一套——能畫成圖、能一眼看出映射關係的理論，往往看一遍就通了。習慣先建立幾何直覺，再把公式補上，最後才去摳證明。',
+          'sec02.title': '學科專長',
+          'focus.p1': '比起硬背結論，我更喜歡「有圖有真相」的知識——能畫成圖、能一眼看出映射關係的理論更方便理解。習慣先建立幾何直覺，再補上數理，不拘泥於證明，但摸清原理最痛快。',
           'focus.p2': '最近反覆在啃的是線性代數：向量、基底、矩陣，本質都是空間裏的變換。配合 3Blue1Brown 的<a class="inline-link" href="https://www.3blue1brown.com/topics/linear-algebra" target="_blank" rel="noopener noreferrer">《線性代數的本質》系列<span class="ext" aria-hidden="true">↗</span></a>一起看，腦子裏真的會有畫面。',
           'focus.t1': '幾何直覺',
-          'focus.t2': '線性代數',
+          'focus.t2': '線性變換',
           'focus.t3': '視覺化理解',
           'sec03.title': '現在讀的 AP 科目',
           'sec03.sub': '七門一起上',
@@ -1171,10 +1170,10 @@
           'act2.title': '約翰·霍普金斯大學 · 工程夏校',
           'act2.desc': '工程方向的夏校，理論和實踐結合',
           'act3.title': '康萊德創新挑戰賽',
-          'act3.desc': '組隊把想法做成產品，再講給評審聽',
+          'act3.desc': '組隊把想法做成產品，再答辯、產出結果，項目在<a class="inline-link" href="https://evakit.cn" target="_blank" rel="noopener noreferrer">evakit.cn<span class="ext" aria-hidden="true">↗</span></a>',
           'sec06.title': '聯絡我（學術）',
           'contact.kicker': 'Academic Contact',
-          'contact.note': '和學術相關的事——夏校、競賽、項目合作——發這裏就好。',
+          'contact.note': '學術相關郵箱',
           'footer.text': '© 2026 鳶見夜櫻 · <a href="index.html">返回主頁</a> · <a href="now.html">我正在做</a>'
         },
 
@@ -1192,10 +1191,10 @@
           'hero.badge': 'Academic',
           'hero.h1a': 'Beyond the classroom,',
           'hero.h1b': 'I still do real work',
-          'hero.p': 'This is the academic side of me: the schools I went through, the AP courses I am grinding, the scores I have got, and the summer programmes and competitions I still think about — the other half of a life spent tinkering with devices.',
-          'hero.chip1': '7 AP courses',
-          'hero.chip2': 'SMC Gold',
-          'hero.chip3': 'TOEFL 99',
+          'hero.p': 'This is the academic side of me: the schools I went through, the AP courses I am grinding, and the scores I have got — plus the summer programmes and competitions I still think about.',
+          'hero.chip1': 'AP courses',
+          'hero.chip2': 'Awards',
+          'hero.chip3': 'Test scores',
           'sec01.title': 'Education',
           'edu1.mark': 'JH',
           'edu1.name': 'Hangzhou Foreign Languages School',
@@ -1205,11 +1204,11 @@
           'edu2.name': 'Hangzhou High School International Division',
           'edu2.meta': 'International curriculum · heading outward',
           'edu2.date': 'In progress',
-          'sec02.title': 'Focus · What I crack',
-          'focus.p1': 'Rather than memorising conclusions, I fall for ideas that can be drawn out — theories you can sketch and whose mapping you can see at a glance tend to click on the first read. I build the geometric intuition first, then fill in the formulas, and only then dig into the proofs.',
+          'sec02.title': 'Focus',
+          'focus.p1': 'Rather than memorising conclusions, I prefer knowledge that can be drawn out — theories you can sketch and whose mapping you can see at a glance are easier to understand. I build the geometric intuition first, then fill in the maths, and do not fuss over proofs; but getting to the bottom of how it works is the best part.',
           'focus.p2': 'Lately it has been linear algebra over and over: vectors, bases, matrices — all of them are really transformations in space. Paired with 3Blue1Brown\u2019s <a class="inline-link" href="https://www.3blue1brown.com/topics/linear-algebra" target="_blank" rel="noopener noreferrer">Essence of Linear Algebra<span class="ext" aria-hidden="true">↗</span></a> series, there are actual pictures in my head.',
           'focus.t1': 'Geometric intuition',
-          'focus.t2': 'Linear algebra',
+          'focus.t2': 'Linear transformations',
           'focus.t3': 'Visual thinking',
           'sec03.title': 'AP courses I am taking',
           'sec03.sub': 'Seven at once',
@@ -1233,10 +1232,10 @@
           'act2.title': 'Johns Hopkins University · Engineering Summer Programme',
           'act2.desc': 'An engineering summer programme that mixes theory with hands-on work.',
           'act3.title': 'Conrad Innovation Challenge',
-          'act3.desc': 'Team up, turn an idea into a product, then pitch it to the judges.',
+          'act3.desc': 'Team up, turn an idea into a product, then defend it and ship results — the project lives at <a class="inline-link" href="https://evakit.cn" target="_blank" rel="noopener noreferrer">evakit.cn<span class="ext" aria-hidden="true">↗</span></a>.',
           'sec06.title': 'Contact me (academic)',
           'contact.kicker': 'Academic Contact',
-          'contact.note': 'For anything academic — summer programmes, competitions, project collaborations — this is the address to use.',
+          'contact.note': 'Academic contact email',
           'footer.text': '© 2026 鸢见夜樱 · <a href="index.html">Back to home</a> · <a href="now.html">What I am doing</a>'
         }
       };

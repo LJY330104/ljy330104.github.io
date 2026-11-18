@@ -59,6 +59,7 @@
 <style>
   /* ============================================================
      1. 设计令牌（Classic Blue 蓝调 · 新扁平化 + Material You + 轻新拟物）
+     约定：只有可点击的凸起块才做 hover 动画，纯展示的块不要加。
      ============================================================ */
   :root {
     color-scheme: light;
@@ -589,8 +590,7 @@
     transition: box-shadow var(--dur-short) var(--ease-standard),
                 transform var(--dur-short) var(--ease-standard);
   }
-  .ap-item:hover { box-shadow: var(--nm-in-sm); transform: translateY(1px); }
-  .ap-dot {
+    .ap-dot {
     flex: none;
     width: 8px;
     height: 8px;
@@ -647,8 +647,7 @@
     transition: box-shadow var(--dur-short) var(--ease-standard),
                 transform var(--dur-short) var(--ease-standard);
   }
-  .act-item:hover { box-shadow: var(--nm-in-sm); transform: translateY(1px); }
-  .act-num {
+    .act-num {
     flex: none;
     width: 34px;
     height: 34px;
@@ -720,8 +719,7 @@
     transition: box-shadow var(--dur-short) var(--ease-standard),
                 transform var(--dur-short) var(--ease-standard);
   }
-  .doing-card:hover { box-shadow: var(--nm-in); transform: translateY(1px); }
-  .doing-tag {
+    .doing-tag {
     align-self: flex-start;
     padding: 3px 12px;
     font-size: .7rem;
