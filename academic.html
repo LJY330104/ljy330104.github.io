@@ -325,6 +325,50 @@
   .theme-toggle:hover { color: var(--md-primary); box-shadow: var(--nm-in-sm); }
   .theme-toggle:active { transform: scale(0.94); box-shadow: var(--nm-in-sm); }
 
+  /* 右上角按钮组：语言 + 明暗 */
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: none;
+  }
+
+  .lang-toggle {
+    height: 44px;
+    min-width: 56px;
+    padding: 0 14px;
+    flex: none;
+    border: none;
+    border-radius: var(--radius-full);
+    background: var(--nm-bg);
+    color: var(--md-on-surface-variant);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .3px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--nm-out-sm);
+    transition: color var(--dur-short) var(--ease-standard),
+                box-shadow var(--dur-short) var(--ease-standard),
+                transform var(--dur-short) var(--ease-standard);
+  }
+  .lang-toggle:hover { color: var(--md-primary); box-shadow: var(--nm-in-sm); }
+  .lang-toggle:active { transform: scale(0.94); box-shadow: var(--nm-in-sm); }
+  .lang-toggle.is-switching { animation: langPop 340ms var(--ease-emphasized); }
+
+  @keyframes langPop {
+    0%   { transform: scale(0.86); }
+    55%  { transform: scale(1.06); }
+    100% { transform: scale(1); }
+  }
+
+  /* 英文下的大标题字距放宽一点，中文的负字距不适合拉丁字母 */
+  html[lang="en-US"] .hero h1 { letter-spacing: -.6px; }
+  html[lang="en-US"] .nav-title { letter-spacing: 0; }
+
   /* ============================================================
      5. 首屏
      ============================================================ */
@@ -671,6 +715,41 @@
     transition: clip-path 560ms var(--ease-emphasized);
   }
 
+  /* 返回首页：红色波纹从被点的链接扩散，盖满后跳转 */
+  .page-wipe {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    background: linear-gradient(135deg, #C0271D 0%, #7A1510 60%, #3A0B08 100%);
+    clip-path: circle(0% at var(--wipe-x, 50%) var(--wipe-y, 50%));
+    transition: clip-path 480ms var(--ease-emphasized);
+  }
+  .page-wipe.is-active {
+    clip-path: circle(150% at var(--wipe-x, 50%) var(--wipe-y, 50%));
+  }
+
+  /* 明暗切换：新主题底色从按钮位置圆形扩散（不支持 View Transitions 时的回退） */
+  .theme-wipe {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    pointer-events: none;
+    background: var(--md-surface);
+    clip-path: circle(0% at var(--t-x, 50%) var(--t-y, 50%));
+    transition: clip-path 520ms var(--ease-emphasized);
+  }
+  .theme-wipe.is-active {
+    clip-path: circle(150% at var(--t-x, 50%) var(--t-y, 50%));
+  }
+
+  /* 支持 View Transitions 时用它做圆形揭示，关掉默认的交叉淡入 */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+
   /* 入场时首屏内容跟着浮上来 */
   html.page-transition-in .hero-badge,
   html.page-transition-in .hero h1,
@@ -716,6 +795,9 @@
     .container, nav { width: min(100% - 32px, 1040px); }
     nav { padding: 8px 10px 8px 16px; }
     .nav-title { display: none; }
+    .nav-actions { gap: 8px; }
+    .lang-toggle { height: 40px; min-width: 50px; padding: 0 10px; font-size: .72rem; }
+    .theme-toggle { width: 40px; height: 40px; }
     .hero { padding-top: 124px; }
     .card { padding: 22px 20px; }
     .section-head { gap: 10px; }
@@ -738,17 +820,24 @@
 <div class="page-enter" id="pageEnter" aria-hidden="true"></div>
 
 <header id="header">
-  <nav aria-label="学术档案导航">
+  <nav aria-label="学术档案导航" data-i18n-aria="aria.nav">
     <a class="nav-back" href="index.html">
       <span class="nav-back-arrow" aria-hidden="true">←</span>
-      返回主页
+      <span data-i18n="nav.back">返回主页</span>
     </a>
     <span class="nav-title">
       <span class="nav-dot" aria-hidden="true"></span>
-      学术档案
+      <span data-i18n="nav.title">学术档案</span>
     </span>
-    <button class="theme-toggle" id="themeToggle" type="button"
-            aria-label="切换明暗主题" aria-pressed="false">🌙</button>
+    <div class="nav-actions">
+      <button class="lang-toggle" id="langToggle" type="button"
+              aria-label="切换语言" data-i18n-aria="aria.lang"
+              title="切换语言：简体中文 / 繁體中文（香港） / English (US)"
+              data-i18n-title="lang.title">简中</button>
+      <button class="theme-toggle" id="themeToggle" type="button"
+              aria-label="切换明暗主题" data-i18n-aria="aria.theme"
+              aria-pressed="false">🌙</button>
+    </div>
   </nav>
 </header>
 
@@ -757,16 +846,16 @@
 
     <!-- ==================== 首屏 ==================== -->
     <section class="hero">
-      <span class="hero-badge">Academic · 学术</span>
-      <h1>课堂之外，<br><span class="gradient">也认真做点学问</span></h1>
-      <p>
+      <span class="hero-badge" data-i18n="hero.badge">Academic · 学术</span>
+      <h1><span data-i18n="hero.h1a">课堂之外，</span><br><span class="gradient" data-i18n="hero.h1b">也认真做点学问</span></h1>
+      <p data-i18n="hero.p">
         这里放的是我的学术侧写：读过的学校、正在啃的 AP、考出来的成绩，
         以及那些让我记很久的夏校和竞赛。折腾设备之外的另一半生活。
       </p>
       <div class="hero-meta">
-        <span class="hero-chip">7 门 AP 在读</span>
-        <span class="hero-chip">SMC 金奖</span>
-        <span class="hero-chip">托福 99</span>
+        <span class="hero-chip" data-i18n="hero.chip1">7 门 AP 在读</span>
+        <span class="hero-chip" data-i18n="hero.chip2">SMC 金奖</span>
+        <span class="hero-chip" data-i18n="hero.chip3">托福 99</span>
       </div>
     </section>
 
@@ -774,24 +863,24 @@
     <section class="block reveal" id="education">
       <div class="section-head">
         <span class="section-index">01</span>
-        <h2>教育经历</h2>
+        <h2 data-i18n="sec01.title">教育经历</h2>
       </div>
 
       <div class="card">
         <div class="edu-item">
-          <span class="edu-mark" aria-hidden="true">初</span>
+          <span class="edu-mark" aria-hidden="true" data-i18n="edu1.mark">初</span>
           <div class="edu-body">
-            <h3>杭州外国语学校</h3>
-            <p>初中部 · 从这里获得科学思维</p>
-            <span class="edu-date">已毕业</span>
+            <h3 data-i18n="edu1.name">杭州外国语学校</h3>
+            <p data-i18n="edu1.meta">初中部 · 从这里获得科学思维</p>
+            <span class="edu-date" data-i18n="edu1.date">已毕业</span>
           </div>
         </div>
         <div class="edu-item">
-          <span class="edu-mark" aria-hidden="true">高</span>
+          <span class="edu-mark" aria-hidden="true" data-i18n="edu2.mark">高</span>
           <div class="edu-body">
-            <h3>杭州高级中学国际部</h3>
-            <p>国际课程方向 · 向国际方向发展</p>
-            <span class="edu-date">在读</span>
+            <h3 data-i18n="edu2.name">杭州高级中学国际部</h3>
+            <p data-i18n="edu2.meta">国际课程方向 · 向国际方向发展</p>
+            <span class="edu-date" data-i18n="edu2.date">在读</span>
           </div>
         </div>
       </div>
@@ -801,16 +890,16 @@
     <section class="block reveal" id="focus">
       <div class="section-head">
         <span class="section-index">02</span>
-        <h2>学科专长 · 攻克</h2>
+        <h2 data-i18n="sec02.title">学科专长 · 攻克</h2>
       </div>
 
       <div class="card focus-card">
-        <p>
+        <p data-i18n="focus.p1">
           比起硬背结论，我更吃「有图有真相」这一套——能画成图、
           能一眼看出映射关系的理论，往往看一遍就通了。
           习惯先建立几何直觉，再把公式补上，最后才去抠证明。
         </p>
-        <p class="muted">
+        <p class="muted" data-i18n-html="focus.p2">
           最近反复在啃的是线性代数：向量、基底、矩阵，本质都是空间里的变换。
           配合 3Blue1Brown 的
           <a class="inline-link"
@@ -819,9 +908,9 @@
           一起看，脑子里真的会有画面。
         </p>
         <div class="focus-tags">
-          <span>几何直觉</span>
-          <span>线性代数</span>
-          <span>可视化理解</span>
+          <span data-i18n="focus.t1">几何直觉</span>
+          <span data-i18n="focus.t2">线性代数</span>
+          <span data-i18n="focus.t3">可视化理解</span>
         </div>
       </div>
     </section>
@@ -830,18 +919,18 @@
     <section class="block reveal" id="ap">
       <div class="section-head">
         <span class="section-index">03</span>
-        <h2>现在读的 AP 科目</h2>
+        <h2 data-i18n="sec03.title">现在读的 AP 科目</h2>
       </div>
-      <p class="section-sub">七门一起上</p>
+      <p class="section-sub" data-i18n="sec03.sub">七门一起上</p>
 
       <div class="ap-grid">
-        <div class="ap-item"><span class="ap-dot" aria-hidden="true"></span>AP 微积分 BC</div>
-        <div class="ap-item"><span class="ap-dot" aria-hidden="true"></span>AP 物理 2</div>
-        <div class="ap-item"><span class="ap-dot" aria-hidden="true"></span>AP 物理 C 力学</div>
-        <div class="ap-item"><span class="ap-dot" aria-hidden="true"></span>AP 物理 C 电磁</div>
-        <div class="ap-item"><span class="ap-dot" aria-hidden="true"></span>AP 统计</div>
-        <div class="ap-item"><span class="ap-dot" aria-hidden="true"></span>AP 微观经济</div>
-        <div class="ap-item"><span class="ap-dot" aria-hidden="true"></span>AP 计算机原理</div>
+        <div class="ap-item"><span class="ap-dot" aria-hidden="true"></span><span data-i18n="ap.1">AP 微积分 BC</span></div>
+        <div class="ap-item"><span class="ap-dot" aria-hidden="true"></span><span data-i18n="ap.2">AP 物理 2</span></div>
+        <div class="ap-item"><span class="ap-dot" aria-hidden="true"></span><span data-i18n="ap.3">AP 物理 C 力学</span></div>
+        <div class="ap-item"><span class="ap-dot" aria-hidden="true"></span><span data-i18n="ap.4">AP 物理 C 电磁</span></div>
+        <div class="ap-item"><span class="ap-dot" aria-hidden="true"></span><span data-i18n="ap.5">AP 统计</span></div>
+        <div class="ap-item"><span class="ap-dot" aria-hidden="true"></span><span data-i18n="ap.6">AP 微观经济</span></div>
+        <div class="ap-item"><span class="ap-dot" aria-hidden="true"></span><span data-i18n="ap.7">AP 计算机原理</span></div>
       </div>
     </section>
 
@@ -849,24 +938,24 @@
     <section class="block reveal" id="scores">
       <div class="section-head">
         <span class="section-index">04</span>
-        <h2>已经获得的成绩</h2>
+        <h2 data-i18n="sec04.title">已经获得的成绩</h2>
       </div>
 
       <div class="score-grid">
         <div class="score-card">
-          <div class="score-label">TOEFL</div>
+          <div class="score-label" data-i18n="score.toefl.label">TOEFL</div>
           <div class="score-value">99</div>
-          <div class="score-note">托福总分</div>
+          <div class="score-note" data-i18n="score.toefl.note">托福总分</div>
         </div>
         <div class="score-card">
-          <div class="score-label">TOEFL · 新制</div>
+          <div class="score-label" data-i18n="score.new.label">TOEFL · 新制</div>
           <div class="score-value">5.5</div>
-          <div class="score-note">新托福成绩</div>
+          <div class="score-note" data-i18n="score.new.note">新托福成绩</div>
         </div>
         <div class="score-card">
           <div class="score-label">SMC</div>
-          <div class="score-value">金奖</div>
-          <div class="score-note">英国数学竞赛（Senior Mathematical Challenge）</div>
+          <div class="score-value" data-i18n="score.smc.value">金奖</div>
+          <div class="score-note" data-i18n="score.smc.note">英国数学竞赛（Senior Mathematical Challenge）</div>
         </div>
       </div>
     </section>
@@ -875,29 +964,29 @@
     <section class="block reveal" id="activities">
       <div class="section-head">
         <span class="section-index">05</span>
-        <h2>去过的活动</h2>
+        <h2 data-i18n="sec05.title">去过的活动</h2>
       </div>
 
       <div class="act-list">
         <div class="act-item">
           <span class="act-num" aria-hidden="true">01</span>
           <div class="act-body">
-            <h3>香港大学 · 机器人及 AI 冬季项目</h3>
-            <p>机器人 + AI 主题的冬季项目，还写了一个HPQ论文</p>
+            <h3 data-i18n="act1.title">香港大学 · 机器人及 AI 冬季项目</h3>
+            <p data-i18n="act1.desc">机器人 + AI 主题的冬季项目，还写了一个HPQ论文</p>
           </div>
         </div>
         <div class="act-item">
           <span class="act-num" aria-hidden="true">02</span>
           <div class="act-body">
-            <h3>约翰·霍普金斯大学 · 工程夏校</h3>
-            <p>工程方向的夏校，理论和实践结合</p>
+            <h3 data-i18n="act2.title">约翰·霍普金斯大学 · 工程夏校</h3>
+            <p data-i18n="act2.desc">工程方向的夏校，理论和实践结合</p>
           </div>
         </div>
         <div class="act-item">
           <span class="act-num" aria-hidden="true">03</span>
           <div class="act-body">
-            <h3>康莱德创新挑战赛</h3>
-            <p>组队把想法做成产品，再讲给评委听</p>
+            <h3 data-i18n="act3.title">康莱德创新挑战赛</h3>
+            <p data-i18n="act3.desc">组队把想法做成产品，再讲给评委听</p>
           </div>
         </div>
       </div>
@@ -907,15 +996,15 @@
     <section class="block reveal" id="contact">
       <div class="section-head">
         <span class="section-index">06</span>
-        <h2>联系我（学术）</h2>
+        <h2 data-i18n="sec06.title">联系我（学术）</h2>
       </div>
 
       <div class="card contact-card">
-        <div class="contact-kicker">Academic Contact</div>
+        <div class="contact-kicker" data-i18n="contact.kicker">Academic Contact</div>
         <a class="mail-link" href="mailto:ljytoefl@126.com">
           ljytoefl@126.com
         </a>
-        <p class="contact-note">
+        <p class="contact-note" data-i18n="contact.note">
           和学术相关的事——夏校、竞赛、项目合作——发这里就好。
         </p>
       </div>
@@ -925,7 +1014,7 @@
 </main>
 
 <footer>
-  <div class="container">
+  <div class="container" data-i18n-html="footer.text">
     © 2026 鸢见夜樱 · <a href="index.html">返回主页</a>
   </div>
 </footer>
@@ -939,6 +1028,290 @@
 
     /* 去掉 no-js 标记 */
     document.body.classList.remove('no-js');
+
+    /* ---------------- 多语言：简中 / 繁中（香港）/ English (US) ---------------- */
+    const I18N = (() => {
+      const KEY = 'lang';
+      const root = document.documentElement;
+      const btn = $('#langToggle');
+      const metaDesc = document.querySelector('meta[name="description"]');
+      const metaOgTitle = document.querySelector('meta[property="og:title"]');
+      const metaOgDesc = document.querySelector('meta[property="og:description"]');
+      const metaOgLocale = document.querySelector('meta[property="og:locale"]');
+
+      const LANGS = [
+        { id: 'zh-Hans', short: '简中', htmlLang: 'zh-CN', ogLocale: 'zh_CN' },
+        { id: 'zh-Hant-HK', short: '繁中', htmlLang: 'zh-HK', ogLocale: 'zh_HK' },
+        { id: 'en-US', short: 'EN', htmlLang: 'en-US', ogLocale: 'en_US' }
+      ];
+
+      const DICT = {
+        'zh-Hans': {
+          'doc.title': '学术档案 | 鸢见夜樱',
+          'meta.description': '鸢见夜樱的学术档案',
+          'meta.ogTitle': '学术档案 | 鸢见夜樱',
+          'meta.ogDescription': '教育经历、AP 科目、成绩与活动——课堂之外的部分。',
+          'aria.nav': '学术档案导航',
+          'aria.theme': '切换明暗主题',
+          'aria.lang': '切换语言',
+          'lang.title': '切换语言：简体中文 / 繁體中文（香港） / English (US)',
+          'nav.back': '返回主页',
+          'nav.title': '学术档案',
+          'hero.badge': 'Academic · 学术',
+          'hero.h1a': '课堂之外，',
+          'hero.h1b': '也认真做点学问',
+          'hero.p': '这里放的是我的学术侧写：读过的学校、正在啃的 AP、考出来的成绩，以及那些让我记很久的夏校和竞赛。折腾设备之外的另一半生活。',
+          'hero.chip1': '7 门 AP 在读',
+          'hero.chip2': 'SMC 金奖',
+          'hero.chip3': '托福 99',
+          'sec01.title': '教育经历',
+          'edu1.mark': '初',
+          'edu1.name': '杭州外国语学校',
+          'edu1.meta': '初中部 · 从这里获得科学思维',
+          'edu1.date': '已毕业',
+          'edu2.mark': '高',
+          'edu2.name': '杭州高级中学国际部',
+          'edu2.meta': '国际课程方向 · 向国际方向发展',
+          'edu2.date': '在读',
+          'sec02.title': '学科专长 · 攻克',
+          'focus.p1': '比起硬背结论，我更吃「有图有真相」这一套——能画成图、能一眼看出映射关系的理论，往往看一遍就通了。习惯先建立几何直觉，再把公式补上，最后才去抠证明。',
+          'focus.p2': '最近反复在啃的是线性代数：向量、基底、矩阵，本质都是空间里的变换。配合 3Blue1Brown 的<a class="inline-link" href="https://www.3blue1brown.com/topics/linear-algebra" target="_blank" rel="noopener noreferrer">《线性代数的本质》系列<span class="ext" aria-hidden="true">↗</span></a>一起看，脑子里真的会有画面。',
+          'focus.t1': '几何直觉',
+          'focus.t2': '线性代数',
+          'focus.t3': '可视化理解',
+          'sec03.title': '现在读的 AP 科目',
+          'sec03.sub': '七门一起上',
+          'ap.1': 'AP 微积分 BC',
+          'ap.2': 'AP 物理 2',
+          'ap.3': 'AP 物理 C 力学',
+          'ap.4': 'AP 物理 C 电磁',
+          'ap.5': 'AP 统计',
+          'ap.6': 'AP 微观经济',
+          'ap.7': 'AP 计算机原理',
+          'sec04.title': '已经获得的成绩',
+          'score.toefl.label': 'TOEFL',
+          'score.toefl.note': '托福总分',
+          'score.new.label': 'TOEFL · 新制',
+          'score.new.note': '新托福成绩',
+          'score.smc.value': '金奖',
+          'score.smc.note': '英国数学竞赛（Senior Mathematical Challenge）',
+          'sec05.title': '去过的活动',
+          'act1.title': '香港大学 · 机器人及 AI 冬季项目',
+          'act1.desc': '机器人 + AI 主题的冬季项目，还写了一个HPQ论文',
+          'act2.title': '约翰·霍普金斯大学 · 工程夏校',
+          'act2.desc': '工程方向的夏校，理论和实践结合',
+          'act3.title': '康莱德创新挑战赛',
+          'act3.desc': '组队把想法做成产品，再讲给评委听',
+          'sec06.title': '联系我（学术）',
+          'contact.kicker': 'Academic Contact',
+          'contact.note': '和学术相关的事——夏校、竞赛、项目合作——发这里就好。',
+          'footer.text': '© 2026 鸢见夜樱 · <a href="index.html">返回主页</a>'
+        },
+
+        'zh-Hant-HK': {
+          'doc.title': '學術檔案 | 鳶見夜櫻',
+          'meta.description': '鳶見夜櫻的學術檔案',
+          'meta.ogTitle': '學術檔案 | 鳶見夜櫻',
+          'meta.ogDescription': '教育經歷、AP 科目、成績與活動——課堂之外的部分。',
+          'aria.nav': '學術檔案導覽',
+          'aria.theme': '切換明暗主題',
+          'aria.lang': '切換語言',
+          'lang.title': '切換語言：简体中文 / 繁體中文（香港） / English (US)',
+          'nav.back': '返回主頁',
+          'nav.title': '學術檔案',
+          'hero.badge': 'Academic · 學術',
+          'hero.h1a': '課堂之外，',
+          'hero.h1b': '也認真做點學問',
+          'hero.p': '這裏放的是我的學術側寫：讀過的學校、正在啃的 AP、考出來的成績，以及那些讓我記很久的夏校和競賽。折騰設備之外的另一半生活。',
+          'hero.chip1': '7 門 AP 在讀',
+          'hero.chip2': 'SMC 金獎',
+          'hero.chip3': '托福 99',
+          'sec01.title': '教育經歷',
+          'edu1.mark': '初',
+          'edu1.name': '杭州外國語學校',
+          'edu1.meta': '初中部 · 從這裏獲得科學思維',
+          'edu1.date': '已畢業',
+          'edu2.mark': '高',
+          'edu2.name': '杭州高級中學國際部',
+          'edu2.meta': '國際課程方向 · 向國際方向發展',
+          'edu2.date': '在讀',
+          'sec02.title': '學科專長 · 攻克',
+          'focus.p1': '比起硬背結論，我更吃「有圖有真相」這一套——能畫成圖、能一眼看出映射關係的理論，往往看一遍就通了。習慣先建立幾何直覺，再把公式補上，最後才去摳證明。',
+          'focus.p2': '最近反覆在啃的是線性代數：向量、基底、矩陣，本質都是空間裏的變換。配合 3Blue1Brown 的<a class="inline-link" href="https://www.3blue1brown.com/topics/linear-algebra" target="_blank" rel="noopener noreferrer">《線性代數的本質》系列<span class="ext" aria-hidden="true">↗</span></a>一起看，腦子裏真的會有畫面。',
+          'focus.t1': '幾何直覺',
+          'focus.t2': '線性代數',
+          'focus.t3': '視覺化理解',
+          'sec03.title': '現在讀的 AP 科目',
+          'sec03.sub': '七門一起上',
+          'ap.1': 'AP 微積分 BC',
+          'ap.2': 'AP 物理 2',
+          'ap.3': 'AP 物理 C 力學',
+          'ap.4': 'AP 物理 C 電磁',
+          'ap.5': 'AP 統計',
+          'ap.6': 'AP 微觀經濟',
+          'ap.7': 'AP 計算機原理',
+          'sec04.title': '已經獲得的成績',
+          'score.toefl.label': 'TOEFL',
+          'score.toefl.note': '托福總分',
+          'score.new.label': 'TOEFL · 新制',
+          'score.new.note': '新托福成績',
+          'score.smc.value': '金獎',
+          'score.smc.note': '英國數學競賽（Senior Mathematical Challenge）',
+          'sec05.title': '去過的活動',
+          'act1.title': '香港大學 · 機器人及 AI 冬季項目',
+          'act1.desc': '機器人 + AI 主題的冬季項目，還寫了一篇 HPQ 論文',
+          'act2.title': '約翰·霍普金斯大學 · 工程夏校',
+          'act2.desc': '工程方向的夏校，理論和實踐結合',
+          'act3.title': '康萊德創新挑戰賽',
+          'act3.desc': '組隊把想法做成產品，再講給評審聽',
+          'sec06.title': '聯絡我（學術）',
+          'contact.kicker': 'Academic Contact',
+          'contact.note': '和學術相關的事——夏校、競賽、項目合作——發這裏就好。',
+          'footer.text': '© 2026 鳶見夜櫻 · <a href="index.html">返回主頁</a>'
+        },
+
+        'en-US': {
+          'doc.title': 'Academic Profile | 鸢见夜樱',
+          'meta.description': 'The academic profile of 鸢见夜樱.',
+          'meta.ogTitle': 'Academic Profile | 鸢见夜樱',
+          'meta.ogDescription': 'Education, AP courses, scores and activities — the part beyond the classroom.',
+          'aria.nav': 'Academic profile navigation',
+          'aria.theme': 'Toggle light and dark theme',
+          'aria.lang': 'Switch language',
+          'lang.title': 'Switch language: 简体中文 / 繁體中文（香港） / English (US)',
+          'nav.back': 'Back to home',
+          'nav.title': 'Academic Profile',
+          'hero.badge': 'Academic',
+          'hero.h1a': 'Beyond the classroom,',
+          'hero.h1b': 'I still do real work',
+          'hero.p': 'This is the academic side of me: the schools I went through, the AP courses I am grinding, the scores I have got, and the summer programmes and competitions I still think about — the other half of a life spent tinkering with devices.',
+          'hero.chip1': '7 AP courses',
+          'hero.chip2': 'SMC Gold',
+          'hero.chip3': 'TOEFL 99',
+          'sec01.title': 'Education',
+          'edu1.mark': 'JH',
+          'edu1.name': 'Hangzhou Foreign Languages School',
+          'edu1.meta': 'Junior high · where the scientific mindset started',
+          'edu1.date': 'Graduated',
+          'edu2.mark': 'HS',
+          'edu2.name': 'Hangzhou High School International Division',
+          'edu2.meta': 'International curriculum · heading outward',
+          'edu2.date': 'In progress',
+          'sec02.title': 'Focus · What I crack',
+          'focus.p1': 'Rather than memorising conclusions, I fall for ideas that can be drawn out — theories you can sketch and whose mapping you can see at a glance tend to click on the first read. I build the geometric intuition first, then fill in the formulas, and only then dig into the proofs.',
+          'focus.p2': 'Lately it has been linear algebra over and over: vectors, bases, matrices — all of them are really transformations in space. Paired with 3Blue1Brown\u2019s <a class="inline-link" href="https://www.3blue1brown.com/topics/linear-algebra" target="_blank" rel="noopener noreferrer">Essence of Linear Algebra<span class="ext" aria-hidden="true">↗</span></a> series, there are actual pictures in my head.',
+          'focus.t1': 'Geometric intuition',
+          'focus.t2': 'Linear algebra',
+          'focus.t3': 'Visual thinking',
+          'sec03.title': 'AP courses I am taking',
+          'sec03.sub': 'Seven at once',
+          'ap.1': 'AP Calculus BC',
+          'ap.2': 'AP Physics 2',
+          'ap.3': 'AP Physics C: Mechanics',
+          'ap.4': 'AP Physics C: E&M',
+          'ap.5': 'AP Statistics',
+          'ap.6': 'AP Microeconomics',
+          'ap.7': 'AP Computer Science Principles',
+          'sec04.title': 'Scores so far',
+          'score.toefl.label': 'TOEFL',
+          'score.toefl.note': 'Total score',
+          'score.new.label': 'TOEFL · New format',
+          'score.new.note': 'Score on the new format',
+          'score.smc.value': 'Gold',
+          'score.smc.note': 'UK Senior Mathematical Challenge',
+          'sec05.title': 'Programmes and competitions',
+          'act1.title': 'HKU · Robotics & AI Winter Programme',
+          'act1.desc': 'A winter programme on robotics and AI — I also wrote an HPQ essay.',
+          'act2.title': 'Johns Hopkins University · Engineering Summer Programme',
+          'act2.desc': 'An engineering summer programme that mixes theory with hands-on work.',
+          'act3.title': 'Conrad Innovation Challenge',
+          'act3.desc': 'Team up, turn an idea into a product, then pitch it to the judges.',
+          'sec06.title': 'Contact me (academic)',
+          'contact.kicker': 'Academic Contact',
+          'contact.note': 'For anything academic — summer programmes, competitions, project collaborations — this is the address to use.',
+          'footer.text': '© 2026 鸢见夜樱 · <a href="index.html">Back to home</a>'
+        }
+      };
+
+      let current = 'zh-Hans';
+
+      const readSaved = () => {
+        try {
+          const v = localStorage.getItem(KEY);
+          return DICT[v] ? v : null;
+        } catch (e) { return null; }
+      };
+
+      const detect = () => {
+        const saved = readSaved();
+        if (saved) return saved;
+
+        const list = (navigator.languages && navigator.languages.length)
+          ? navigator.languages
+          : [navigator.language || ''];
+        for (const raw of list) {
+          const tag = String(raw || '');
+          if (/^zh/i.test(tag)) {
+            return (/(tw|hk|mo)\b/i.test(tag) || /hant/i.test(tag)) ? 'zh-Hant-HK' : 'zh-Hans';
+          }
+          if (/^en/i.test(tag)) return 'en-US';
+        }
+        return 'en-US';
+      };
+
+      const apply = (id) => {
+        current = DICT[id] ? id : 'zh-Hans';
+        const dict = DICT[current];
+        const lang = LANGS.find((item) => item.id === current) || LANGS[0];
+        const t = (key) => (dict[key] == null ? '' : dict[key]);
+
+        root.setAttribute('lang', lang.htmlLang);
+        document.title = t('doc.title');
+
+        if (metaDesc) metaDesc.setAttribute('content', t('meta.description'));
+        if (metaOgTitle) metaOgTitle.setAttribute('content', t('meta.ogTitle'));
+        if (metaOgDesc) metaOgDesc.setAttribute('content', t('meta.ogDescription'));
+        if (metaOgLocale) metaOgLocale.setAttribute('content', lang.ogLocale);
+
+        $$('[data-i18n]').forEach((el) => {
+          const value = t(el.getAttribute('data-i18n'));
+          if (value) el.textContent = value;
+        });
+        $$('[data-i18n-html]').forEach((el) => {
+          const value = t(el.getAttribute('data-i18n-html'));
+          if (value) el.innerHTML = value;
+        });
+        $$('[data-i18n-aria]').forEach((el) => {
+          const value = t(el.getAttribute('data-i18n-aria'));
+          if (value) el.setAttribute('aria-label', value);
+        });
+        $$('[data-i18n-title]').forEach((el) => {
+          const value = t(el.getAttribute('data-i18n-title'));
+          if (value) el.setAttribute('title', value);
+        });
+
+        if (btn) btn.textContent = lang.short;
+      };
+
+      const init = () => {
+        apply(detect());
+        if (!btn) return;
+
+        btn.addEventListener('click', () => {
+          const index = LANGS.findIndex((item) => item.id === current);
+          const next = LANGS[(index + 1) % LANGS.length];
+          apply(next.id);
+          try { localStorage.setItem(KEY, next.id); } catch (e) {}
+
+          btn.classList.remove('is-switching');
+          void btn.offsetWidth;
+          btn.classList.add('is-switching');
+          setTimeout(() => btn.classList.remove('is-switching'), 380);
+        });
+      };
+
+      return { init, apply };
+    })();
 
     /* ---------------- 主题切换 ---------------- */
     const Theme = (() => {
@@ -969,13 +1342,85 @@
         if (meta) meta.setAttribute('content', THEME_COLORS[theme]);
       };
 
+      const commit = (theme) => {
+        paint(theme);
+        writeSaved(theme);
+      };
+
+      const reduceMotion = () => window.matchMedia
+        && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // 老浏览器回退：铺一层新主题底色，从按钮位置圆形扩散，盖满后换主题
+      const colorRipple = (next, origin) => {
+        if (document.querySelector('.theme-wipe')) return;
+
+        const prev = current();
+        root.setAttribute('data-theme', next);
+        const bg = getComputedStyle(root).getPropertyValue('--md-surface').trim();
+        root.setAttribute('data-theme', prev);
+
+        const wipe = document.createElement('div');
+        wipe.className = 'theme-wipe';
+        wipe.setAttribute('aria-hidden', 'true');
+        if (bg) wipe.style.backgroundColor = bg;
+        wipe.style.setProperty('--t-x', origin.x + 'px');
+        wipe.style.setProperty('--t-y', origin.y + 'px');
+        document.body.appendChild(wipe);
+
+        let done = false;
+        const finish = () => {
+          if (done) return;
+          done = true;
+          commit(next);
+          wipe.remove();
+        };
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => wipe.classList.add('is-active'));
+        });
+        wipe.addEventListener('transitionend', finish, { once: true });
+        setTimeout(finish, 640);   // 兜底：过渡事件偶尔不触发
+      };
+
+      // 新主题从按钮位置圆形扩散（View Transitions），不支持就退回色块波纹
+      const ripple = (next, origin) => {
+        if (reduceMotion()) { commit(next); return; }
+
+        if (typeof document.startViewTransition !== 'function') {
+          colorRipple(next, origin);
+          return;
+        }
+
+        const transition = document.startViewTransition(() => commit(next));
+        transition.ready.then(() => {
+          const radius = Math.hypot(
+            Math.max(origin.x, window.innerWidth - origin.x),
+            Math.max(origin.y, window.innerHeight - origin.y)
+          );
+          document.documentElement.animate(
+            [
+              { clipPath: 'circle(0px at ' + origin.x + 'px ' + origin.y + 'px)' },
+              { clipPath: 'circle(' + radius + 'px at ' + origin.x + 'px ' + origin.y + 'px)' }
+            ],
+            {
+              duration: 560,
+              easing: 'cubic-bezier(.2, 0, 0, 1)',
+              pseudoElement: '::view-transition-new(root)'
+            }
+          );
+        }).catch(() => {});
+      };
+
       const init = () => {
         paint(current());
 
         btn.addEventListener('click', () => {
           const next = current() === 'dark' ? 'light' : 'dark';
-          paint(next);
-          writeSaved(next);
+          const rect = btn.getBoundingClientRect();
+          ripple(next, {
+            x: rect.left + rect.width / 2,
+            y: rect.top + rect.height / 2
+          });
           btn.style.transform = 'scale(0.85) rotate(180deg)';
           setTimeout(() => { btn.style.transform = ''; }, 300);
         });
@@ -1046,7 +1491,11 @@
       const init = () => {
         const root = document.documentElement;
         const overlay = $('#pageEnter');
-        if (!root.classList.contains('page-transition-in') || !overlay) return;
+        if (!overlay) return;
+        if (!root.classList.contains('page-transition-in')) {
+          overlay.remove();   // 不是转场进入，别在 DOM 里留个空罩子
+          return;
+        }
 
         try { sessionStorage.removeItem('academic-transition'); } catch (e) {}
 
@@ -1069,10 +1518,56 @@
       return { init };
     })();
 
+    /* ---------------- 学术页 → 首页 红色波纹转场 ---------------- */
+    const PageTransition = (() => {
+      const reduceMotion = () => window.matchMedia
+        && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const init = () => {
+        // 用事件委托：页脚的链接会被语言切换重绘，直接绑在元素上会丢
+        document.addEventListener('click', (event) => {
+          const link = event.target.closest && event.target.closest('a[href="index.html"]');
+          if (!link) return;
+
+          // 新标签页、鼠标中键、带修饰键的点击都按浏览器默认行为处理
+          if (event.defaultPrevented || event.button !== 0) return;
+          if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+          if (reduceMotion()) return;
+          if (document.querySelector('.page-wipe')) return;   // 连点不重复叠加
+
+          event.preventDefault();
+
+          const rect = link.getBoundingClientRect();
+          const wipe = document.createElement('div');
+          wipe.className = 'page-wipe';
+          wipe.setAttribute('aria-hidden', 'true');
+          wipe.style.setProperty('--wipe-x', (rect.left + rect.width / 2) + 'px');
+          wipe.style.setProperty('--wipe-y', (rect.top + rect.height / 2) + 'px');
+          document.body.appendChild(wipe);
+
+          // 先带初始 clip-path 渲染一帧，再加类才有扩散动画
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => wipe.classList.add('is-active'));
+          });
+
+          // 交给首页：从同一个位置把红色波纹揭开
+          const cx = (rect.left + rect.width / 2) / window.innerWidth * 100;
+          const cy = (rect.top + rect.height / 2) / window.innerHeight * 100;
+          try { sessionStorage.setItem('index-transition', cx.toFixed(2) + ',' + cy.toFixed(2)); } catch (e) {}
+
+          setTimeout(() => { window.location.href = 'index.html'; }, 470);
+        });
+      };
+
+      return { init };
+    })();
+
+    I18N.init();
     Theme.init();
     Navbar.init();
     Reveal.init();
     PageEnter.init();
+    PageTransition.init();
   })();
 </script>
 

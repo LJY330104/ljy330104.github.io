@@ -70,6 +70,21 @@
 
       var meta = document.querySelector('meta[name="theme-color"]');
       if (meta) meta.setAttribute('content', theme === 'dark' ? '#0E1514' : '#39C5BB');
+
+      // 从学术页「返回主页」过来时，先铺满红色波纹再揭开
+      try {
+        var origin = sessionStorage.getItem('index-transition');
+        if (origin) {
+          root.classList.add('page-transition-in');
+          var parts = origin.split(',');
+          var cx = parseFloat(parts[0]);
+          var cy = parseFloat(parts[1]);
+          if (isFinite(cx) && isFinite(cy)) {
+            root.style.setProperty('--enter-x', cx + '%');
+            root.style.setProperty('--enter-y', cy + '%');
+          }
+        }
+      } catch (e) {}
     })();
   </script>
 
@@ -455,6 +470,47 @@
   }
   .page-wipe.is-active {
     clip-path: circle(150% at var(--wipe-x, 92%) var(--wipe-y, 50%));
+  }
+
+  /* 明暗切换：新主题底色从按钮位置圆形扩散（不支持 View Transitions 时的回退） */
+  .theme-wipe {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    pointer-events: none;
+    background: var(--md-surface);
+    clip-path: circle(0% at var(--t-x, 50%) var(--t-y, 50%));
+    transition: clip-path 520ms var(--ease-emphasized);
+  }
+  .theme-wipe.is-active {
+    clip-path: circle(150% at var(--t-x, 50%) var(--t-y, 50%));
+  }
+
+  /* 支持 View Transitions 时用它做圆形揭示，关掉默认的交叉淡入 */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+
+  /* 从学术页返回：红色波纹从返回按钮位置揭开 */
+  .page-enter {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    background: linear-gradient(135deg, #C0271D 0%, #7A1510 60%, #3A0B08 100%);
+    opacity: 0;
+    visibility: hidden;
+  }
+  html.page-transition-in .page-enter {
+    opacity: 1;
+    visibility: visible;
+    clip-path: circle(160% at var(--enter-x, 6%) var(--enter-y, 6%));
+  }
+  html.page-transition-in .page-enter.is-out {
+    clip-path: circle(0% at var(--enter-x, 6%) var(--enter-y, 6%));
+    transition: clip-path 560ms var(--ease-emphasized);
   }
 
   /* 窗口不够宽时，视口右侧会压到正文，改到右下角（回到顶部按钮上方） */
@@ -1901,6 +1957,7 @@
 </head>
 
 <body class="no-js">
+<div class="page-enter" id="pageEnter" aria-hidden="true"></div>
 
 <!-- ==================== 导航栏 ==================== -->
 <header id="header">
@@ -2009,7 +2066,7 @@
 
           <div class="version-badge focus-ring" id="versionBadge"
                role="button" tabindex="0"
-               title="站点版本 v3.1.1">v3.1.1</div>
+               title="站点版本 v3.1.3">v3.1.3</div>
         </div>
 
         <div class="reveal">
@@ -2519,14 +2576,86 @@
         if (meta) meta.setAttribute('content', theme === 'dark' ? '#0E1514' : '#39C5BB');
       };
 
+      const commit = (theme) => {
+        paint(theme);
+        writeSaved(theme);          // 只有用户主动切换才持久化
+      };
+
+      const reduceMotion = () => window.matchMedia
+        && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // 老浏览器回退：铺一层新主题底色，从按钮位置圆形扩散，盖满后换主题
+      const colorRipple = (next, origin) => {
+        if (document.querySelector('.theme-wipe')) return;
+
+        const prev = current();
+        root.setAttribute('data-theme', next);
+        const bg = getComputedStyle(root).getPropertyValue('--md-surface').trim();
+        root.setAttribute('data-theme', prev);
+
+        const wipe = document.createElement('div');
+        wipe.className = 'theme-wipe';
+        wipe.setAttribute('aria-hidden', 'true');
+        if (bg) wipe.style.backgroundColor = bg;
+        wipe.style.setProperty('--t-x', origin.x + 'px');
+        wipe.style.setProperty('--t-y', origin.y + 'px');
+        document.body.appendChild(wipe);
+
+        let done = false;
+        const finish = () => {
+          if (done) return;
+          done = true;
+          commit(next);
+          wipe.remove();
+        };
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => wipe.classList.add('is-active'));
+        });
+        wipe.addEventListener('transitionend', finish, { once: true });
+        setTimeout(finish, 640);   // 兜底：过渡事件偶尔不触发
+      };
+
+      // 新主题从按钮位置圆形扩散（View Transitions），不支持就退回色块波纹
+      const ripple = (next, origin) => {
+        if (reduceMotion()) { commit(next); return; }
+
+        if (typeof document.startViewTransition !== 'function') {
+          colorRipple(next, origin);
+          return;
+        }
+
+        const transition = document.startViewTransition(() => commit(next));
+        transition.ready.then(() => {
+          const radius = Math.hypot(
+            Math.max(origin.x, window.innerWidth - origin.x),
+            Math.max(origin.y, window.innerHeight - origin.y)
+          );
+          document.documentElement.animate(
+            [
+              { clipPath: 'circle(0px at ' + origin.x + 'px ' + origin.y + 'px)' },
+              { clipPath: 'circle(' + radius + 'px at ' + origin.x + 'px ' + origin.y + 'px)' }
+            ],
+            {
+              duration: 560,
+              easing: 'cubic-bezier(.2, 0, 0, 1)',
+              pseudoElement: '::view-transition-new(root)'
+            }
+          );
+        }).catch(() => {});
+      };
+
       const init = () => {
         // 主题已由 <head> 中的阻塞脚本在首次绘制前设定，这里只做 UI 同步
         paint(current());
 
         btn.addEventListener('click', () => {
           const next = current() === 'dark' ? 'light' : 'dark';
-          paint(next);
-          writeSaved(next);          // 只有用户主动切换才持久化
+          const rect = btn.getBoundingClientRect();
+          ripple(next, {
+            x: rect.left + rect.width / 2,
+            y: rect.top + rect.height / 2
+          });
           btn.style.transform = 'scale(0.85) rotate(180deg)';
           setTimeout(() => { btn.style.transform = ''; }, 300);
         });
@@ -3008,6 +3137,40 @@
     })();
 
     /* ----------------------------------------------------------
+       模块 4.95：学术页 → 首页 波纹入场收尾
+       ---------------------------------------------------------- */
+    const PageEnter = (() => {
+      const init = () => {
+        const root = document.documentElement;
+        const overlay = $('#pageEnter');
+        if (!overlay) return;
+        if (!root.classList.contains('page-transition-in')) {
+          overlay.remove();   // 不是从学术页返回，别在 DOM 里留个空罩子
+          return;
+        }
+
+        try { sessionStorage.removeItem('index-transition'); } catch (e) {}
+
+        let done = false;
+        const finish = () => {
+          if (done) return;
+          done = true;
+          root.classList.remove('page-transition-in');
+          overlay.remove();
+        };
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => overlay.classList.add('is-out'));
+        });
+
+        overlay.addEventListener('transitionend', finish, { once: true });
+        // 兜底：标签页切到后台时 transitionend 可能不触发
+        setTimeout(finish, 900);
+      };
+      return { init };
+    })();
+
+    /* ----------------------------------------------------------
        模块 5：PWA Service Worker 注册
        ---------------------------------------------------------- */
     const PWA = (() => {
@@ -3035,6 +3198,7 @@
       TagPanel.init();
       Devices.init();
       PageTransition.init();
+      PageEnter.init();
       PWA.init();
     };
 
