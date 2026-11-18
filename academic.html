@@ -1023,7 +1023,7 @@
 
 <footer>
   <div class="container" data-i18n-html="footer.text">
-    © 2026 鸢见夜樱 · <a href="index.html">返回主页</a>
+    © 2026 鸢见夜樱 · <a href="index.html">返回主页</a> · <a href="now.html">我正在做</a>
   </div>
 </footer>
 
@@ -1113,7 +1113,7 @@
           'sec06.title': '联系我（学术）',
           'contact.kicker': 'Academic Contact',
           'contact.note': '和学术相关的事——夏校、竞赛、项目合作——发这里就好。',
-          'footer.text': '© 2026 鸢见夜樱 · <a href="index.html">返回主页</a>'
+          'footer.text': '© 2026 鸢见夜樱 · <a href="index.html">返回主页</a> · <a href="now.html">我正在做</a>'
         },
 
         'zh-Hant-HK': {
@@ -1175,7 +1175,7 @@
           'sec06.title': '聯絡我（學術）',
           'contact.kicker': 'Academic Contact',
           'contact.note': '和學術相關的事——夏校、競賽、項目合作——發這裏就好。',
-          'footer.text': '© 2026 鳶見夜櫻 · <a href="index.html">返回主頁</a>'
+          'footer.text': '© 2026 鳶見夜櫻 · <a href="index.html">返回主頁</a> · <a href="now.html">我正在做</a>'
         },
 
         'en-US': {
@@ -1237,7 +1237,7 @@
           'sec06.title': 'Contact me (academic)',
           'contact.kicker': 'Academic Contact',
           'contact.note': 'For anything academic — summer programmes, competitions, project collaborations — this is the address to use.',
-          'footer.text': '© 2026 鸢见夜樱 · <a href="index.html">Back to home</a>'
+          'footer.text': '© 2026 鸢见夜樱 · <a href="index.html">Back to home</a> · <a href="now.html">What I am doing</a>'
         }
       };
 
@@ -1356,8 +1356,9 @@
 
       // 回首页的链接带上当前主题；页脚链接会被语言切换重绘，所以由 langchange 再同步一次
       const syncLinks = (theme) => {
-        document.querySelectorAll('a[href^="index.html"]').forEach((link) => {
-          link.setAttribute('href', 'index.html?theme=' + theme);
+        document.querySelectorAll('a[href^="index.html"], a[href^="now.html"]').forEach((link) => {
+          const target = (link.getAttribute('href') || '').split('?')[0];
+          link.setAttribute('href', target + '?theme=' + theme);
         });
       };
 

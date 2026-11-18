@@ -122,8 +122,9 @@
     --md-error: #BA1A1A;
     --md-on-error: #FFFFFF;
 
-    /* ---------- 1.4.1 学术页入口（学术页是红色调，这里只用于箭头） ---------- */
+    /* ---------- 1.4.1 两个副页入口的强调色（只用于那两条横条） ---------- */
     --academic-accent: #B3261E;
+    --now-accent: #0F4C81;          /* PANTONE 19-4052 Classic Blue */
 
     /* ---------- 1.5 Surface ---------- */
     --md-surface: #F5FBF9;
@@ -218,6 +219,7 @@
     --md-on-error: #690005;
 
     --academic-accent: #FFB4AB;
+    --now-accent: #A9C7FF;
 
     --md-surface: #0E1514;
     --md-surface-dim: #0E1514;
@@ -414,13 +416,29 @@
     transform: translateY(2px) scale(0.94);
   }
 
-  /* 5.5 【可点击】右侧学术页入口（横向长条）
-     只出现在首页；学术页是红色调，这里用红色点缀做区分。 */
-  .academic-jump {
+  /* 5.5 【可点击】副页入口：我正在做 / 我的学术
+     只在首屏（#char）显示，滚到下面的板块就淡出；两条横条右对齐竖着排。 */
+  .page-jumps {
     position: fixed;
     right: 24px;
     top: 50%;
     z-index: 90;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+    transform: translateY(-50%);
+    transition: opacity var(--dur-medium) var(--ease-emphasized),
+                visibility var(--dur-medium) var(--ease-emphasized);
+  }
+  .page-jumps.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .academic-jump,
+  .now-jump {
     height: 46px;
     padding: 0 20px;
     display: inline-flex;
@@ -429,32 +447,36 @@
     gap: 9px;
     border-radius: var(--radius-full);
     background: var(--nm-bg);
-    color: var(--academic-accent);
     font-size: .88rem;
     font-weight: 700;
     letter-spacing: .2px;
     line-height: 1;
     white-space: nowrap;
     box-shadow: var(--nm-out);
-    transform: translateY(-50%);
     transition: box-shadow var(--dur-short) var(--ease-standard),
                 color var(--dur-short) var(--ease-standard),
                 transform var(--dur-short) var(--ease-standard);
   }
-  .academic-jump-arrow {
+  .academic-jump { color: var(--academic-accent); }
+  .now-jump { color: var(--now-accent); }
+
+  .academic-jump-arrow,
+  .now-jump-arrow {
     font-size: 1.02rem;
     line-height: 1;
     transition: transform var(--dur-short) var(--ease-standard);
   }
-  .academic-jump:hover {
-    color: var(--academic-accent);
+  .academic-jump:hover,
+  .now-jump:hover {
     box-shadow: var(--nm-in);
-    transform: translateY(-50%) scale(0.985);
+    transform: scale(0.985);
   }
-  .academic-jump:hover .academic-jump-arrow { transform: translateX(3px); }
-  .academic-jump:active {
+  .academic-jump:hover .academic-jump-arrow,
+  .now-jump:hover .now-jump-arrow { transform: translateX(3px); }
+  .academic-jump:active,
+  .now-jump:active {
     box-shadow: var(--nm-in-lg);
-    transform: translateY(-50%) scale(0.96);
+    transform: scale(0.96);
   }
 
   /* 切换页面：红色圆形波纹从按钮位置扩散，盖满后跳转 */
@@ -469,6 +491,11 @@
   }
   .page-wipe.is-active {
     clip-path: circle(150% at var(--wipe-x, 92%) var(--wipe-y, 50%));
+  }
+
+  /* 生活页用蓝色波纹 */
+  .page-wipe.is-now {
+    background: linear-gradient(135deg, #2E7DB8 0%, #0F4C81 55%, #06283F 100%);
   }
 
   /* 明暗切换：新主题底色从按钮位置圆形扩散（不支持 View Transitions 时的回退） */
@@ -514,14 +541,12 @@
 
   /* 窗口不够宽时，视口右侧会压到正文，改到右下角（回到顶部按钮上方） */
   @media (max-width: 1450px) {
-    .academic-jump {
+    .page-jumps {
       top: auto;
       right: 22px;
       bottom: 88px;
       transform: none;
     }
-    .academic-jump:hover { transform: scale(0.985); }
-    .academic-jump:active { transform: scale(0.96); }
   }
 
   /* ============================================================
@@ -1893,19 +1918,20 @@
     }
 
     /* 手机上改到右下角，避免压住正文；位置在回到顶部按钮上方 */
-    .academic-jump {
-      top: auto;
+    .page-jumps {
       right: 18px;
       bottom: 74px;
-      transform: none;
+      gap: 8px;
+    }
+    .academic-jump,
+    .now-jump {
       height: 40px;
       padding: 0 16px;
       font-size: .8rem;
       gap: 7px;
     }
-    .academic-jump-arrow { font-size: .95rem; }
-    .academic-jump:hover { transform: scale(0.985); }
-    .academic-jump:active { transform: scale(0.96); }
+    .academic-jump-arrow,
+    .now-jump-arrow { font-size: .95rem; }
 
     footer {
       padding: 36px 0 28px;
@@ -2065,7 +2091,7 @@
 
           <div class="version-badge focus-ring" id="versionBadge"
                role="button" tabindex="0"
-               title="站点版本 v3.1.6">v3.1.6</div>
+               title="站点版本 v3.2.3">v3.2.3</div>
         </div>
 
         <div class="reveal">
@@ -2524,12 +2550,19 @@
 <!-- ==================== 回到顶部 ==================== -->
 <button class="back-to-top focus-ring" id="backToTop" title="回到顶部" aria-label="回到顶部">↑</button>
 
-<!-- ==================== 学术档案入口 ==================== -->
-<a class="academic-jump focus-ring" id="academicJump" href="academic.html"
-   title="我的学术" aria-label="我的学术">
-  <span class="academic-jump-label">我的学术</span>
-  <span class="academic-jump-arrow" aria-hidden="true">→</span>
-</a>
+<!-- ==================== 副页入口（只在首屏显示） ==================== -->
+<div class="page-jumps" id="pageJumps">
+  <a class="now-jump focus-ring" id="nowJump" href="now.html"
+     title="我正在做" aria-label="我正在做">
+    <span class="now-jump-label">我正在做</span>
+    <span class="now-jump-arrow" aria-hidden="true">→</span>
+  </a>
+  <a class="academic-jump focus-ring" id="academicJump" href="academic.html"
+     title="我的学术" aria-label="我的学术">
+    <span class="academic-jump-label">我的学术</span>
+    <span class="academic-jump-arrow" aria-hidden="true">→</span>
+  </a>
+</div>
 
 <script>
   /* ============================================================
@@ -2576,8 +2609,9 @@
 
       // 跳到学术页的链接带上当前主题，存档读不到时也能保持一致
       const syncLinks = (theme) => {
-        document.querySelectorAll('a[href^="academic.html"]').forEach((link) => {
-          link.setAttribute('href', 'academic.html?theme=' + theme);
+        document.querySelectorAll('a[href^="academic.html"], a[href^="now.html"]').forEach((link) => {
+          const target = (link.getAttribute('href') || '').split('?')[0];
+          link.setAttribute('href', target + '?theme=' + theme);
         });
       };
 
@@ -2776,6 +2810,38 @@
         TOGGLE.addEventListener('click', () => {
           setOpen(TOGGLE.getAttribute('aria-expanded') !== 'true');
         });
+      };
+
+      return { init };
+    })();
+
+    /* ----------------------------------------------------------
+       模块 2.6：副页入口只在首屏显示
+       ---------------------------------------------------------- */
+    const PageJumps = (() => {
+      const init = () => {
+        const jumps = $('#pageJumps');
+        const hero = $('#char');
+        if (!jumps || !hero) return;
+
+        let ticking = false;
+
+        const sync = () => {
+          ticking = false;
+          // 首屏快滑出去时（底边不到视口一半）就把两条横条淡掉
+          const rect = hero.getBoundingClientRect();
+          jumps.classList.toggle('is-hidden', rect.bottom < window.innerHeight * 0.5);
+        };
+
+        const request = () => {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(sync);
+        };
+
+        window.addEventListener('scroll', request, { passive: true });
+        window.addEventListener('resize', request);
+        sync();
       };
 
       return { init };
@@ -3121,17 +3187,15 @@
     })();
 
     /* ----------------------------------------------------------
-       模块 4.9：首页 → 学术页 红色波纹转场
+       模块 4.9：首页 → 副页（学术 / 我正在做）波纹转场
        ---------------------------------------------------------- */
     const PageTransition = (() => {
-      const JUMP = $('#academicJump');
       const reduce = () => window.matchMedia
         && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      const init = () => {
-        if (!JUMP) return;
-
-        JUMP.addEventListener('click', (event) => {
+      // 入口按钮 → 目标页；wipeClass 决定波纹颜色，flag 决定目标页的入场动画
+      const bind = (link, wipeClass, flag) => {
+        link.addEventListener('click', (event) => {
           // 新标签页、鼠标中键、带修饰键的点击都按浏览器默认行为处理
           if (event.defaultPrevented || event.button !== 0) return;
           if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -3140,9 +3204,9 @@
 
           event.preventDefault();
 
-          const rect = JUMP.getBoundingClientRect();
+          const rect = link.getBoundingClientRect();
           const wipe = document.createElement('div');
-          wipe.className = 'page-wipe';
+          wipe.className = 'page-wipe' + (wipeClass ? ' ' + wipeClass : '');
           wipe.setAttribute('aria-hidden', 'true');
           wipe.style.setProperty('--wipe-x', (rect.left + rect.width / 2) + 'px');
           wipe.style.setProperty('--wipe-y', (rect.top + rect.height / 2) + 'px');
@@ -3153,15 +3217,22 @@
             requestAnimationFrame(() => wipe.classList.add('is-active'));
           });
 
-          try { sessionStorage.setItem('academic-transition', '1'); } catch (e) {}
+          try { sessionStorage.setItem(flag, '1'); } catch (e) {}
 
-          // 带上当前主题，学术页即使读不到 localStorage 也能保持一致
+          // 带上当前主题，目标页即使读不到 localStorage 也能保持一致
           const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-          const base = (JUMP.getAttribute('href') || 'academic.html').split('?')[0];
-          const target = base + '?theme=' + theme;
+          const base = (link.getAttribute('href') || '').split('?')[0];
 
-          setTimeout(() => { window.location.href = target; }, 470);
+          setTimeout(() => { window.location.href = base + '?theme=' + theme; }, 470);
         });
+      };
+
+      const init = () => {
+        const academic = $('#academicJump');
+        if (academic) bind(academic, '', 'academic-transition');
+
+        const now = $('#nowJump');
+        if (now) bind(now, 'is-now', 'now-transition');
       };
 
       return { init };
@@ -3176,7 +3247,7 @@
         const overlay = $('#pageEnter');
         if (!overlay) return;
         if (!root.classList.contains('page-transition-in')) {
-          overlay.remove();   // 不是从学术页返回，别在 DOM 里留个空罩子
+          overlay.remove();   // 不是从副页返回，别在 DOM 里留个空罩子
           return;
         }
 
@@ -3233,6 +3304,7 @@
       document.body.classList.remove('no-js');
       Theme.init();
       Navbar.init();
+      PageJumps.init();
       Timeline.init();
       Reveal.init();
       EasterEgg.init();
